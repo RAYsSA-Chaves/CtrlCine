@@ -4,6 +4,7 @@ from BackEnd.core.database import get_connection
 
 import json
 
+# Cadastro de ator
 def cadastrar_ator(nome, foto):
   conn = get_connection()
   cursor = conn.cursor()
@@ -51,3 +52,50 @@ def cadastrar_ator(nome, foto):
     conn.close()
   
   return json.dumps(response)
+
+# ---------------------------------------------
+
+# Pegar atores de um filme
+def get_atores_por_filme(filme_id):
+  conn = get_connection()
+  cursor = conn.cursor()
+
+  try:
+    # busca todos os atores relacionados ao filme
+    cursor.execute('''
+      SELECT atores.id, atores.nome, atores.foto
+      FROM filme_ator
+      JOIN atores ON filme_ator.ator_id = atores.id
+      WHERE filme_ator.filme_id = %s
+    ''', (filme_id,))
+    atores = cursor.fetchall()
+    
+    # se não tiver atores cadastrados para o filme
+    if not atores:
+      response = {'Mensagem': 'Nenhum ator encontrado para este filme.'}
+    else:
+      # monta a lista de atores como objetos JSON
+      lista_atores = []
+      for ator in atores:
+        lista_atores.append({
+          'id': ator[0],
+          'nome': ator[1],
+          'foto': ator[2]
+        })
+
+      # resposta
+      response = {
+        'filme_id': filme_id,
+        'atores': lista_atores
+      }
+
+    # erro
+    except Exception as e:
+        response = {'Erro': str(e)}
+
+    # printa o resultado e encerra conexão com banco
+    finally:
+        print(response)
+        cursor.close()
+        conn.close()
+        return json.dumps(response, ensure_ascii=False, indent=4)
