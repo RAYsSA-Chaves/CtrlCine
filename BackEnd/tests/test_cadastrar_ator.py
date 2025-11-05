@@ -1,6 +1,6 @@
 # Teste do cadastro de atores (cadastro real no banco)
 
-from BackEnd.api.endpoints.atores import cadastrar_ator
+from BackEnd.api.logic.atores import cadastrar_ator
 
 def test():
   nome = input("Nome do ator: ")
