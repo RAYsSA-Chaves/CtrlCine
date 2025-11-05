@@ -1,6 +1,6 @@
 # Rotas para requisições de filmes
 
-from core.database import get_connection
+from BackEnd.core.database import get_connection
 
 import json 
 import requests
