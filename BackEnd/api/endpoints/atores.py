@@ -17,7 +17,7 @@ def cadastrar_ator(nome, foto):
     # se já existe retorna erro
     if ator_existente:
       response = {'Erro': 'Ator já cadastrado'}
-      return json.dumps(response)
+      return json.dumps(response, ensure_ascii, indent=4)
   
     # insere novo ator
     cursor.execute('''
@@ -51,7 +51,7 @@ def cadastrar_ator(nome, foto):
     cursor.close()
     conn.close()
   
-  return json.dumps(response)
+  return json.dumps(response, ensure_ascii=False, indent=4)
 
 # ---------------------------------------------
 
