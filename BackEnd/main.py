@@ -1,7 +1,6 @@
 # Lógica principal de todas as rotas
 
-from api.endpoints.filmes import listar_filmes
-from api.endpoints.users import listar_usuarios
+from api.logic.filmes import listar_filmes
 
 from http.server import SimpleHTTPRequestHandler, HTTPServer
 import json
