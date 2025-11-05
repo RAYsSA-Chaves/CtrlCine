@@ -39,4 +39,4 @@ def get_filme_por_id(filme_id):
         cursor.close()
         conn.close()
         print(response)
-        return json.dumps(response, ensure_ascii=False, indent=4)
+        return response
