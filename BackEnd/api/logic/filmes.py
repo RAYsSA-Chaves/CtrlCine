@@ -1,7 +1,7 @@
 # Rotas para requisições de filmes
 
 from BackEnd.core.database import get_connection
-from BackEnd.api.endpoints.atores import get_atores_por_filme 
+from BackEnd.api.logic.atores import get_atores_por_filme 
 
 import json 
 
