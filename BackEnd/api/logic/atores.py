@@ -17,7 +17,7 @@ def cadastrar_ator(nome, foto):
     # se já existe retorna erro
     if ator_existente:
       response = {'Erro': 'Ator já cadastrado'}
-      return json.dumps(response, ensure_ascii, indent=4)
+      return response
   
     # insere novo ator
     cursor.execute('''
@@ -51,8 +51,7 @@ def cadastrar_ator(nome, foto):
     cursor.close()
     conn.close()
   
-  return json.dumps(response, ensure_ascii=False, indent=4)
-
+  return response
 # ---------------------------------------------
 
 # Pegar atores de um filme
@@ -73,6 +72,7 @@ def get_atores_por_filme(filme_id):
     # se não tiver atores cadastrados para o filme
     if not atores:
       response = {'Mensagem': 'Nenhum ator encontrado para este filme.'}
+      
     else:
       # monta a lista de atores como objetos
       lista_atores = []
