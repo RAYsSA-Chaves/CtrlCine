@@ -74,7 +74,7 @@ def get_atores_por_filme(filme_id):
     if not atores:
       response = {'Mensagem': 'Nenhum ator encontrado para este filme.'}
     else:
-      # monta a lista de atores como objetos JSON
+      # monta a lista de atores como objetos
       lista_atores = []
       for ator in atores:
         lista_atores.append({
@@ -84,10 +84,7 @@ def get_atores_por_filme(filme_id):
         })
 
       # resposta
-      response = {
-        'filme_id': filme_id,
-        'atores': lista_atores
-      }
+      response = lista_atores
 
     # erro
     except Exception as e:
@@ -95,7 +92,6 @@ def get_atores_por_filme(filme_id):
 
     # printa o resultado e encerra conexão com banco
     finally:
-        print(response)
         cursor.close()
         conn.close()
-        return json.dumps(response, ensure_ascii=False, indent=4)
+        return response
