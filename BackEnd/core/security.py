@@ -1,4 +1,4 @@
-# Hashear senhas
+# Hash de senhas e token
 
 from pwdlib import PasswordHash
 
