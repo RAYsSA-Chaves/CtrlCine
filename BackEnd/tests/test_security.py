@@ -1,18 +1,28 @@
-# Testes da geração e validação de senhas hasheadas
-
 from BackEnd.core.security import get_password_hash, verify_password
 
-def test():
-    senha = input('Senha: ')
+# --------- Testes da geração e validação de senhas hasheadas  ---------
+
+# Teste de senha correta
+def test_correct_password():
+    senha = 123
 
     # gera hash
     hashed = get_password_hash(senha)
     print("Hash gerado:", hashed)
 
-    # valida senha com senha hasheada
-    tentativa = input('Confirme a senha: ')
-    ok = verify_password(tentativa, hashed)
-    print("Verificação ->", ok)
+    # valida senha passada com senha hasheada
+    assert verify_password(123, hashed) == True
 
-if __name__ == "__main__":
-    test()
+# Teste de senha incorreta
+def test_incorrect_password():
+    senha = 123
+    hashed = get_password_hash(senha)
+    print("Hash gerado:", hashed)
+    
+    assert verify_password("senhaErrada", hashed) == False
+
+
+# --------- Testes da geração de token  ---------
+    
+# if __name__ == "__main__":
+#     test()
