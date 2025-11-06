@@ -1,4 +1,4 @@
-# Lógica principal de todas as rotas
+# Servidor das rotas da api
 
 from api.logic.filmes import listar_filmes
 
