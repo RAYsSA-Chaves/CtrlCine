@@ -8,7 +8,7 @@ USE CtrlCine;
 -- Tabela de filmes
 CREATE TABLE filmes (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
-    titulo VARCHAR(255),
+    titulo VARCHAR(255) UNIQUE,
     capa_horizontal VARCHAR(255) UNIQUE,
     capa_vertical VARCHAR(255) UNIQUE,
     lancamento DATE,
@@ -16,6 +16,7 @@ CREATE TABLE filmes (
     sinopse TEXT,
     trailer VARCHAR(255) UNIQUE,
     nota_imdb INTEGER,
+	em_alta BOOLEAN DEFAULT FALSE;
     nota_ctrlcine INTEGER NULL
 );
 
