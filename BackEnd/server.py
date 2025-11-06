@@ -1,29 +1,53 @@
 # Servidor das rotas da api
-
+from core.configs import Settings
 from api.logic.filmes import listar_filmes
+from api.logic.atores import cadastrar_ator
 
 from http.server import SimpleHTTPRequestHandler, HTTPServer
 import json
 
-class MyHandler(SimpleHTTPRequestHandler):
-    def do_GET(self):
-        # Cabeçalhos comuns
-        self.send_response(200)
-        self.send_header("Content-type", "application/json")
-        self.end_headers()
+API = Settings.API_STR
 
-        # Rotas GET
-        if self.path == '/api/filmes':
+class MyHandler(SimpleHTTPRequestHandler):
+    # Centralizando função de retorno dos endpoints
+    def enviar_json(self, status, conteudo):
+        self.send_response(status)
+        self.send_header("Content-Type", "application/json")
+        self.end_headers()
+        self.wfile.write(json.dumps(conteudo).encode())
+
+    # Rotas GET
+    def do_GET(self):
+        if self.path == f'{API}/filmes':
             filmes = listar_filmes()
             self.wfile.write(json.dumps(filmes, ensure_ascii=False).encode())
 
-        elif self.path == '/api/usuarios':
-            usuarios = listar_usuarios()
-            self.wfile.write(json.dumps(usuarios, ensure_ascii=False).encode())
+        else if self.path == f'{API}/filmes/{filme_id}':
+            
 
         else:
             self.send_response(404)
             self.wfile.write(json.dumps({"erro": "Rota não encontrada"}).encode())
+
+    # Rotas POST
+    def do_POST(self):
+        # Cadastro de ator
+        if self.path == f'{API}/atores':
+            content_length = int(self.headers["Content-Length"])
+            body = self.rfile.read(content_length)
+            dados = json.loads(body)
+
+            nome = dados.get("nome")
+            foto = dados.get("foto")
+
+            response = cadastrar_ator(nome, foto)
+
+            print(response)
+            if "Erro" in response:
+                self.enviar_json(400, response)
+            else:
+                self.enviar_json(200, response)
+
 
 # Servidor
 def run():
