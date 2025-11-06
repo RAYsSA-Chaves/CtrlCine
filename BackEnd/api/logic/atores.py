@@ -47,7 +47,6 @@ def cadastrar_ator(nome, foto):
 
   # printa o resultado e encerra conexão com banco
   finally:
-    print(response)
     cursor.close()
     conn.close()
   
