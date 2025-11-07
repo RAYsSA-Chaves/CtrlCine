@@ -131,3 +131,9 @@ def get_atores_por_filme(filme_id):
 # ---------------------------------------------
 
 # Procurar ator por nome
+def get_actor_name(nome)
+conn = get_connection()
+cursor = conn.cursor()
+
+try: 
+	cursor.execute('SELECT id FROM atores WHERE atores.nome = %s', {nome})
