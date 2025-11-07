@@ -67,9 +67,10 @@ class MyHandler(SimpleHTTPRequestHandler):
 # ---------------------------------------------
 
         # Listagem de atores
-        elif self.path.startswith(f'{API}/atores'):
+        elif self.path(f'{API}/atores'):
             atores = list_all_actors()
             self.enviar_json(200, atores)
+            return
 
 # ---------------------------------------------
             
