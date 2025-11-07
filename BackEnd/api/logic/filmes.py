@@ -1,7 +1,18 @@
 # Rotas para requisições de filmes
 
 from core.database import get_connection
-from api.logic.atores import get_atores_por_filme 
+from api.logic.atores import get_atores_por_filme, get_actor_name
+from api.logic.diretores import get_diretores_por_filme, get_director_name
+from api.logic.generos import get_generos_por_filme, get_genre_name
+from api.logic.produtoras import get_produtoras_por_filme, get_producer_name
+
+
+# Pegar todos os filmes (ou filtrados)
+def get_movies(filters):
+	...
+
+
+# ---------------------------------------------
 
 # Pegar filme específico
 def get_filme_por_id(filme_id):

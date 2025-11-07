@@ -1,10 +1,30 @@
 # Servidor das rotas da api
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
-
+from urllib.parse import urlparse, parse_qs
 from core.configs import Settings
-from api.logic.filmes import get_filme_por_id
+from api.logic.filmes import get_filme_por_id, get_movies
 from api.logic.atores import cadastrar_ator, list_all_actors
+from api.logic.produtoras import list_all_producers
+from api.logic.generos import list_all_genres
+from api.logic.diretores import list_all_directors
+
+''' Exemplos de retornos:
+
+- urlparse (partes da url):
+ParseResult(
+    scheme='', 
+    path='/search', 
+    params='', 
+    query='term=python&lang=pt&lang=en', 
+    fragment=''
+)
+
+- parse_qs (transforma algo em dicionáario python com valores sempre como listas):
+{'term': ['python'], 'lang': ['pt', 'en']}
+
+'''
+
 
 API = Settings.API_STR
 
@@ -47,13 +67,40 @@ class MyHandler(BaseHTTPRequestHandler):
         elif self.path.startswith(f'{API}/filmes'):
             partes = self.path.split("/")
 
-            # /api/filmes -> listar todos os filmes
+            # /api/filmes -> listar todos os filmes ou filtrados
             if len(partes) == 3:
-                ...
-            # /api/filmes/id -> pefa filme específico
+                # extrair query params
+                url_info = urlparse(self.path)
+                query_params = parse_qs(url_info.query)
+
+                # dicionário de filtros possíveis
+                filters = {
+                    "ator": query_params.get("ator", [None])[0],
+                    "diretor": query_params.get("diretor", [None])[0],
+                    "produtora": query_params.get("produtora", [None])[0],
+                    "genero": query_params.get("genero", [None])[0],
+                    "ano": query_params.get("ano", [None])[0],
+                    "nota": query_params.get("nota", [None])[0],
+                    "titulo": query_params.get("titulo", [None])[0]
+                }
+
+                # remover filtros None (não informados)
+                novo_dict = {}
+                for k, v in filters.items():
+                    if v is not None:
+                        novo_dict[k] = v
+
+                filters = novo_dict
+
+                # busca filmes
+                filmes = get_movies(filters)
+                self.enviar_json(200, filmes)
+
+
+            # /api/filmes/id -> para filme específico
             elif len(partes) == 4:
                 try:
-                    filme_id = int(partes[-1])
+                    filme_id = int(partes[-1])  # -1 = último item
                 except ValueError:
                     self.enviar_json(400, {"Erro": "ID inválido"})
                     return
@@ -72,7 +119,35 @@ class MyHandler(BaseHTTPRequestHandler):
             self.enviar_json(200, atores)
 
 # ---------------------------------------------
+
+        # Listagem de produtoras
+        elif self.path == f'{API}/produtoras':
+            produtoras = list_all_producers()
+            self.enviar_json(200, produtoras)
+
+# ---------------------------------------------
+
+        # Listagem de produtoras
+        elif self.path == f'{API}/produtoras':
+            produtoras = list_all_producers()
+            self.enviar_json(200, produtoras)
+
+# ---------------------------------------------
+
+        # Listagem de gêneros
+        elif self.path == f'{API}/generos':
+            generos = list_all_genres()
+            self.enviar_json(200, generos)
+
+# ---------------------------------------------
+
+        # Listagem de diretores
+        elif self.path == f'{API}/diretores':
+            diretores = list_all_directors()
+            self.enviar_json(200, diretores)
             
+# ---------------------------------------------
+
         # Rota inválida
         else:
             self.enviar_json(404, {'Erro': 'Rota não encontrada'})

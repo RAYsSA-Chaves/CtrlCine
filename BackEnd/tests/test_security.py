@@ -1,5 +1,6 @@
 from BackEnd.core.security import get_password_hash, verify_password
 
+
 # --------- Testes da geração e validação de senhas hasheadas  ---------
 
 # Teste de senha correta

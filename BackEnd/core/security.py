@@ -2,6 +2,7 @@
 
 from pwdlib import PasswordHash
 
+
 pwd_context = PasswordHash.recommended() # ele decide sozinho como hashear
 
 # Função para hashear uma senha

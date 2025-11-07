@@ -2,6 +2,7 @@
 
 from core.database import get_connection
 
+
 # Cadastro de ator
 def cadastrar_ator(nome, foto):
 	conn = get_connection()
@@ -115,8 +116,8 @@ def get_atores_por_filme(filme_id):
 				'foto': ator[2]
 			})
 
-		# resposta
-		response = lista_atores
+			# resposta
+			response = lista_atores
 
 	# erro
 	except Exception as e:
@@ -130,10 +131,35 @@ def get_atores_por_filme(filme_id):
 
 # ---------------------------------------------
 
-# Procurar ator por nome
-def get_actor_name(nome)
-conn = get_connection()
-cursor = conn.cursor()
+# Buscar ator por nome
+def get_actor_name(nome):
+	conn = get_connection()
+	cursor = conn.cursor()
 
-try: 
-	cursor.execute('SELECT id FROM atores WHERE atores.nome = %s', {nome})
+	try:
+		# busca o ator no banco
+		cursor.execute('SELECT * FROM atores WHERE atores.nome = %s', (nome,)) 
+		ator = cursor.fetchone()
+
+		# ator não encontrado
+		if not ator:
+			response = {'Mensagem': 'Ator não encontrado'}
+			return response
+
+		# resposta com os dados do ator
+		response = {
+			'Mensagem': 'Ator encontrado!',
+			'id': ator[0], 
+			'nome': ator[1],  
+		}
+	
+	# erro
+	except Exception as e:
+		response = {'Erro': str(e)}
+	
+	# encerra conexão com banco
+	finally:
+		cursor.close()
+		conn.close()
+
+	return response
