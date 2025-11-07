@@ -1,5 +1,5 @@
 # Servidor das rotas da api
-from http.server import SimpleHTTPRequestHandler, HTTPServer
+from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 
 from core.configs import Settings
@@ -8,7 +8,7 @@ from api.logic.atores import cadastrar_ator, list_all_actors
 
 API = Settings.API_STR
 
-class MyHandler(SimpleHTTPRequestHandler):
+class MyHandler(BaseHTTPRequestHandler):
     # Centralizando função de leitura do body da requisição (para POST e PUT)
     def read_body(self):
         content_length = int(self.headers["Content-Length"])  # lê o tamanho do corpo da requisição e converte bytes -> int
@@ -67,10 +67,9 @@ class MyHandler(SimpleHTTPRequestHandler):
 # ---------------------------------------------
 
         # Listagem de atores
-        elif self.path.startswith(f'{API}/atores'):
+        elif self.path == f'{API}/atores':
             atores = list_all_actors()
             self.enviar_json(200, atores)
-            return
 
 # ---------------------------------------------
             
@@ -89,7 +88,6 @@ class MyHandler(SimpleHTTPRequestHandler):
 
             response = cadastrar_ator(nome, foto)
 
-            print(response)
             if "Erro" in response:
                 self.enviar_json(400, response)
             else:
