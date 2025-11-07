@@ -16,7 +16,7 @@ CREATE TABLE filmes (
     sinopse TEXT,
     trailer VARCHAR(255) UNIQUE,
     nota_imdb INTEGER,
-	em_alta BOOLEAN DEFAULT FALSE;
+	em_alta BOOLEAN DEFAULT FALSE,
     nota_ctrlcine INTEGER NULL
 );
 
@@ -93,7 +93,7 @@ CREATE TABLE generos (
 -- Tabela de atores
 CREATE TABLE atores (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR(50),
+    nome VARCHAR(50) UNIQUE,
     foto VARCHAR(255) UNIQUE
 );
 
@@ -109,7 +109,7 @@ CREATE TABLE produtoras (
     nome VARCHAR(100) UNIQUE
 );
 
--- Tabela filmes_generos (relacionamento entre filmes e gêneros)
+-- Tabela filme_genero (relacionamento entre filmes e gêneros)
 CREATE TABLE filme_genero (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
     filme_id INTEGER,
@@ -118,7 +118,7 @@ CREATE TABLE filme_genero (
     FOREIGN KEY (genero_id) REFERENCES generos(id) ON DELETE CASCADE
 );
 
--- Tabela filmes_diretores (relacionamento entre filmes e diretores)
+-- Tabela filme_diretore (relacionamento entre filmes e diretores)
 CREATE TABLE filme_diretor (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
     filme_id INTEGER,
@@ -127,7 +127,7 @@ CREATE TABLE filme_diretor (
     FOREIGN KEY (diretor_id) REFERENCES diretores(id) ON DELETE CASCADE
 );
 
--- Tabela filmes_produtoras (relacionamento entre filmes e produtoras)
+-- Tabela filme_produtora (relacionamento entre filmes e produtoras)
 CREATE TABLE filme_produtora (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
     filme_id INTEGER,
@@ -136,7 +136,7 @@ CREATE TABLE filme_produtora (
     FOREIGN KEY (produtora_id) REFERENCES produtoras(id) ON DELETE CASCADE
 );
 
--- Tabela filmes_atores (relacionamento entre filmes e atores)
+-- Tabela filme_atore (relacionamento entre filmes e atores)
 CREATE TABLE filme_ator (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
     filme_id INTEGER,

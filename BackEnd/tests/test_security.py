@@ -4,25 +4,19 @@ from BackEnd.core.security import get_password_hash, verify_password
 
 # Teste de senha correta
 def test_correct_password():
-    senha = 123
+    senha = '123'
 
     # gera hash
     hashed = get_password_hash(senha)
-    print("Hash gerado:", hashed)
+    print('Hash gerado:', hashed)
 
     # valida senha passada com senha hasheada
-    assert verify_password(123, hashed) == True
+    assert verify_password('123', hashed) == True
 
 # Teste de senha incorreta
 def test_incorrect_password():
-    senha = 123
+    senha = '123'
     hashed = get_password_hash(senha)
-    print("Hash gerado:", hashed)
+    print('Hash gerado:', hashed)
     
-    assert verify_password("senhaErrada", hashed) == False
-
-
-# --------- Testes da geração de token  ---------
-    
-# if __name__ == "__main__":
-#     test()
+    assert verify_password('senhaErrada', hashed) == False
