@@ -1,4 +1,4 @@
-# Rotas para requisições de atores
+# Lógica das requisições de atores
 
 from core.database import get_connection
 
@@ -148,7 +148,6 @@ def get_actor_name(nome):
 
 		# resposta com os dados do ator
 		response = {
-			'Mensagem': 'Ator encontrado!',
 			'id': ator[0], 
 			'nome': ator[1],  
 		}

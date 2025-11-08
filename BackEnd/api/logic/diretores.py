@@ -1,4 +1,4 @@
-# Rotas para requisições de diretores
+# Lógica das requisições de diretores
 
 from core.database import get_connection
 
@@ -145,7 +145,6 @@ def get_director_name(nome):
 
 		# resposta com os dados do diretor
 		response = {
-			'Mensagem': 'Diretor encontrado!',
 			'id': diretor[0], 
 			'nome': diretor[1],  
 		}

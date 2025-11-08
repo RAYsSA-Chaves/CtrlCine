@@ -1,4 +1,4 @@
-# Rotas para requisições de produtoras
+# Lógica das requisições de produtoras
 
 from core.database import get_connection
 
@@ -145,7 +145,6 @@ def get_producer_name(nome):
 
 		# resposta com os dados da produtora
 		response = {
-			'Mensagem': 'Produtora encontrada!',
 			'id': produtora[0], 
 			'nome': produtora[1],  
 		}

@@ -3,26 +3,25 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 from urllib.parse import urlparse, parse_qs
 from core.configs import Settings
-from api.logic.filmes import get_filme_por_id, get_movies
+
+from api.logic.filmes import get_filme_por_id, get_movies, cadastrar_filme, update_movie
 from api.logic.atores import cadastrar_ator, list_all_actors
-from api.logic.produtoras import list_all_producers
+from api.logic.produtoras import list_all_producers, cadastrar_produtora
 from api.logic.generos import list_all_genres
-from api.logic.diretores import list_all_directors
+from api.logic.diretores import list_all_directors, cadastrar_diretor
+from api.logic.solicitacoes import listar_solicitacoes, criar_solicitacao, recusar_solicitacao, aceitar_solicitacao
 
 ''' Exemplos de retornos:
-
 - urlparse (partes da url):
 ParseResult(
-    scheme='', 
-    path='/search', 
+    path='/filmes', 
     params='', 
-    query='term=python&lang=pt&lang=en', 
+    query='ano=2000&lang=pt&lang=en', 
     fragment=''
 )
 
 - parse_qs (transforma algo em dicionáario python com valores sempre como listas):
-{'term': ['python'], 'lang': ['pt', 'en']}
-
+{'ano': ['2000'], 'lang': ['pt', 'en']}
 '''
 
 
@@ -31,7 +30,7 @@ API = Settings.API_STR
 class MyHandler(BaseHTTPRequestHandler):
     # Centralizando função de leitura do body da requisição (para POST e PUT)
     def read_body(self):
-        content_length = int(self.headers["Content-Length"])  # lê o tamanho do corpo da requisição e converte bytes -> int
+        content_length = int(self.headers['Content-Length'])  # lê o tamanho do corpo da requisição e converte bytes -> int
         body = self.rfile.read(content_length)  # lê o arquivo onde o python guarda o corpo da requisição recebida até onde ele termina (content_length)
         dados = json.loads(body)  # converte JSON recebido em um objeto python
         return dados
@@ -41,13 +40,12 @@ class MyHandler(BaseHTTPRequestHandler):
     # Centralizando função de retorno dos endpoints
     def enviar_json(self, status, conteudo):
         self.send_response(status)
-        self.send_header("Content-Type", "application/json")
+        self.send_header('Content-Type', 'application/json')
         self.end_headers()
         self.wfile.write(json.dumps(conteudo, ensure_ascii=False).encode('utf-8'))  # converte objeto python em JSON
 
-# ---------------------------------------------
 
-    # Rotas GET
+    # ==================== Rotas GET ====================
     def do_GET(self):
         # Sempre redireciona para '/api'
         if self.path == '/':
@@ -59,13 +57,13 @@ class MyHandler(BaseHTTPRequestHandler):
 
         # Página inicial
         elif self.path == f'{API}':
-            self.enviar_json(200, {'Menssagem': 'Olá, mundo! Estou funcionando :)'})
+            self.enviar_json(200, {'Mensagem': 'Olá, mundo! Estou funcionando :)'})
 
 # ---------------------------------------------
 
         # Listagem de filmes
         elif self.path.startswith(f'{API}/filmes'):
-            partes = self.path.split("/")
+            partes = self.path.split('/')
 
             # /api/filmes -> listar todos os filmes ou filtrados
             if len(partes) == 3:
@@ -75,13 +73,15 @@ class MyHandler(BaseHTTPRequestHandler):
 
                 # dicionário de filtros possíveis
                 filters = {
-                    "ator": query_params.get("ator", [None])[0],
-                    "diretor": query_params.get("diretor", [None])[0],
-                    "produtora": query_params.get("produtora", [None])[0],
-                    "genero": query_params.get("genero", [None])[0],
-                    "ano": query_params.get("ano", [None])[0],
-                    "nota": query_params.get("nota", [None])[0],
-                    "titulo": query_params.get("titulo", [None])[0]
+                    'ator': query_params.get('ator', [None])[0],
+                    'diretor': query_params.get('diretor', [None])[0],
+                    'produtora': query_params.get('produtora', [None])[0],
+                    'genero': query_params.get('genero', [None])[0],
+                    'ano': query_params.get('ano', [None])[0],
+                    'nota': query_params.get('nota', [None])[0],
+                    'titulo': query_params.get('titulo', [None])[0],
+                    'em_alta': query_params.get('em_alta', [None])[0],
+                    'lancamento': query_params.get('lancamento', [None])[0]
                 }
 
                 # remover filtros None (não informados)
@@ -96,20 +96,19 @@ class MyHandler(BaseHTTPRequestHandler):
                 filmes = get_movies(filters)
                 self.enviar_json(200, filmes)
 
-
-            # /api/filmes/id -> para filme específico
+            # /api/filmes/id -> filme específico
             elif len(partes) == 4:
                 try:
                     filme_id = int(partes[-1])  # -1 = último item
                 except ValueError:
-                    self.enviar_json(400, {"Erro": "ID inválido"})
+                    self.enviar_json(400, {'Erro': 'ID inválido'})
                     return
                     
                 filme = get_filme_por_id(filme_id)
                 self.enviar_json(200, filme)
                 
             else:
-                self.enviar_json(404, {"Erro": "Rota não encontrada"})
+                self.enviar_json(404, {'Erro': 'Rota não encontrada'})
 
 # ---------------------------------------------
 
@@ -117,13 +116,6 @@ class MyHandler(BaseHTTPRequestHandler):
         elif self.path == f'{API}/atores':
             atores = list_all_actors()
             self.enviar_json(200, atores)
-
-# ---------------------------------------------
-
-        # Listagem de produtoras
-        elif self.path == f'{API}/produtoras':
-            produtoras = list_all_producers()
-            self.enviar_json(200, produtoras)
 
 # ---------------------------------------------
 
@@ -148,29 +140,152 @@ class MyHandler(BaseHTTPRequestHandler):
             
 # ---------------------------------------------
 
+        # Listar todas as solicitações dos usuários
+        elif self.path == f'{API}/solicitacoes':
+            solicitacoes = listar_solicitacoes()
+            self.enviar_json(200, solicitacoes)
+
+# ---------------------------------------------
+
         # Rota inválida
         else:
             self.enviar_json(404, {'Erro': 'Rota não encontrada'})
 
 
-    # Rotas POST
+    # ==================== Rotas POST ====================
     def do_POST(self):
-        # Cadastro de ator
-        if self.path == f'{API}/atores':
+        # Cadastro de filme
+        if self.path == f'{API}/filmes':
             dados = self.read_body()
-            nome = dados["nome"]
-            foto = dados["foto"]
+            filme = dados['filme']
+            solicitacao_id = dados.get('solicitacao_id', None)
+
+            response = cadastrar_filme(filme)
+
+            # se for uma solicitação de usuário -> marcar como aceita
+            if solicitacao_id:
+                aceitar_solicitacao(solicitacao_id)
+
+            if 'Erro' in response:
+                self.enviar_json(400, response)
+            else:
+                self.enviar_json(201, response)
+
+# ---------------------------------------------
+
+        # Cadastro de ator
+        elif self.path == f'{API}/atores':
+            dados = self.read_body()
+            nome = dados['nome']
+            foto = dados['foto']
 
             response = cadastrar_ator(nome, foto)
 
-            if "Erro" in response:
+            if 'Erro' in response:
                 self.enviar_json(400, response)
             else:
-                self.enviar_json(200, response)
+                self.enviar_json(201, response)
 
+# ---------------------------------------------
+
+        # Cadastro de diretor
+        elif self.path == f'{API}/diretores':
+            dados = self.read_body()
+            nome = dados['nome']
+
+            response = cadastrar_diretor(nome)
+
+            if 'Erro' in response:
+                self.enviar_json(400, response)
+            else:
+                self.enviar_json(201, response)
+
+# ---------------------------------------------
+
+        # Cadastro de produtora
+        elif self.path == f'{API}/produtoras':
+            dados = self.read_body()
+            nome = dados['nome']
+
+            response = cadastrar_produtora(nome)
+
+            if 'Erro' in response:
+                self.enviar_json(400, response)
+            else:
+                self.enviar_json(201, response)
+
+# ---------------------------------------------
+
+        # Nova solicitação
+        elif self.path == f'{API}/solicitacoes':
+            dados = self.read_body()
+            usuario_id = dados['usuario_id']
+            filme_json = dados['filme']
+            tipo = dados['tipo']
+            filme_id = dados.get('filme_id', None)
+
+            response = criar_solicitacao(usuario_id, filme_json, tipo)
+
+            # adiciona o id do filme à resposta
+            if filme_id is not None:
+                response['filme_id'] = filme_id
+
+            if 'Erro' in response:
+                self.enviar_json(400, response)
+            else:
+                self.enviar_json(201, response)
+            
 # ---------------------------------------------
                 
         # Rota inválida
+        else:
+            self.enviar_json(404, {'Erro': 'Rota não encontrada'})
+
+        
+    # ==================== Rotas PUT ====================
+    def do_PUT(self):
+        # Edição de filme
+        if self.path.startswith(f'{API}/filmes'):
+            try:
+                filme_id = int(self.path.split('/')[-1])
+            except ValueError:
+                self.enviar_json(400, {'Erro': 'ID inválido'})
+                return
+
+            dados = self.read_body()
+            filme = dados['filme']
+            solicitacao_id = dados.get('solicitacao_id', None)
+
+            response = update_movie(filme, filme_id)
+
+            # se for uma solicitação de usuário -> marcar como aceita
+            if solicitacao_id:
+                aceitar_solicitacao(solicitacao_id)
+            
+            if 'Erro' in response:
+                self.enviar_json(400, response)
+            else:
+                self.enviar_json(201, response)
+
+    
+    # ==================== Rotas DELETE ====================
+    def do_DELETE(self):
+        # Solicitação recusada
+        if self.path.startswith(f'{API}/solicitacoes/'):
+            id_str = self.path.split('/')[-1]
+
+            try:
+                id_int = int(id_str)
+            except ValueError:
+                self.enviar_json(400, {'Erro': 'ID inválido'})
+                return
+            
+            deletado = recusar_solicitacao(id_int)
+            self.enviar_json(200, deletado)
+
+# ---------------------------------------------
+
+         # Rota inválida
         else:
             self.enviar_json(404, {'Erro': 'Rota não encontrada'})
 
@@ -179,7 +294,7 @@ class MyHandler(BaseHTTPRequestHandler):
 def run():
     server_address = ('', 8000)  # define endereço e porta do servidor
     httpd = HTTPServer(server_address, MyHandler)  # cria o servidor HTTP usando a classe MyHandler
-    print("Server Running in http://localhost:8000")  # exibe URL do server
+    print('Server Running in http://localhost:8000')  # exibe URL do server
     httpd.serve_forever()  # inicia o servidor e mantém rodando
 
 run()

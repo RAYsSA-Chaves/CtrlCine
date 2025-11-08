@@ -28,7 +28,7 @@ CREATE TABLE usuarios (
     email VARCHAR(255) UNIQUE,
     senha VARCHAR(255),
     foto VARCHAR(255) NULL,
-    tipo_user ENUM('admin', 'comum'),
+    tipo_user ENUM('admin', 'comum') DEFAULT 'comum',
     data_cadastro DATE
 );
 

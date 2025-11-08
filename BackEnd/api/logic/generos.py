@@ -1,4 +1,4 @@
-# Rotas para requisições de gêneros
+# Lógica das requisições de gêneros
 
 from core.database import get_connection
 
@@ -96,7 +96,6 @@ def get_genre_name(nome):
 
 		# resposta com os dados do gênero
 		response = {
-			'Mensagem': 'Gênero encontrado!',
 			'id': genero[0], 
 			'nome': genero[1],  
 		}
