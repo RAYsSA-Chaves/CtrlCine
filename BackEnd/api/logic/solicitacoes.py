@@ -75,7 +75,7 @@ def get_solicitacao_por_id(solicitacao_id):
 # ---------------------------------------------
 
 # Criar nova solicitação
-def criar_solicitacao(usuario_id, filme_json, tipo):
+def criar_solicitacao(usuario_id, filme_json, tipo, filme_id):
 	conn = get_connection()
 	cursor = conn.cursor()
 
@@ -98,9 +98,9 @@ def criar_solicitacao(usuario_id, filme_json, tipo):
 
 		# guarda a solicitação na tabela no banco
 		cursor.execute('''
-            INSERT INTO solicitacoes (usuario_id, filme, tipo)
-			VALUES (%s, %s, %s)
-        ''', (usuario_id, json.dumps(filme_json, ensure_ascii=False), tipo))
+            INSERT INTO solicitacoes (usuario_id, filme_id, filme, tipo)
+			VALUES (%s, %s, %s, %s)
+        ''', (usuario_id, filme_id, json.dumps(filme_json, ensure_ascii=False), tipo))
 		conn.commit()
 		
         # ID da solicitação inserida
@@ -115,6 +115,7 @@ def criar_solicitacao(usuario_id, filme_json, tipo):
 			'Mensagem': 'Solicitação enviada com sucesso!',
 			'id': solicitacao[0], 
 			'usuario_id': solicitacao[1] ,
+			'filme_id': solicitacao.get('filme_id', None),
             'filme': json.loads(solicitacao[2])['titulo'],
 			'tipo': solicitacao[3]
 		}

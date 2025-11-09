@@ -1,4 +1,4 @@
-# Lógica das avaliações dos usuários
+# Lógica das avaliações do usuários
 
 from core.database import get_connection
 
@@ -10,10 +10,7 @@ def adicionar_avaliacao(usuario_id, filme_id, nota, resenha=None):
 
 	try:
 		# verifica se o usuário já avaliou o filme
-		cursor.execute(
-			'SELECT id FROM avaliacoes_usuarios WHERE usuario_id=%s AND filme_id=%s',
-			(usuario_id, filme_id)
-		)
+		cursor.execute('SELECT id FROM avaliacoes_usuarios WHERE usuario_id=%s AND filme_id=%s', (usuario_id, filme_id))
 		existe = cursor.fetchone()
 
 		if existe:
@@ -27,7 +24,7 @@ def adicionar_avaliacao(usuario_id, filme_id, nota, resenha=None):
 			conn.commit()
 
 			response = {'Mensagem': 'Avaliação adicionada com sucesso!'}
-
+	
 	except Exception as e:
 		response = {'Erro': str(e)}
 
@@ -39,7 +36,7 @@ def adicionar_avaliacao(usuario_id, filme_id, nota, resenha=None):
 # -------------------------------------------------------------
 
 # Listar todas as avaliações de um filme
-def listar_avaliacoes_filme(filme_id):
+def listar_avaliacoes_filme(filme_id, usuario_id):
 	conn = get_connection()
 	cursor = conn.cursor()
 
@@ -48,9 +45,9 @@ def listar_avaliacoes_filme(filme_id):
 			SELECT avaliacoes_usuarios.id, usuarios.nome, avaliacoes_usuarios.nota, avaliacoes_usuarios.resenha
 			FROM avaliacoes_usuarios
 			JOIN usuarios ON avaliacoes_usuarios.usuario_id = usuarios.id
-			WHERE filme_id = %s
+			WHERE filme_id = %s AND usuario_id != %s
 			ORDER BY avaliacoes_usuarios.id DESC
-		''', (filme_id,))
+		''', (filme_id, usuario_id))
 		rows = cursor.fetchall()
 
 		avaliacoes = []
@@ -91,9 +88,8 @@ def get_avaliacao_usuario(usuario_id, filme_id):
 		if row:
 			response = {
 				'id': row[0],
-				'usuario_nome': row[1],
-				'nota': row[2],
-				'resenha': row[3]
+				'nota': row[1],
+				'resenha': row[2]
 			}
 		else:
 			response = {'Erro': 'Você ainda não avaliou este filme'}

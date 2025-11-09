@@ -78,10 +78,12 @@ CREATE TABLE lembretes (
 CREATE TABLE solicitacoes (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
     usuario_id INTEGER,
+    filme_id INTERGER NULL,
     filme JSON,
     tipo ENUM('novo filme', 'edição'),
     aceito BOOLEAN NULL,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+    FOREIGN KEY (filme_id) REFERENCES filmes(id) ON DELETE CASCADE
 );
 
 -- Tabela de gêneros de filmes

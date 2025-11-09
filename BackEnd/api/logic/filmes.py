@@ -278,3 +278,31 @@ def update_movie(filme, filme_id):
 		cursor.close()
 		conn.close()
 		return response
+	
+# ---------------------------------------------
+
+# Deletar filme
+def delete(filme_id):
+	conn = get_connection()
+	cursor = conn.cursor()
+
+	try:
+		# deleta filme do banco
+		cursor.execute('DELETE FROM filmes WHERE id =  %s', (filme_id,))
+		conn.commit()
+
+        # retorno para o usuário
+		if cursor.rowcount > 0:  # quantas linhas foram afetadas pela última execução de comando SQL
+			response = {'Mensagem': 'Filme removida com sucesso'}
+		else:
+			response = {'Erro': 'Filme não encontrada'}
+	
+    # erro
+	except Exception as e:
+		response = {'Erro': str(e)}
+	
+    # ecerra conexão com o banco
+	finally:
+		cursor.close()
+		conn.close()
+		return response
