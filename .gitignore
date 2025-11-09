@@ -86,6 +86,7 @@ web_modules/
 .env
 .env.*
 !.env.example
+env
 
 # Vite logs
 vite.config.js.timestamp-*
