@@ -12,6 +12,7 @@ from api.logic.generos import list_all_genres
 from api.logic.diretores import list_all_directors, cadastrar_diretor 
 from api.logic.solicitacoes import listar_solicitacoes, criar_solicitacao, recusar_solicitacao, aceitar_solicitacao, get_solicitacao_por_id 
 from api.logic.avaliacoes import listar_avaliacoes_filme, adicionar_avaliacao, get_avaliacao_usuario 
+from api.logic.listas import add_movie_to_list, create_list, delete_list, edit_list, remover_filme_lista, get_listas_usuario
 
 ''' 
 Exemplos de retornos: 
@@ -201,6 +202,23 @@ class MyHandler(BaseHTTPRequestHandler):
 		
 		# --------------------------------------------- 
 		
+        # Listagem de listas por usuário
+		elif self.path.startswith(f'{API}/listas/usuario/'):
+			try:
+				usuario_id = int(self.path.split('/')[-1])
+			except Exception as e:
+				self.enviar_json(400, {'Erro': 'ID inválido'})
+				return
+			
+			response = get_listas_usuario(usuario_id)
+			
+			if 'Erro' in response:
+				self.enviar_json(400, response)
+			else:
+				self.enviar_json(200, response)
+		
+        # --------------------------------------------- 
+		
 		# Rota inválida 
 		else: 
 			self.enviar_json(404, {'Erro': 'Rota não encontrada'}) 
@@ -298,79 +316,169 @@ class MyHandler(BaseHTTPRequestHandler):
 			if 'Erro' in response: 
 				self.enviar_json(400, response) 
 			else: 
-				self.enviar_json(201, response) 
+				self.enviar_json(201, response)
+				
+        # --------------------------------------------- 
+		
+		# Criar nova lista
+		elif self.path == 'f{API}/listas':
+			dados = self.read_body() 
+			usuario_id = dados['usuario_id'] 
+			nome = dados['nome'] 
 			
-		# --------------------------------------------- 
-
+			response = create_list(usuario_id, nome)
+			
+			if 'Erro' in response: 
+				self.enviar_json(400, response) 
+			else: 
+				self.enviar_json(201, response)
+				
+        # ---------------------------------------------
+				
+        # Adicionar filme em uma lista
+		elif self.path == '{API}/listas/filme':
+			dados = self.read_body() 
+			lista_id = dados['lista_id'] 
+			filme_id = dados['filme_id'] 
+			
+			response = add_movie_to_list(lista_id, filme_id)
+			
+			if 'Erro' in response: 
+				self.enviar_json(400, response) 
+			else: 
+				self.enviar_json(201, response)
+			
+        # --------------------------------------------- 
+			
 		# Rota inválida 
 		else: 
 			self.enviar_json(404, {'Erro': 'Rota não encontrada'}) 
 			
 
-		# ==================== Rotas PUT ==================== 
-		def do_PUT(self): 
-			# Edição de filme 
-			if self.path.startswith(f'{API}/filmes'): 
-				try: 
-					filme_id = int(self.path.split('/')[-1]) 
-				except ValueError: 
-					self.enviar_json(400, {'Erro': 'ID inválido'}) 
-					return 
+	# ==================== Rotas PUT ==================== 
+	def do_PUT(self): 
+		# Edição de filme 
+		if self.path.startswith(f'{API}/filmes'): 
+			try: 
+				filme_id = int(self.path.split('/')[-1]) 
+			except ValueError: 
+				self.enviar_json(400, {'Erro': 'ID inválido'}) 
+				return 
+			
+			dados = self.read_body() 
+			filme = dados['filme'] 
+			solicitacao_id = dados.get('solicitacao_id', None) 
+			
+			response = update_movie(filme, filme_id) 
+			
+			# se for uma solicitação de usuário -> marcar como aceita 
+			if solicitacao_id: 
+				aceitar_solicitacao(solicitacao_id) 
 				
-				dados = self.read_body() 
-				filme = dados['filme'] 
-				solicitacao_id = dados.get('solicitacao_id', None) 
-				
-				response = update_movie(filme, filme_id) 
-				
-				# se for uma solicitação de usuário -> marcar como aceita 
-				if solicitacao_id: 
-					aceitar_solicitacao(solicitacao_id) 
-					
-				if 'Erro' in response: 
-					self.enviar_json(400, response) 
-				else: 
-					self.enviar_json(201, response)
-
-			# --------------------------------------------- 
-
-			# Rota inválida 
+			if 'Erro' in response: 
+				self.enviar_json(400, response) 
 			else: 
-				self.enviar_json(404, {'Erro': 'Rota não encontrada'})  
-
-
-		# ==================== Rotas DELETE ==================== 
-		def do_DELETE(self): 
-			# Deletar filme 
-			if self.path.startswith(f'{API}/filmes/'): 
-				id_str = self.path.split('/')[-1] 
-				try: 
-					id_int = int(id_str) 
-				except ValueError: 
-					self.enviar_json(400, {'Erro': 'ID inválido'}) 
-					return 
+				self.enviar_json(201, response)
 				
-				deletado = delete_movie(id_int)
-				self.enviar_json(200, deletado) 
+		# --------------------------------------------- 
+				
+		elif self.path.startswith(f'{API}/listas'):
+			try:
+				lista_id = int(self.path.split('/')[-1]) 
+			except ValueError: 
+				self.enviar_json(400, {'Erro': 'ID inválido'}) 
+				return 
+			
+			dados = self.read_body()
+			novo_nome = dados['nome'] 
+			
+			response = edit_list(lista_id, novo_nome) 
+			
+			if 'Erro' in response: 
+				self.enviar_json(400, response) 
+			else: 
+				self.enviar_json(201, response)
+			
+		# --------------------------------------------- 
+
+		# Rota inválida 
+		else: 
+			self.enviar_json(404, {'Erro': 'Rota não encontrada'})  
+
+
+	# ==================== Rotas DELETE ==================== 
+	def do_DELETE(self): 
+		# Deletar filme 
+		if self.path.startswith(f'{API}/filmes/'): 
+			id_str = self.path.split('/')[-1] 
+			try: 
+				id_int = int(id_str) 
+			except ValueError: 
+				self.enviar_json(400, {'Erro': 'ID inválido'}) 
+				return 
+			
+			response = delete_movie(id_int)
+			if 'Erro' in response:
+				self.enviar_json(400, response)
+			else:
+				self.enviar_json(200, response)
 		
-			# --------------------------------------------- 
+		# --------------------------------------------- 
 			
-			# Solicitação recusada 
-			elif self.path.startswith(f'{API}/solicitacoes/'): 
-				id_str = self.path.split('/')[-1] 
-				try: 
-					id_int = int(id_str) 
-				except ValueError: 
-					self.enviar_json(400, {'Erro': 'ID inválido'}) 
-					return 
-				
-				deletado = recusar_solicitacao(id_int) 
-				self.enviar_json(200, deletado) 
-				
-			# --------------------------------------------- 
+		# Solicitação recusada 
+		elif self.path.startswith(f'{API}/solicitacoes/'): 
+			id_str = self.path.split('/')[-1] 
+			try: 
+				id_int = int(id_str) 
+			except ValueError: 
+				self.enviar_json(400, {'Erro': 'ID inválido'}) 
+				return 
 			
-			# Rota inválida 
-			else: self.enviar_json(404, {'Erro': 'Rota não encontrada'}) 
+			response = recusar_solicitacao(id_int) 
+			if 'Erro' in response:
+				self.enviar_json(400, response)
+			else:
+				self.enviar_json(200, response)
+		
+        # --------------------------------------------- 
+		
+        # Deletar filme de uma lista
+		elif self.path.startswith(f'{API}/listas/filme/'):
+			partes = self.path.split('/')
+			try: 
+				lista_id  = int(partes[-2])
+				filme_id = int(partes[-1])
+			except ValueError: 
+				self.enviar_json(400, {'Erro': 'ID inválido'}) 
+				return  
+			
+			response = remover_filme_lista(lista_id, filme_id)
+			if 'Erro' in response:
+				self.enviar_json(400, response)
+			else:
+				self.enviar_json(200, response)
+				
+		# --------------------------------------------- 
+		
+        # Deletar lista
+		elif self.path(f'{API}/listas/'):
+			id_str = self.path.split('/')[-1] 
+			try: 
+				lista_id = int(id_str) 
+			except ValueError: 
+				self.enviar_json(400, {'Erro': 'ID inválido'}) 
+				return 
+			
+			response = delete_list(lista_id)
+			if 'Erro' in response:
+				self.enviar_json(400, response)
+			else:
+				self.enviar_json(200, response)
+                    
+		# --------------------------------------------- 
+			
+		# Rota inválida 
+		else: self.enviar_json(404, {'Erro': 'Rota não encontrada'}) 
 			
 
 # Iniciar servidor 

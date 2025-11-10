@@ -7,7 +7,6 @@ from api.logic.atores import get_atores_por_filme, get_actor_name
 from api.logic.diretores import get_diretores_por_filme, get_director_name
 from api.logic.generos import get_generos_por_filme, get_genre_name
 from api.logic.produtoras import get_produtoras_por_filme, get_producer_name
-from api.logic.avaliacoes import listar_avaliacoes_filme
 
 
 # Pegar todos os filmes (ou filtrados)
@@ -83,6 +82,21 @@ def get_movies(filters):
 		# filmes não lançados
 		if 'lancamento' in filters:
 			conds.append('filmes.lancamento > CURRENT_DATE()')
+
+        # filmes de uma lista	
+		if 'lista' in filters:
+			# pode ser id ou nome
+			valor = filters['lista']
+			if valor.isdigit():
+				joins.append('JOIN filmes_listas ON filmes_listas.filme_id = filmes.id')
+				conds.append('filmes_listas.lista_id = %s')
+				params.append(int(valor))
+			else:
+				cursor.execute('SELECT id FROM listas WHERE nome LIKE %s', (valor,))
+				lista = cursor.fetchone()
+				joins.append('JOIN filmes_listas ON filmes_listas.filme_id = filmes.id')
+				conds.append('filmes_listas.lista_id = %s')
+				params.append(lista[0])
 
 		# query final
 		if joins:
@@ -283,7 +297,7 @@ def update_movie(filme, filme_id):
 # ---------------------------------------------
 
 # Deletar filme
-def delete(filme_id):
+def delete_movie(filme_id):
 	conn = get_connection()
 	cursor = conn.cursor()
 
