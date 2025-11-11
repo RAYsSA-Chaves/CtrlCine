@@ -283,7 +283,7 @@ def update_movie(filme, filme_id):
 # ---------------------------------------------
 
 # Deletar filme
-def delete(filme_id):
+def delete_movie(filme_id):
 	conn = get_connection()
 	cursor = conn.cursor()
 
@@ -294,7 +294,7 @@ def delete(filme_id):
 
         # retorno para o usuário
 		if cursor.rowcount > 0:  # quantas linhas foram afetadas pela última execução de comando SQL
-			response = {'Mensagem': 'Filme removida com sucesso'}
+			response = {'Mensagem': 'Filme removido com sucesso'}
 		else:
 			response = {'Erro': 'Filme não encontrada'}
 	

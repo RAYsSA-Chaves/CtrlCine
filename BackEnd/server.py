@@ -13,6 +13,7 @@ from api.logic.diretores import list_all_directors, cadastrar_diretor
 from api.logic.solicitacoes import listar_solicitacoes, criar_solicitacao, recusar_solicitacao, aceitar_solicitacao, get_solicitacao_por_id 
 from api.logic.avaliacoes import listar_avaliacoes_filme, adicionar_avaliacao, get_avaliacao_usuario 
 
+
 ''' 
 Exemplos de retornos: 
 - urlparse (partes da url): 
