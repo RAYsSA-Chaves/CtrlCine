@@ -1,4 +1,4 @@
-# Hash de senhas e token
+# Hash de senhas e geração de token
 
 from pwdlib import PasswordHash
 import jwt
@@ -7,7 +7,7 @@ from datetime import timezone, timedelta  # timedelta -> armazena quantidades de
 
 
 # Configurações para o hash
-pwd_context = PasswordHash.recommended() # ele decide sozinho como hashear
+pwd_context = PasswordHash.recommended()  # ele decide sozinho como hashear
 
 # Configurações para o token
 SECRET_KEY = 'my_super_secret_key'
@@ -32,22 +32,22 @@ def create_access_token(user_id: int, role: str):
     expire = now + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     # informações para guardar sobre o token e o usuário:
     payload = {
-        "sub": user_id,
-        "role": role,
-        "type": "access",
-        "exp": expire
+        'sub': user_id,
+        'role': role,
+        'type': 'access',
+        'exp': expire
     }
     token = jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
     return token
 
-# Função de refresh do token
+# Função para gerar um token de refresh
 def create_refresh_token(user_id: int):
     now = datetime.datetime.now(timezone.utc)
     expire = now + timedelta(days=REFRESH_TOKEN_EXPIRE_DAYS)
     payload = {
-        "sub": user_id,
-        "type": "refresh",
-        "exp": expire
+        'sub': user_id,
+        'type': 'refresh',
+        'exp': expire
     }
     token = jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
     return token
@@ -57,7 +57,7 @@ def decode_token(token: str):
     """
     Decodifica o token e retorna o payload -> dict
     Lança jwt.ExpiredSignatureError se expirou,
-    lança jwt.InvalidTokenError se inválido.
+    lança jwt.InvalidTokenError se inválido
     """
     payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
     return payload
@@ -72,26 +72,26 @@ class TokenError(Exception):
 def verify_access_token(token: str):
     try:
         payload = decode_token(token)
-        if payload.get("type") != "access":
-            raise TokenError("Tipo de token inválido.")
+        if payload.get('type') != 'access':
+            raise TokenError('Tipo de token inválido')
+        
         return payload
+    
     except jwt.ExpiredSignatureError:
-        raise TokenError("Token expirado.")
-        return
+        raise TokenError('Token expirado')
     except jwt.InvalidTokenError:
-        raise TokenError("Token inválido.")
-        return
+        raise TokenError('Token inválido')
 
-# Função para validar o refresh token
+# Função para validar o refresh token (para gerar novo token)
 def verify_refresh_token(token: str):
     try:
         payload = decode_token(token)
-        if payload.get("type") != "refresh":
-            raise TokenError("Tipo de token inválido.")
+        if payload.get('type') != 'refresh':
+            raise TokenError('Tipo de token inválido')
+        
         return payload
+    
     except jwt.ExpiredSignatureError:
-        raise TokenError("Token de atualização expirado.")
-        return
+        raise TokenError('Token de atualização expirado')
     except jwt.InvalidTokenError:
-        raise TokenError("Token de atualização inválido.")
-        return
+        raise TokenError('Token de atualização inválido')

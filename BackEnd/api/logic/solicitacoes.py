@@ -1,4 +1,4 @@
-# Lógica das solicitações do usuários
+# Lógica das solicitações do usuários (edição/adição de filme)
 
 import json
 
@@ -32,7 +32,7 @@ def listar_solicitacoes():
 	except Exception as e:
 		response = {'Erro': str(e)}
 
-    # encerra conexão com o banco	
+    # encerra conexão com o banco e retorna a resposta
 	finally:
 		cursor.close()
 		conn.close()
@@ -62,11 +62,9 @@ def get_solicitacao_por_id(solicitacao_id):
 				'aceito': solicitacao[4]
 			}
 
-	# erro
 	except Exception as e:
 		response = {'Erro': str(e)}
 
-	# fecha conexão com banco e retorna a solicitação
 	finally:
 			cursor.close()
 			conn.close()
@@ -90,7 +88,7 @@ def criar_solicitacao(usuario_id, filme_json, tipo, filme_id):
 
 		# verificar se já existe
 		for campo, valor in campos_unicos.items():
-			cursor.execute(f"SELECT id FROM filmes WHERE {campo} = %s", (valor,))
+			cursor.execute('SELECT id FROM filmes WHERE {campo} = %s', (valor,))
 			existe = cursor.fetchone()
 			if existe:
 				response = {'Erro': f'Já existe um filme cadastrado com o mesmo {campo}'}
@@ -103,7 +101,7 @@ def criar_solicitacao(usuario_id, filme_json, tipo, filme_id):
         ''', (usuario_id, filme_id, json.dumps(filme_json, ensure_ascii=False), tipo))
 		conn.commit()
 		
-        # ID da solicitação inserida
+        # ID da nova solicitação
 		id_solicitacao = cursor.lastrowid
 		
         # busca a solicitação para retornar
@@ -120,11 +118,9 @@ def criar_solicitacao(usuario_id, filme_json, tipo, filme_id):
 			'tipo': solicitacao[3]
 		}
 	
-    # erro
 	except Exception as e:
 		response = {'Erro': str(e)}
 	
-    # encerra conexão com banco
 	finally:
 		cursor.close()
 		conn.close()
@@ -148,11 +144,9 @@ def recusar_solicitacao(solicitacao_id):
 		else:
 			response = {'Erro': 'Solicitação não encontrada'}
 	
-    # erro
 	except Exception as e:
 		response = {'Erro': str(e)}
 	
-    # ecerra conexão com o banco
 	finally:
 		cursor.close()
 		conn.close()
@@ -168,8 +162,10 @@ def aceitar_solicitacao(solicitacao_id):
 	try:
 		cursor.execute('UPDATE solicitacoes SET aceito=TRUE WHERE id=%s', (solicitacao_id,))
 		conn.commit()
+
 	except Exception as e:
 		print('Erro ao atualizar status da solicitação:' + str(e))
+		
 	finally:
 		cursor.close()
 		conn.close()

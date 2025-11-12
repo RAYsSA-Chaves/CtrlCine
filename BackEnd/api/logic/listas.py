@@ -9,9 +9,11 @@ def create_list(usuario_id, nome):
 	cursor = conn.cursor()
 
 	try:
+		# insere nova lista no banco
 		cursor.execute('INSERT INTO listas (nome, usuario_id) VALUES (%s, %s)', (nome, usuario_id))
 		conn.commit()
 		
+		# monta resposta com o nome da lista
 		response = {'Mensagem': f'Lista "{nome}" criada com sucesso!'}
 		
 	except Exception as e:
@@ -58,6 +60,7 @@ def remover_filme_lista(lista_id, filme_id):
 	cursor = conn.cursor()
 
 	try:
+		# deleta a lista do banco
 		cursor.execute('DELETE FROM filmes_listas WHERE lista_id=%s AND filme_id=%s', (lista_id, filme_id))
 		conn.commit()
 		if cursor.rowcount > 0:
@@ -81,6 +84,7 @@ def edit_list(lista_id, novo_nome):
 	cursor = conn.cursor()
 
 	try:
+		# atualiza lista no banco
 		cursor.execute('UPDATE listas SET nome=%s WHERE id=%s', (novo_nome, lista_id))
 		conn.commit()
 		if cursor.rowcount > 0:
@@ -104,6 +108,7 @@ def delete_list(lista_id):
 	cursor = conn.cursor()
 
 	try:
+		# deleta a lista do banco
 		cursor.execute('DELETE FROM listas WHERE id=%s', (lista_id,))
 		conn.commit()
 		if cursor.rowcount > 0:
@@ -127,6 +132,7 @@ def get_listas_usuario(usuario_id):
 	cursor = conn.cursor()
 
 	try:
+		# pega listas do usuário
 		cursor.execute('SELECT id, nome FROM listas WHERE usuario_id=%s', (usuario_id,))
 		listas = cursor.fetchall()
 

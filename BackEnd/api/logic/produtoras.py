@@ -3,13 +3,13 @@
 from core.database import get_connection
 
 
-# Cadastro de ator
+# Cadastro de produtora
 def cadastrar_produtora(nome):
 	conn = get_connection()
 	cursor = conn.cursor()
 
 	try:
-		# verifica se o produtora já existe
+		# verifica se a produtora já existe
 		cursor.execute('SELECT * FROM produtoras WHERE nome = %s', (nome,))
 		produtora_existente = cursor.fetchone()
 
@@ -28,11 +28,11 @@ def cadastrar_produtora(nome):
 		# pega ID da produtora inserida
 		id_prod = cursor.lastrowid
 
-		# busca o ator para retornar
+		# busca a produtora para retornar
 		cursor.execute('SELECT * FROM produtoras WHERE id = %s', (id_prod,))
 		produtora = cursor.fetchone()
 
-		# resposta com os dados do ator
+		# resposta com os dados da produtora
 		response = {
 			'Mensagem': 'Produtora cadastrada com sucesso!',
 			'id': produtora[0], 
@@ -73,11 +73,9 @@ def list_all_producers():
 		# resposta
 		response = lista_produtoras
 
-	# erro
 	except Exception as e:
 		response = {'Erro': str(e)}
 
-	# encerra conexão com banco
 	finally:
 		cursor.close()
 		conn.close()
@@ -85,7 +83,7 @@ def list_all_producers():
 
 # ---------------------------------------------
 
-# Pegar atores de um filme
+# Pegar prdutoras de um filme
 def get_produtoras_por_filme(filme_id):
 	conn = get_connection()
 	cursor = conn.cursor()
@@ -116,11 +114,9 @@ def get_produtoras_por_filme(filme_id):
 			# resposta
 			response = lista_produtoras
 
-	# erro
 	except Exception as e:
 		response = {'Erro': str(e)}
 
-	# encerra conexão com banco
 	finally:
 		cursor.close()
 		conn.close()
@@ -149,11 +145,9 @@ def get_producer_name(nome):
 			'nome': produtora[1],  
 		}
 	
-	# erro
 	except Exception as e:
 		response = {'Erro': str(e)}
 	
-	# encerra conexão com banco
 	finally:
 		cursor.close()
 		conn.close()

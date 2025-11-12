@@ -75,11 +75,9 @@ def list_all_actors():
 		# resposta
 		response = lista_atores
 
-	# erro
 	except Exception as e:
 		response = {'Erro': str(e)}
 
-	# encerra conexão com banco
 	finally:
 		cursor.close()
 		conn.close()
@@ -119,11 +117,9 @@ def get_atores_por_filme(filme_id):
 			# resposta
 			response = lista_atores
 
-	# erro
 	except Exception as e:
 		response = {'Erro': str(e)}
 
-	# encerra conexão com banco
 	finally:
 		cursor.close()
 		conn.close()
@@ -152,11 +148,9 @@ def get_actor_name(nome):
 			'nome': ator[1],  
 		}
 	
-	# erro
 	except Exception as e:
 		response = {'Erro': str(e)}
 	
-	# encerra conexão com banco
 	finally:
 		cursor.close()
 		conn.close()

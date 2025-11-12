@@ -73,11 +73,9 @@ def list_all_directors():
 		# resposta
 		response = lista_diretores
 
-	# erro
 	except Exception as e:
 		response = {'Erro': str(e)}
 
-	# encerra conexão com banco
 	finally:
 		cursor.close()
 		conn.close()
@@ -91,7 +89,7 @@ def get_diretores_por_filme(filme_id):
 	cursor = conn.cursor()
 
 	try:
-		# busca todas as diretores relacionados ao filme
+		# busca todas os diretores relacionados ao filme
 		cursor.execute('''
 			SELECT diretores.id, diretores.nome
 			FROM filme_diretor
@@ -116,11 +114,9 @@ def get_diretores_por_filme(filme_id):
 			# resposta
 			response = lista_diretores
 
-	# erro
 	except Exception as e:
 		response = {'Erro': str(e)}
 
-	# encerra conexão com banco
 	finally:
 		cursor.close()
 		conn.close()
@@ -134,7 +130,7 @@ def get_director_name(nome):
 	cursor = conn.cursor()
 
 	try:
-		# busca a diretor no banco
+		# busca o diretor no banco
 		cursor.execute('SELECT * FROM diretores WHERE diretores.nome = %s', (nome,)) 
 		diretor = cursor.fetchone()
 
@@ -149,11 +145,10 @@ def get_director_name(nome):
 			'nome': diretor[1],  
 		}
 	
-	# erro
 	except Exception as e:
 		response = {'Erro': str(e)}
 	
-	# encerra conexão com banco
+
 	finally:
 		cursor.close()
 		conn.close()

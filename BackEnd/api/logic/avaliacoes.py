@@ -19,7 +19,7 @@ def adicionar_avaliacao(usuario_id, filme_id, nota, resenha=None):
 		if existe:
 			response = {'Erro': 'Você já avaliou este filme'}
 		else:
-			# insere a avaliação
+			# insere a avaliação no banco
 			cursor.execute('''
 				INSERT INTO avaliacoes_usuarios (usuario_id, filme_id, nota, resenha)
 				VALUES (%s, %s, %s, %s)
@@ -44,6 +44,7 @@ def listar_avaliacoes_filme(filme_id):
 	cursor = conn.cursor()
 
 	try:
+		# pega todas as avaliações no banco
 		cursor.execute('''
 			SELECT avaliacoes_usuarios.id, usuarios.nome, avaliacoes_usuarios.nota, avaliacoes_usuarios.resenha
 			FROM avaliacoes_usuarios
@@ -53,6 +54,7 @@ def listar_avaliacoes_filme(filme_id):
 		''', (filme_id,))
 		rows = cursor.fetchall()
 
+		# monta de lista de avaliações como objetos
 		avaliacoes = []
 		for row in rows:
 			avaliacoes.append({
@@ -62,6 +64,7 @@ def listar_avaliacoes_filme(filme_id):
 				'resenha': row[3]
 			})
 
+		# resposta
 		response = avaliacoes
 
 	except Exception as e:
@@ -80,6 +83,7 @@ def get_avaliacao_usuario(usuario_id, filme_id):
 	cursor = conn.cursor()
 
 	try:
+		# pega avaliação no banco
 		cursor.execute('''
 			SELECT avaliacoes_usuarios.id, usuarios.nome, avaliacoes_usuarios.nota, avaliacoes_usuarios.resenha
 			FROM avaliacoes_usuarios
@@ -88,6 +92,7 @@ def get_avaliacao_usuario(usuario_id, filme_id):
 		''', (filme_id, usuario_id))
 		row = cursor.fetchone()
 
+		# monta resposta com infos da avaliação como dicionário
 		if row:
 			response = {
 				'id': row[0],

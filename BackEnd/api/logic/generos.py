@@ -28,7 +28,7 @@ def list_all_genres():
 	except Exception as e:
 		response = {'Erro': str(e)}
 
-	# encerra conexão com banco
+	# encerra conexão com banco e retorna a resposta
 	finally:
 		cursor.close()
 		conn.close()
@@ -67,11 +67,9 @@ def get_generos_por_filme(filme_id):
 			# resposta
 			response = lista_generos
 
-	# erro
 	except Exception as e:
 		response = {'Erro': str(e)}
 
-	# encerra conexão com banco
 	finally:
 		cursor.close()
 		conn.close()
@@ -100,11 +98,9 @@ def get_genre_name(nome):
 			'nome': genero[1],  
 		}
 	
-	# erro
 	except Exception as e:
 		response = {'Erro': str(e)}
 	
-	# encerra conexão com banco
 	finally:
 		cursor.close()
 		conn.close()

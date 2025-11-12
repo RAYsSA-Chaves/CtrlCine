@@ -126,7 +126,7 @@ def get_movies(filters):
 				})
 
 	except Exception as e:
-		response = {"Erro": str(e)}
+		response = {'Erro': str(e)}
 
 	finally:
 		cursor.close()
@@ -312,11 +312,9 @@ def delete_movie(filme_id):
 		else:
 			response = {'Erro': 'Filme não encontrada'}
 	
-    # erro
 	except Exception as e:
 		response = {'Erro': str(e)}
 	
-    # ecerra conexão com o banco
 	finally:
 		cursor.close()
 		conn.close()

@@ -1,8 +1,8 @@
 # Conexão com o banco de dados
 
-from core.configs import Settings
-
 import mysql.connector
+
+from core.configs import Settings
 
 
 def get_connection():
