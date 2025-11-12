@@ -4,7 +4,7 @@
 DROP DATABASE IF EXISTS CtrlCine;
 CREATE DATABASE CtrlCine;
 USE CtrlCine;
-
+5
 -- Tabela de filmes
 CREATE TABLE filmes (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -24,7 +24,7 @@ CREATE TABLE filmes (
 CREATE TABLE usuarios (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(20),
-    sobrenome VARCHAR(20) NULL,
+    sobrenome VARCHAR(255) NULL,
     email VARCHAR(255) UNIQUE,
     senha VARCHAR(255),
     foto VARCHAR(255) NULL,
@@ -120,7 +120,7 @@ CREATE TABLE filme_genero (
     FOREIGN KEY (genero_id) REFERENCES generos(id) ON DELETE CASCADE
 );
 
--- Tabela filme_diretore (relacionamento entre filmes e diretores)
+-- Tabela filme_diretor (relacionamento entre filmes e diretores)
 CREATE TABLE filme_diretor (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
     filme_id INTEGER,
@@ -138,7 +138,7 @@ CREATE TABLE filme_produtora (
     FOREIGN KEY (produtora_id) REFERENCES produtoras(id) ON DELETE CASCADE
 );
 
--- Tabela filme_atore (relacionamento entre filmes e atores)
+-- Tabela filme_ator (relacionamento entre filmes e atores)
 CREATE TABLE filme_ator (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
     filme_id INTEGER,
@@ -149,24 +149,24 @@ CREATE TABLE filme_ator (
 
 -- Inserindo gêneros
 INSERT INTO generos (nome) VALUES
-('Ação'),
-('Aventura'),
-('Animação'),
-('Terror'),
-('Suspense'),
-('Ficção'),
-('Comédia'),
-('Drama'),
-('Romance'),
-('Fantasia'),
-('Documentário'),
-('Musical'),
-('Criminal'),
-('Guerra'),
-('Histórico'),
-('Biografia'),
-('Esporte'),
-('Família');
+('Ação'), 1
+('Aventura'), 2
+('Animação'), 3
+('Terror'), 4
+('Suspense'), 5
+('Ficção'), 6
+('Comédia'), 7
+('Drama'), 8
+('Romance'), 9
+('Fantasia'), 10
+('Documentário'), 11
+('Musical'), 12
+('Criminal'), 13
+('Guerra'), 14
+('Histórico'), 15
+('Biografia'), 16
+('Esporte'), 17
+('Família'); 18
 
 -- Criando o usuário administrador
 INSERT INTO usuarios (nome, email, senha, tipo_user, data_cadastro) VALUES (
@@ -179,7 +179,8 @@ INSERT INTO usuarios (nome, email, senha, tipo_user, data_cadastro) VALUES (
 
 -- Populando alguns filmes
 -- FILME 1
-INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer, nota_imdb, em_alta) VALUES (
+INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer, nota_imdb, em_alta) 
+VALUES (
     'Quarteto Fantástico: Primeiros Passos',
     'https://admin.cnnbrasil.com.br/wp-content/uploads/sites/12/2025/07/Quarteto-Fantastico-2025.png?w=1200&h=630&crop=1',
     'https://i0.wp.com/factotumcultural.com.br/wp-content/uploads/2025/08/quarteto-fantastico-2025-factotum-cultural-tela-mistica.png?fit=816%2C1200&ssl=1',
@@ -272,7 +273,7 @@ INSERT INTO atores VALUES
 INSERT INTO filme_diretor VALUES (4, 4);
 INSERT INTO filme_produtora VALUES (4, 4);
 INSERT INTO filme_ator VALUES (4, 7);
-INSERT INTO filme_genero VALUES (4, 5), (4, 8), (4, 9);
+INSERT INTO filme_genero VALUES (4, 5), (4, 8);
 
 -- FILME 5
 INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer, nota_imdb, em_alta)
@@ -324,7 +325,7 @@ INSERT INTO atores (nome, foto) VALUES
 INSERT INTO filme_diretor VALUES (6, 6);
 INSERT INTO filme_produtora VALUES (6, 7);
 INSERT INTO filme_ator VALUES (6, 5), (6, 10), (6, 11);
-INSERT INTO filme_genero VALUES (6, 2), (6, 3), (6, 17);
+INSERT INTO filme_genero VALUES (6, 2), (6, 18);
 
 -- FILME 7
 INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer, nota_imdb, em_alta)
@@ -341,15 +342,14 @@ VALUES (
 );
 
 INSERT INTO diretores VALUES ('Walter Salles');
-INSERT INTO produtoras VALUES ('RT Features');
-INSERT INTO produtoras VALUES ('VideoFilmes');
+INSERT INTO produtoras VALUES ('RT Features'), ('VideoFilmes');
 INSERT INTO atores VALUES
 ('Fernanda Torres', 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Fernanda_Torres_at_the_2024_Toronto_International_Film_Festival_6.jpg/960px-Fernanda_Torres_at_the_2024_Toronto_International_Film_Festival_6.jpg');
 
 INSERT INTO filme_diretor VALUES (7, 7);
 INSERT INTO filme_produtora VALUES (7, 8), (7, 9);
 INSERT INTO filme_ator VALUES (7, 12);
-INSERT INTO filme_genero VALUES (7, 15), (7, 7), (7, 14);
+INSERT INTO filme_genero VALUES (7, 15), (7, 8);
 
 -- FILME 8
 INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer, nota_imdb, em_alta)
@@ -374,7 +374,7 @@ INSERT INTO atores VALUES
 INSERT INTO filme_diretor VALUES (8, 8);
 INSERT INTO filme_produtora VALUES (8, 10);
 INSERT INTO filme_ator VALUES (8, 13), (8, 14);
-INSERT INTO filme_genero VALUES (8, 1), (8, 9);
+INSERT INTO filme_genero VALUES (8, 1), (8, 6);
 
 -- FILME 9
 INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer, nota_imdb, em_alta)
@@ -422,7 +422,7 @@ INSERT INTO atores VALUES
 INSERT INTO filme_diretor VALUES (10, 10);
 INSERT INTO filme_produtora VALUES (10, 3);
 INSERT INTO filme_ator VALUES (10, 16), (10, 17), (10, 18);
-INSERT INTO filme_genero VALUES (10, 4), (10, 5), (10, 9);
+INSERT INTO filme_genero VALUES (10, 4), (10, 5);
 
 -- FILME 11
 INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer, em_alta)
@@ -496,8 +496,8 @@ INSERT INTO atores (nome, foto) VALUES
 
 INSERT INTO filme_diretor VALUES (13, 13);
 INSERT INTO filme_produtora VALUES (13, 1);
-INSERT INTO filme_ator VALUES (13, 22), (13, 23), (13, 24), (13, 25), (13, 26), (13, 27), (13, 28), (13, 29), (13, 30);
-INSERT INTO filme_genero VALUES (13, 1), (13, 2), (13, 9);
+INSERT INTO filme_ator VALUES (13, 22), (13, 23), (13, 24), (13, 25), (13, 26), (13, 27), (13, 28), (13, 29);
+INSERT INTO filme_genero VALUES (13, 1), (13, 2), (13, 10);
 
 -- FILME 14
 INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer, nota_imdb)
@@ -516,9 +516,10 @@ INSERT INTO diretores (nome) VALUES ('Matt Reeves');
 INSERT INTO produtoras (nome) VALUES ('Warner Bros Pictures');
 INSERT INTO atores (nome, foto) VALUES
 ('Robert Pattinson', 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Robert_Pattinson_2012.jpg/250px-Robert_Pattinson_2012.jpg');
+
 INSERT INTO filme_diretor VALUES (14, 14);
 INSERT INTO filme_produtora VALUES (14, 14);
-INSERT INTO filme_ator VALUES (14, 31);
+INSERT INTO filme_ator VALUES (14, 30);
 INSERT INTO filme_genero VALUES (14, 1), (14, 13), (14, 5);
 
 -- FILME 15
@@ -540,7 +541,7 @@ INSERT INTO atores (nome, foto) VALUES
 ('Zendaya', 'https://upload.wikimedia.org/wikipedia/commons/2/25/Zendaya_2023.jpg');
 INSERT INTO filme_diretor VALUES (15, 15);
 INSERT INTO filme_produtora VALUES (15, 1), (15, 12);
-INSERT INTO filme_ator VALUES (15, 26), (15, 27);
+INSERT INTO filme_ator VALUES (15, 31), (15, 32);
 INSERT INTO filme_genero VALUES (15, 1), (15, 2);
 
 -- FILME 16
@@ -655,20 +656,3 @@ INSERT INTO filme_diretor VALUES (20, 20);
 INSERT INTO filme_produtora VALUES (20, 18), (20, 17);
 INSERT INTO filme_ator VALUES (20, 34), (20, 35);
 INSERT INTO filme_genero VALUES (20, 3), (20, 17);
-
-
--- Consulta
-SELECT *,
-atores.nome AS ator,
-produtoras.nome AS produtora,
-generos.nome AS genero,
-diretores.nome AS diretor
-FROM filmes
-JOIN (filme_ator ON filme_ator.filme_id = filmes.id)
-JOIN (atores ON atores.id = filme_ator.ator_id)
-JOIN (filme_produtora ON filme_produtora.filme_id = filmes.id)
-JOIN (produtoras ON produtoras.id = filme_produtora.produtora_id)
-JOIN (filme_diretor ON filme_diretor.filme_id = filmes.id)
-JOIN (diretores ON produtoras.id = filme_diretor.diretor_id)
-JOIN (filme_genero ON filme_genero.filme_id = filmes.id)
-JOIN (generos ON generos.id = filme_genero.genero_id);
