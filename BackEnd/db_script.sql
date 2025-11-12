@@ -4,7 +4,7 @@
 DROP DATABASE IF EXISTS CtrlCine;
 CREATE DATABASE CtrlCine;
 USE CtrlCine;
-5
+
 -- Tabela de filmes
 CREATE TABLE filmes (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -563,8 +563,8 @@ INSERT INTO atores (nome, foto) VALUES
 ('Andrew Garfield', 'https://media.themoviedb.org/t/p/w500/5ydZ6TluPtxlz5G8nlWMB7SGmow.jpg');
 INSERT INTO filme_diretor VALUES (16, 16);
 INSERT INTO filme_produtora VALUES (16, 15);
-INSERT INTO filme_ator VALUES (16, 28);
-INSERT INTO filme_genero VALUES (16, 14), (16, 13);
+INSERT INTO filme_ator VALUES (16, 33);
+INSERT INTO filme_genero VALUES (16, 14), (16, 15);
 
 -- FILME 17
 INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer, nota_imdb)
@@ -581,9 +581,10 @@ VALUES (
 
 INSERT INTO diretores (nome) VALUES ('Kip Andersen');
 INSERT INTO produtoras (nome) VALUES ('A.U.M. Films');
+
 INSERT INTO filme_diretor VALUES (17, 17);
 INSERT INTO filme_produtora VALUES (17, 16);
-INSERT INTO filme_genero VALUES (17, 10);
+INSERT INTO filme_genero VALUES (17, 11);
 
 
 -- FILME 18
@@ -607,8 +608,8 @@ INSERT INTO atores (nome, foto) VALUES
 
 INSERT INTO filme_diretor VALUES (18, 18);
 INSERT INTO filme_produtora VALUES (18, 17);
-INSERT INTO filme_ator VALUES (18, 29), (18, 30);
-INSERT INTO filme_genero VALUES (18, 3), (18, 2), (18, 17);
+INSERT INTO filme_ator VALUES (18, 34), (18, 35);
+INSERT INTO filme_genero VALUES (18, 3), (18, 2), (18, 18);
 
 -- FILME 19
 INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer, nota_imdb)
@@ -631,8 +632,8 @@ INSERT INTO atores (nome, foto) VALUES
 
 INSERT INTO filme_diretor VALUES (19, 19);
 INSERT INTO filme_produtora VALUES (19, 7);
-INSERT INTO filme_ator VALUES (19, 31), (19, 32), (19, 33);
-INSERT INTO filme_genero VALUES (19, 3), (19, 2), (19, 17);
+INSERT INTO filme_ator VALUES (19, 36), (19, 37), (19, 38);
+INSERT INTO filme_genero VALUES (19, 3), (19, 2), (19, 18);
 
 -- FILME 20
 INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer, nota_imdb)
@@ -654,5 +655,5 @@ INSERT INTO atores (nome, foto) VALUES
 ('Jack Dylan Grazer', 'https://static.wikia.nocookie.net/disney/images/9/96/Jack_Dylan_Grazer.jpg/revision/latest?cb=20210429180401&path-prefix=pt-br');
 INSERT INTO filme_diretor VALUES (20, 20);
 INSERT INTO filme_produtora VALUES (20, 18), (20, 17);
-INSERT INTO filme_ator VALUES (20, 34), (20, 35);
-INSERT INTO filme_genero VALUES (20, 3), (20, 17);
+INSERT INTO filme_ator VALUES (20, 39), (20, 40);
+INSERT INTO filme_genero VALUES (20, 3), (20, 18);
