@@ -1,6 +1,9 @@
 /* Variáveis globais de cores */
 
 :root {
-    --azul-claro: #3266DE;
-    --azul-escuro: #1B3778;
+    --black-bg: #201E21;
+    --red: #E50000;
+    --black-purple: #262626;
+    --gray: #393939;
+    --dark-black-purple: #1A1A1A;
 }
