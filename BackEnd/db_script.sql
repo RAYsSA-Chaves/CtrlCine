@@ -78,11 +78,11 @@ CREATE TABLE lembretes (
 CREATE TABLE solicitacoes (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
     usuario_id INTEGER,
-    filme_id INTERGER NULL,
+    filme_id INTEGER NULL,
     filme JSON,
     tipo ENUM('novo filme', 'edição'),
     aceito BOOLEAN NULL,
-    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
     FOREIGN KEY (filme_id) REFERENCES filmes(id) ON DELETE CASCADE
 );
 
@@ -188,7 +188,7 @@ INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao,
     'O Quarteto Fantástico estreia no MCU, apresentando Reed Richards, Sue Storm, Johnny Storm e Ben Grimm enfrentando uma nova ameaça cósmica.',
     'https://youtu.be/P273sRlm4tM?si=TdXEG8lEcSl3J_Yp',
     4,
-    TRUE,
+    TRUE
 );
 
 INSERT INTO diretores (nome) VALUES ('Matt Shakman');
@@ -211,7 +211,7 @@ VALUES (
     '2025-12-19',
     '3h 12min',
     'Após a guerra contra a RDA, Jake Sully e Neytiri precisam proteger sua família de uma nova ameaça: o Povo das Cinzas, uma tribo Na`vi violenta e sedenta por poder. A família Sully será forçada a lutar pela sobrevivência e pelo futuro de Pandora.',
-    'hhttps://youtu.be/yXPWsdT43YE?si=lYwg2Y3l4pvrt6vJ',
+    'https://youtu.be/yXPWsdT43YE?si=lYwg2Y3l4pvrt6vJ',
     FALSE
 );
 
@@ -297,7 +297,7 @@ INSERT INTO atores (nome, foto) VALUES
 ('Tom Lewis', 'https://m.media-amazon.com/images/S/pv-target-images/101ccc643b8a1af216c64e1a748bffe921419536b99c17a42c943fa380f286e6._SX300_.jpg');
 
 INSERT INTO filme_diretor VALUES (5, 5);
-INSERT INTO filme_produtora VALUES (5, 5), (5,6);
+INSERT INTO filme_produtora VALUES (5, 5), (5, 6);
 INSERT INTO filme_ator VALUES (5, 8), (5, 9);
 INSERT INTO filme_genero VALUES (5, 8), (5, 9);
 
@@ -305,128 +305,353 @@ INSERT INTO filme_genero VALUES (5, 8), (5, 9);
 INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer, nota_imdb, em_alta)
 VALUES (
     'Como Treinar o Seu Dragão (2025)',
-    'https://m.media-amazon.com/images/M/MV5BNjQ2Y2E2ZDYtYzE0Mi00OGVmLTgxMDUtMWJhOGVjZjliNDE2XkEyXkFqcGc@._V1_.jpg',
-    'https://m.media-amazon.com/images/M/MV5BYWRmZTc2ODQtNjU4My00NDViLTg1MzQtYTU2Y2JmYjhjZjg1XkEyXkFqcGc@._V1_.jpg',
+    'https://i.ytimg.com/vi/pPeyZiQIlOg/maxresdefault.jpg',
+    'https://br.web.img3.acsta.net/img/2c/59/2c5907be8f52c06b3cba679cd43d2ed7.jpg',
     '2025-06-13',
-    '130',
+    '2h 5min',
     'Adaptação live-action da famosa animação, mostrando Soluço e Banguela explorando a amizade entre humanos e dragões.',
-    'https://www.youtube.com/watch?v=BSQH6z0B3cI',
-    0,
+    'https://youtu.be/CWTy1ukPoYY?si=mmMCcBdA5pgNR4R6',
+    5,
     TRUE
 );
 
 INSERT INTO diretores (nome) VALUES ('Dean DeBlois');
-INSERT INTO produtoras (nome) VALUES ('Universal Pictures');
+INSERT INTO produtoras (nome) VALUES ('DreamWorks Animation');
 INSERT INTO atores (nome, foto) VALUES
-('Mason Thames', 'https://upload.wikimedia.org/wikipedia/commons/5/52/Mason_Thames_2022.jpg'),
-('Nico Parker', 'https://upload.wikimedia.org/wikipedia/commons/d/dc/Nico_Parker_2023.jpg'),
-('Gerard Butler', 'https://upload.wikimedia.org/wikipedia/commons/1/10/Gerard_Butler_2019.jpg');
+('Nico Parker', 'https://image.tmdb.org/t/p/w500/gt0NJClVSCPCEfcPgcLj3f85uLa.jpg'),
+('Gerard Butler', 'https://br.web.img3.acsta.net/pictures/18/10/17/19/01/1393995.jpg');
 
-INSERT INTO filme_diretor VALUES (5, 5);
-INSERT INTO filme_produtora VALUES (5, 5);
-INSERT INTO filme_ator VALUES (5, 8), (5, 13), (5, 14);
-INSERT INTO filme_genero VALUES (5, 2), (5, 3), (5, 17);
+INSERT INTO filme_diretor VALUES (6, 6);
+INSERT INTO filme_produtora VALUES (6, 7);
+INSERT INTO filme_ator VALUES (6, 5), (6, 10), (6, 11);
+INSERT INTO filme_genero VALUES (6, 2), (6, 3), (6, 17);
 
 -- FILME 7
 INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer, nota_imdb, em_alta)
 VALUES (
     'Ainda Estou Aqui',
-    'https://m.media-amazon.com/images/M/MV5BYmY2ZTVhYjItZjMyNi00MWJlLThlOTAtZDRhMGM4MTg1NzM0XkEyXkFqcGc@._V1_.jpg',
-    'https://m.media-amazon.com/images/M/MV5BMTUzMDIyY2QtYmRlNy00ZjkwLWFmZjAtZjM1ZmU4NDI3NzgxXkEyXkFqcGc@._V1_.jpg',
-    '2024-09-12',
-    '122',
-    'Baseado em história real, retrata o drama de uma mãe que busca seu filho desaparecido durante a ditadura militar brasileira.',
-    'https://www.youtube.com/watch?v=r5ZkSmN7SNg',
-    8,
+    'https://cdn.jornaldebrasilia.com.br/wp-content/uploads/2025/01/23113119/ainda-estou-aqui-estreia-hoje-nos-cinemas-brasileiros-v0-hi36wvi5qizd1.webp',
+    'https://www.adufg.org.br/images/uma-conquista-brasileira-ainda-estou-aqui-recebe-tres-indicacoes-no-oscar-com-tematica-que-nao-podemos-esquecer-591.png',
+    '2024-11-07',
+    '2h 15min',
+    'Baseado em uma história real, retrata a história da advogada Eunice Paiva durante a ditadura militar no Brasil, quando seu marido, o ex-deputado Rubens Paiva, é sequestrado e desaparece. Diante da violência do regime, Eunice precisa se reinventar para criar seus cinco filhos e lutar pela verdade sobre o destino do marido, uma busca que se estenderia por décadas. ',
+    'https://youtu.be/w9CHdJF-4vU?si=Osl4nKKuKfn8u0B7',
+    5,
     TRUE
 );
 
 INSERT INTO diretores VALUES ('Walter Salles');
-INSERT INTO produtoras VALUES ('Gullane Filmes');
+INSERT INTO produtoras VALUES ('RT Features');
+INSERT INTO produtoras VALUES ('VideoFilmes');
 INSERT INTO atores VALUES
-('Fernanda Torres', 'https://upload.wikimedia.org/wikipedia/commons/7/74/Fernanda_Torres_2013.jpg'),
-('Bruna Linzmeyer', 'https://upload.wikimedia.org/wikipedia/commons/2/29/Bruna_Linzmeyer_2016.jpg'),
-('Gabriel Leone', 'https://upload.wikimedia.org/wikipedia/commons/8/86/Gabriel_Leone_2017.jpg');
+('Fernanda Torres', 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Fernanda_Torres_at_the_2024_Toronto_International_Film_Festival_6.jpg/960px-Fernanda_Torres_at_the_2024_Toronto_International_Film_Festival_6.jpg');
 
-INSERT INTO filme_diretor VALUES (6, 6);
-INSERT INTO filme_produtora VALUES (6, 6);
-INSERT INTO filme_ator VALUES (6, 15), (6, 16), (6, 17);
-INSERT INTO filme_genero VALUES (6, 8), (6, 9), (6, 15);
+INSERT INTO filme_diretor VALUES (7, 7);
+INSERT INTO filme_produtora VALUES (7, 8), (7, 9);
+INSERT INTO filme_ator VALUES (7, 12);
+INSERT INTO filme_genero VALUES (7, 15), (7, 7), (7, 14);
 
 -- FILME 8
 INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer, nota_imdb, em_alta)
 VALUES (
-    'Superman (2025)',
-    'https://m.media-amazon.com/images/M/MV5BM2MyZTlkNzEtYjM2NS00ZjQ2LWIxM2QtNDA2OGY3ZTU4ZThmXkEyXkFqcGc@._V1_.jpg',
-    'https://m.media-amazon.com/images/M/MV5BMjRjNDk2ZTQtZmI0Ny00Y2ZmLTk0NDctNTJmNjU3YzljYzM4XkEyXkFqcGc@._V1_.jpg',
-    '2025-07-11',
-    '140',
-    'Reinício do herói da DC, dirigido por James Gunn, mostrando Clark Kent em seus primeiros dias como o Homem de Aço.',
-    'https://www.youtube.com/watch?v=t0tG6-TK9Xw',
-    0,
+    'Superman',
+    'https://admin.cnnbrasil.com.br/wp-content/uploads/sites/12/2025/08/Superman-2025.png?w=1200&h=900&crop=1',
+    'https://br.web.img3.acsta.net/img/86/64/8664d1b110b95eb32313683f1a655f5f.jpg',
+    '2025-07-10',
+    '2h 9min',
+    'Reinício do herói da DC, dirigido por James Gunn, mostrando Clark Kent em seus primeiros dias como o Homem de Aço, tentando equilibrar sua herança kryptoniana com sua criação como Clark Kent no Kansas, enquanto enfrenta um mundo que questiona seus ideais de bondade e justiça.',
+    'https://youtu.be/14qzQDMcTqM?si=ZLJWMg7qqytHaMGa',
+    3,
     TRUE
 );
 
 INSERT INTO diretores VALUES ('James Gunn');
 INSERT INTO produtoras VALUES ('DC Studios');
 INSERT INTO atores VALUES
-('David Corenswet', 'https://upload.wikimedia.org/wikipedia/commons/5/57/David_Corenswet_2019.jpg'),
-('Rachel Brosnahan', 'https://upload.wikimedia.org/wikipedia/commons/d/d4/Rachel_Brosnahan_2019.jpg'),
-('Nicholas Hoult', 'https://upload.wikimedia.org/wikipedia/commons/0/0e/Nicholas_Hoult_2019.jpg');
+('David Corenswet', 'https://br.web.img3.acsta.net/pictures/20/01/07/17/21/0850335.jpg'),
+('Nicholas Hoult', 'https://br.web.img3.acsta.net/pictures/19/10/11/03/35/2265623.jpg');
 
-INSERT INTO filme_diretor VALUES (7, 7);
-INSERT INTO filme_produtora VALUES (7, 7);
-INSERT INTO filme_ator VALUES (7, 18), (7, 19), (7, 20);
-INSERT INTO filme_genero VALUES (7, 1), (7, 6), (7, 9);
+INSERT INTO filme_diretor VALUES (8, 8);
+INSERT INTO filme_produtora VALUES (8, 10);
+INSERT INTO filme_ator VALUES (8, 13), (8, 14);
+INSERT INTO filme_genero VALUES (8, 1), (8, 9);
 
 -- FILME 9
 INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer, nota_imdb, em_alta)
 VALUES (
     'F1',
-    'https://m.media-amazon.com/images/M/MV5BZDcyMTdjYzctMmE4Ni00NmQzLThjN2MtYjE3MDA1M2FlYTI2XkEyXkFqcGc@._V1_.jpg',
-    'https://m.media-amazon.com/images/M/MV5BYWY1MjExZWEtYjY0Yy00ZmQ3LWE4OTAtYmFhNTkzOTk1MjU3XkEyXkFqcGc@._V1_.jpg',
+    'https://rollingstone.com.br/wp-content/uploads/2025/07/f1-filme-estrelado-por-brad-pitt-bate-recorde-de-bilheteria-em-apenas-10-dias.jpg',
+    'https://ingresso-a.akamaihd.net/prd/img/movie/f1-o-filme/3a0a118e-8bf3-4e10-b45d-f028cd49b001.webp',
     '2025-06-27',
-    '130',
-    'Filme de ação estrelado por Brad Pitt como um piloto veterano que retorna à Fórmula 1 para treinar um jovem talento.',
-    'https://www.youtube.com/watch?v=ZqSqa8W9WiI',
-    0,
+    '2h 35min',
+    'Na década de 1990, Sonny Hayes era o piloto mais promissor da Fórmula 1 até que um acidente na pista quase encerrou sua carreira. Trinta anos depois, o proprietário de uma equipe de Fórmula 1 em dificuldades convence Sonny a voltar a correr e se tornar o melhor do mundo.',
+    'https://youtu.be/ZiDphkXCZsQ?si=SomMKPERagnAThdW',
+    4,
     TRUE
 );
 
 INSERT INTO diretores VALUES ('Joseph Kosinski');
 INSERT INTO produtoras VALUES ('Apple Studios');
 INSERT INTO atores VALUES
-('Brad Pitt', 'https://upload.wikimedia.org/wikipedia/commons/f/f1/Brad_Pitt_2019.jpg'),
-('Damson Idris', 'https://upload.wikimedia.org/wikipedia/commons/b/b1/Damson_Idris_2019.jpg'),
-('Kerry Condon', 'https://upload.wikimedia.org/wikipedia/commons/2/2a/Kerry_Condon_2022.jpg');
+('Brad Pitt', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS49q2IH6MCj-DC0zl8INPrZb4rIrXyCWwxIHCyWIlX3V9E42BYi6GGFIqaB_TicxUGqWdEIyf2UVTfGaCw1WKRZIJAVOcCWPybsAUVoA&s=10');
 
-INSERT INTO filme_diretor VALUES (8, 8);
-INSERT INTO filme_produtora VALUES (8, 8);
-INSERT INTO filme_ator VALUES (8, 21), (8, 22), (8, 23);
-INSERT INTO filme_genero VALUES (8, 1), (8, 17), (8, 8);
+INSERT INTO filme_diretor VALUES (9, 9);
+INSERT INTO filme_produtora VALUES (9, 11);
+INSERT INTO filme_ator VALUES (9, 15);
+INSERT INTO filme_genero VALUES (9, 1), (9, 2), (9, 16);
 
 -- FILME 10
-INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer, nota_imdb, em_alta)
+INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer, em_alta)
 VALUES (
-    'Five Nights at Freddy''s 2',
-    'https://m.media-amazon.com/images/M/MV5BMzJlZWJmNzQtZTk0ZC00ZjRmLWIxM2QtNWIyZDIxYzE0NzAxXkEyXkFqcGc@._V1_.jpg',
-    'https://m.media-amazon.com/images/M/MV5BMDAxZjA1OWEtNzYzZS00MTEzLTk0Y2ItNDMyOTIzZmM1NzJkXkEyXkFqcGc@._V1_.jpg',
+    'Five Nights at Freddy`s 2',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrQyvT7kRe0V8PJjciERD_YM4-qako776rkQ&s',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmWvSgIBmJh3tZzXwYKdVvuknFt2Gh4MgQ6w&s',
     '2025-12-05',
-    '115',
-    'Continuação do terror baseado no famoso jogo, trazendo novos animatrônicos e uma história mais sombria.',
-    'https://www.youtube.com/watch?v=0VHkFJ8nGxk',
-    0,
+    '1h 44min',
+    'Um ano após o primeiro filme, Five Nights at Freddy`s 2 gira em torno de Abby, a irmã de Mike, que foge para se reconectar com os animatrônicos. Essa ação desencadeia eventos aterrorizantes que revelam segredos sombrios sobre a origem da Freddy`s e despertam um horror esquecido, forçando Mike, Abby e a policial Vanessa a tentar sobreviver.',
+    'https://youtu.be/w8oP0T-7USo?si=P8J4A72eTCp9Pv44',
     FALSE
 );
 
 INSERT INTO diretores VALUES ('Emma Tammi');
-INSERT INTO produtoras VALUES ('Blumhouse Productions');
 INSERT INTO atores VALUES
-('Josh Hutcherson', 'https://upload.wikimedia.org/wikipedia/commons/2/2c/Josh_Hutcherson_2015.jpg'),
-('Matthew Lillard', 'https://upload.wikimedia.org/wikipedia/commons/7/77/Matthew_Lillard_2019.jpg'),
-('Elizabeth Lail', 'https://upload.wikimedia.org/wikipedia/commons/9/9b/Elizabeth_Lail_2019.jpg');
+('Josh Hutcherson', 'https://ntvb.tmsimg.com/assets/assets/270768_v9_bd.jpg?w=360&h=480'),
+('Piper Rubio', 'https://m.media-amazon.com/images/M/MV5BODQwNzRkNzYtMjdhNi00MDQ3LWIxNzItZGRhMTljZThhZTJkXkEyXkFqcGc@._V1_.jpg'),
+('Elizabeth Lail', 'https://br.web.img3.acsta.net/pictures/18/12/30/22/15/3265750.jpg');
 
-INSERT INTO filme_diretor VALUES (9, 9);
-INSERT INTO filme_produtora VALUES (9, 3);
-INSERT INTO filme_ator VALUES (9, 24), (9, 25), (9, 26);
-INSERT INTO filme_genero VALUES (9, 4), (9, 5), (9, 9);
+INSERT INTO filme_diretor VALUES (10, 10);
+INSERT INTO filme_produtora VALUES (10, 3);
+INSERT INTO filme_ator VALUES (10, 16), (10, 17), (10, 18);
+INSERT INTO filme_genero VALUES (10, 4), (10, 5), (10, 9);
+
+-- FILME 11
+INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer, em_alta)
+VALUES (
+    'Anaconda',
+    'https://www.correiodopovo.com.br/image/contentid/policy:1.1657646:1760115580/BRAZIL%20Anaconda_INTL_Online_1080x1350_Data.png?f=4x3&q=0.9&w=800&$p$f$q$w=9325e3f',
+    'https://br.web.img3.acsta.net/img/85/6f/856f5aefb5ff340f1b8e5950ca0e0f08.jpg',
+    '2025-12-25',
+    '00h 00min',
+    'Dois amigos de infância, em meio a uma crise de meia-idade, decidem realizar um sonho antigo: refazer seu filme favorito da juventude, o Anaconda original. A aventura cômica se transforma em uma luta pela sobrevivência quando uma anaconda gigante real aparece, forçando-os a enfrentar não apenas a ameaça da cobra, mas também desastres naturais e criminosos na Amazônia.',
+    'https://youtu.be/o33HZ-Xov98?si=5soMMW7C3qrGHJbZ',
+    FALSE
+);
+
+INSERT INTO diretores (nome) VALUES ('Tom Gormican');
+INSERT INTO produtoras (nome) VALUES ('Columbia Pictures');
+INSERT INTO atores (nome, foto) VALUES
+('Jack Black', 'https://static.wikia.nocookie.net/music/images/4/4d/Jack_Black.jpg/revision/latest?cb=20180702021339'),
+('Paul Rudd', 'https://m.media-amazon.com/images/M/MV5BMTY4NTEwNDg1MV5BMl5BanBnXkFtZTgwODMwMDA0ODE@._V1_FMjpg_UX1000_.jpg');
+
+INSERT INTO filme_diretor VALUES (11, 11);
+INSERT INTO filme_produtora VALUES (11, 12);
+INSERT INTO filme_ator VALUES (11, 19), (11, 20);
+INSERT INTO filme_genero VALUES (11, 4), (11, 1), (11, 2);
+
+-- FILME 12
+INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer)
+VALUES (
+    'Michael',
+    'https://popseries.com.br/wp-content/uploads/2025/11/michael-filme-2025-990x440.jpg',
+    'https://upload.wikimedia.org/wikipedia/pt/3/3c/Michael_%28filme_2026%29.jpg',
+    '2026-04-23',
+    '00h 00min',
+    'Michael é uma futura cinebiografia musical norte-americana baseada na vida do cantor, compositor e dançarino Michael Jackson.',
+    'https://youtu.be/KDDVHnLB4eE?si=mUkZb0N5JmHXKE_U'
+);
+
+INSERT INTO diretores (nome) VALUES ('Antoine Fuqua');
+INSERT INTO produtoras (nome) VALUES ('Lionsgate Studios');
+INSERT INTO atores (nome, foto) VALUES
+('Jaafar Jackson', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrPm8LPOoaFKMNSig0K4nY3ZvXPZd9rtzcn3dPalLE3zbyLsnRBiavltFoggDDTvsWa3fe-g4Q-affAIwyvmZfaNFNC4jDSRaLz5ILR1c&s=10');
+INSERT INTO filme_diretor VALUES (12, 12);
+INSERT INTO filme_produtora VALUES (12, 13);
+INSERT INTO filme_ator VALUES (12, 21);
+INSERT INTO filme_genero VALUES (12, 11), (12, 15);
+
+-- FILME 13
+INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer, nota_imdb, em_alta)
+VALUES (
+    'Vingadores: Guerra Infinita',
+    'https://assets.b9.com.br/wp-content/uploads/2018/04/av.jpg',
+    'https://upload.wikimedia.org/wikipedia/pt/9/90/Avengers_Infinity_War.jpg',
+    '2018-04-26',
+    '2h 29min',
+    'Os Vingadores unem forças para impedir Thanos de reunir as Joias do Infinito e eliminar metade do universo.',
+    'https://youtu.be/t_ULBP6V9bg?si=RuWr0nQcZwPmdM5u',
+    5,
+    FALSE
+);
+
+INSERT INTO diretores (nome) VALUES ('Anthony Russo');
+INSERT INTO atores (nome, foto) VALUES
+('Robert Downey Jr.', 'https://br.web.img3.acsta.net/c_310_420/pictures/18/06/29/00/35/0101925.jpg'),
+('Chris Evans', 'https://br.web.img2.acsta.net/pictures/19/04/22/19/59/2129500.jpg'),
+('Josh Brolin', 'https://br.web.img3.acsta.net/c_310_420/pictures/18/06/21/17/52/2749597.jpg'),
+('Chris Hemsworth', 'https://images.mubicdn.net/images/cast_member/24207/cache-62264-1615052248/image-w856.jpg'),
+('Scarlett Johansson', 'https://image.tmdb.org/t/p/w500/mjReG6rR7NPMEIWb1T4YWtV11ty.jpg'),
+('Mark Ruffalo', 'https://br.web.img3.acsta.net/pictures/19/04/22/20/02/3083743.jpg'),
+('Tom Holland', 'https://br.web.img3.acsta.net/pictures/19/07/01/23/18/1152169.jpg'),
+('Elizabeth Olsen', 'https://image.tmdb.org/t/p/original/mbMsmQE5CyMVTIGMGCw2XpcPCOc.jpg');
+
+INSERT INTO filme_diretor VALUES (13, 13);
+INSERT INTO filme_produtora VALUES (13, 1);
+INSERT INTO filme_ator VALUES (13, 22), (13, 23), (13, 24), (13, 25), (13, 26), (13, 27), (13, 28), (13, 29), (13, 30);
+INSERT INTO filme_genero VALUES (13, 1), (13, 2), (13, 9);
+
+-- FILME 14
+INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer, nota_imdb)
+VALUES (
+    'The Batman',
+    'https://ingresso-a.akamaihd.net/b2b/production/uploads/article/image/385/imagem-the-batman-filme-robert-pattinson-sera-o-mais-longo-do-super-heroi-confira-a-duracao.jpg',
+    'https://upload.wikimedia.org/wikipedia/pt/thumb/3/38/The_Batman_poster.jpg/250px-The_Batman_poster.jpg',
+    '2022-03-03',
+    '2h 56min',
+    'Após dois anos espreitando as ruas como Batman, Bruce Wayne se encontra nas profundezas mais sombrias de Gotham City. Com poucos aliados confiáveis, o vigilante solitário se estabelece como a personificação da vingança para a população.',
+    'https://youtu.be/mqqft2x_Aa4?si=1JitAq34OPGHnV7o',
+    4
+);
+
+INSERT INTO diretores (nome) VALUES ('Matt Reeves');
+INSERT INTO produtoras (nome) VALUES ('Warner Bros Pictures');
+INSERT INTO atores (nome, foto) VALUES
+('Robert Pattinson', 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Robert_Pattinson_2012.jpg/250px-Robert_Pattinson_2012.jpg');
+INSERT INTO filme_diretor VALUES (14, 14);
+INSERT INTO filme_produtora VALUES (14, 14);
+INSERT INTO filme_ator VALUES (14, 31);
+INSERT INTO filme_genero VALUES (14, 1), (14, 13), (14, 5);
+
+-- FILME 15
+INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer, nota_imdb)
+VALUES (
+    'Homem-Aranha: Sem Volta para Casa',
+    'https://occ-0-8407-2218.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABcaZlB5cBXaQovKzRNe3DLOD5xe5ug2Msp7y4SHAFXs8Uu-s9esOCD1X3jnbYZZ4Dm-tM-cOgWh1FDmFD0wIfIfbrkpJAoULvXWX.jpg?r=c9b',
+    'https://conteudo.imguol.com.br/c/entretenimento/65/2021/12/14/cartaz-de-homem-aranha-sem-volta-para-casa-1639517284758_v2_3x4.jpg',
+    '2021-12-16',
+    '2h 28min',
+    'Peter Parker tem a sua identidade secreta revelada e pede ajuda ao Doutor Estranho. Quando o feitiço para reverter o evento não sai como esperado, o Homem-Aranha e o seu companheiro dos Vingadores precisam enfrentar inimigos de todo o multiverso.',
+    'https://youtu.be/FDNNHh7TRN0?si=6b_1pMGxFcFaRLTI',
+    4
+);
+
+INSERT INTO diretores (nome) VALUES ('Jon Watts');
+INSERT INTO atores (nome, foto) VALUES
+('Tom Holland', 'https://upload.wikimedia.org/wikipedia/commons/b/b9/Tom_Holland_2022.jpg'),
+('Zendaya', 'https://upload.wikimedia.org/wikipedia/commons/2/25/Zendaya_2023.jpg');
+INSERT INTO filme_diretor VALUES (15, 15);
+INSERT INTO filme_produtora VALUES (15, 1), (15, 12);
+INSERT INTO filme_ator VALUES (15, 26), (15, 27);
+INSERT INTO filme_genero VALUES (15, 1), (15, 2);
+
+-- FILME 16
+INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer, nota_imdb)
+VALUES (
+    'Até o Último Homem',
+    'https://m.media-amazon.com/images/S/pv-target-images/1722e127c4ec694899ab42956a327a9557450e6c14ddf9393f8564ae5f82ed06.png',
+    'https://br.web.img3.acsta.net/pictures/16/11/21/15/29/457312.jpg',
+    '2017-01-26',
+    '2h 19min',
+    'A história real de Desmond Doss, um médico de guerra que se recusou a portar armas, mas salvou 75 homens em Okinawa.',
+    'https://youtu.be/KHZG7NnjVxM?si=2LT4wxYPNMnW0PBr',
+    5
+);
+
+INSERT INTO diretores (nome) VALUES ('Mel Gibson');
+INSERT INTO produtoras (nome) VALUES ('Summit Entertainment');
+INSERT INTO atores (nome, foto) VALUES
+('Andrew Garfield', 'https://media.themoviedb.org/t/p/w500/5ydZ6TluPtxlz5G8nlWMB7SGmow.jpg');
+INSERT INTO filme_diretor VALUES (16, 16);
+INSERT INTO filme_produtora VALUES (16, 15);
+INSERT INTO filme_ator VALUES (16, 28);
+INSERT INTO filme_genero VALUES (16, 14), (16, 13);
+
+-- FILME 17
+INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer, nota_imdb)
+VALUES (
+    'Cowspiracy',
+    'https://occ-0-8407-2218.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABRl1_sUWDz3fmXYrEzC8C2tuf91pSoEVpGiQJDtj0J0j1i-AP3hZ67sqJ2id6Ysg3ZA8Tq-hbA6Nc6XVYCOC3V6hhVH_TVsv-k5o.jpg?r=c4d',
+    'https://m.media-amazon.com/images/I/81Di7YpouiL.jpg',
+    '2014-06-26',
+    '1h 30min',
+    'Documentário que investiga o impacto ambiental da pecuária e o silêncio das organizações ecológicas sobre o tema.',
+    'https://youtu.be/nV04zyfLyN4?si=4JqEpAgDIXCdRx1l',
+    4
+);
+
+INSERT INTO diretores (nome) VALUES ('Kip Andersen');
+INSERT INTO produtoras (nome) VALUES ('A.U.M. Films');
+INSERT INTO filme_diretor VALUES (17, 17);
+INSERT INTO filme_produtora VALUES (17, 16);
+INSERT INTO filme_genero VALUES (17, 10);
+
+
+-- FILME 18
+INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer, nota_imdb)
+VALUES (
+    'Moana: Um Mar de Aventuras',
+    'https://lumiere-a.akamaihd.net/v1/images/eu_moana-movie_hero_r_ed9602c0.jpeg',
+    'https://br.web.img3.acsta.net/pictures/16/09/12/22/13/415370.jpg',
+    '2017-01-05',
+    '1h 53min',
+    'Moana, filha do chefe de uma ilha polinésia, parte em uma jornada para salvar seu povo com a ajuda do semideus Maui.',
+    'https://youtu.be/LKFuXETZUsI?si=8pPZUifNecqM75hJ',
+    4
+);
+
+INSERT INTO diretores (nome) VALUES ('Ron Clements');
+INSERT INTO produtoras (nome) VALUES ('Walt Disney Pictures');
+INSERT INTO atores (nome, foto) VALUES
+('Auli`i Cravalho', 'https://br.web.img3.acsta.net/pictures/19/03/12/00/26/0962796.jpg'),
+('Dwayne Johnson', 'https://br.web.img2.acsta.net/c_310_420/pictures/19/03/14/22/50/2171610.jpg');
+
+INSERT INTO filme_diretor VALUES (18, 18);
+INSERT INTO filme_produtora VALUES (18, 17);
+INSERT INTO filme_ator VALUES (18, 29), (18, 30);
+INSERT INTO filme_genero VALUES (18, 3), (18, 2), (18, 17);
+
+-- FILME 19
+INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer, nota_imdb)
+VALUES (
+    'Os Croods',
+    'https://media.licdn.com/dms/image/v2/C5612AQGRzDhaKs5kjQ/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1520208242846?e=2147483647&v=beta&t=LTUk6hiDsTz97ASdtExLp1pK3gybXYs4R21lY0OuAUA',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzXoJ7QqMuthq_h0obaNtu8A0RWU7arLc34Q&s',
+    '2013-03-21',
+    '1h 38min',
+    'Uma família pré-histórica parte em uma aventura depois que sua caverna é destruída, em busca de um novo lar, liderados por um garoto muito imaginativo que lhes ajuda a desbravar um mundo inteiramente novo.',
+    'https://youtu.be/-nPvii8SM3U?si=K7Asl2k-1wEauEGZ',
+    4
+);
+
+INSERT INTO diretores (nome) VALUES ('Chris Sanders');
+INSERT INTO atores (nome, foto) VALUES
+('Nicolas Cage', 'https://upload.wikimedia.org/wikipedia/commons/f/f3/Nicolas_Cage_-_66%C3%A8me_Festival_de_Venise_%28Mostra%29.jpg'),
+('Emma Stone', 'https://m.media-amazon.com/images/M/MV5BMjI4NjM1NDkyN15BMl5BanBnXkFtZTgwODgyNTY1MjE@._V1_.jpg');
+('Ryan Reynolds', 'https://goldenglobes.com/wp-content/uploads/2023/10/ryan_reynolds_gettyimages-630281680.jpg?w=1968');
+
+INSERT INTO filme_diretor VALUES (19, 19);
+INSERT INTO filme_produtora VALUES (19, 7);
+INSERT INTO filme_ator VALUES (19, 31), (19, 32), (19, 33);
+INSERT INTO filme_genero VALUES (19, 3), (19, 2), (19, 17);
+
+-- FILME 20
+INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer, nota_imdb)
+VALUES (
+    'Luca',
+    'https://assets.b9.com.br/wp-content/uploads/2021/06/aI5S2WMoTFVgBznYi2DP3WRojCl-scaled.jpg',
+    'https://br.web.img2.acsta.net/r_1280_720/pictures/21/04/28/15/52/1967183.jpg',
+    '2021-06-13',
+    '1h 35min',
+    'Luca vive um verão inesquecível na Riviera Italiana, mas esconde o segredo de ser um monstro marinho que assume forma humana na superfície.',
+    'https://youtu.be/mYfJxlgR2jw?si=q8xkDjw7B-8GmgAm',
+    5
+);
+
+INSERT INTO diretores (nome) VALUES ('Enrico Casarosa');
+INSERT INTO produtoras (nome) VALUES ('Pixar Animation Studios');
+INSERT INTO atores (nome, foto) VALUES
+('Jacob Tremblay', 'https://br.web.img2.acsta.net/pictures/20/01/04/00/32/5981389.jpg'),
+('Jack Dylan Grazer', 'https://static.wikia.nocookie.net/disney/images/9/96/Jack_Dylan_Grazer.jpg/revision/latest?cb=20210429180401&path-prefix=pt-br');
+INSERT INTO filme_diretor VALUES (20, 20);
+INSERT INTO filme_produtora VALUES (20, 18), (20, 17);
+INSERT INTO filme_ator VALUES (20, 34), (20, 35);
+INSERT INTO filme_genero VALUES (20, 3), (20, 17);
