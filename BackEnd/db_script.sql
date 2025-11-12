@@ -655,3 +655,20 @@ INSERT INTO filme_diretor VALUES (20, 20);
 INSERT INTO filme_produtora VALUES (20, 18), (20, 17);
 INSERT INTO filme_ator VALUES (20, 34), (20, 35);
 INSERT INTO filme_genero VALUES (20, 3), (20, 17);
+
+
+-- Consulta
+SELECT *,
+atores.nome AS ator,
+produtoras.nome AS produtora,
+generos.nome AS genero,
+diretores.nome AS diretor
+FROM filmes
+JOIN (filme_ator ON filme_ator.filme_id = filmes.id)
+JOIN (atores ON atores.id = filme_ator.ator_id)
+JOIN (filme_produtora ON filme_produtora.filme_id = filmes.id)
+JOIN (produtoras ON produtoras.id = filme_produtora.produtora_id)
+JOIN (filme_diretor ON filme_diretor.filme_id = filmes.id)
+JOIN (diretores ON produtoras.id = filme_diretor.diretor_id)
+JOIN (filme_genero ON filme_genero.filme_id = filmes.id)
+JOIN (generos ON generos.id = filme_genero.genero_id);
