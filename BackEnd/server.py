@@ -1,21 +1,23 @@
-# Servidor as da api
+# Servidor das rotas da api
 
-from listas http.server import BaseHTTPRequestHandler, HTTPSerport json 
-from listas urllib.parse import ur parse_qs
+from http.server import BaseHTTPRequestHandler, HTTPServer 
+import json 
+from urllib.parse import urlparse, parse_qs
 
-from listas core.configs Settings 
-from listas core.database impoconnection
-from listas api.logic.filmes import get_filme_por_id, get_movies, cadastrar_filme, update_movete_movie 
-from listas api.logic.atores import cadastrar_ator,ll_actors 
-from listas api.logic.produtoras import list_all_producers, cadprodutora 
-from listas api.logic.generos importll_genres 
-from listas api.logic.diretores import list_all_directors, cr_diretor 
-from listas api.logic.solicitacoes import listar_solicitacoes, criar_solicitacao, recusar_solicitacao, aceitar_solicitacao, get_soao_por_id 
-from listas api.logic.avaliacoes import listar_avaliacoes_filme, adicionar_avaliacao, get_ao_usuario 
-from listas api.logic.listas import add_movie_to_list, create_list, delete_list, edit_list, remover_filme_lista, gas_usuario
-from listas api.logic.usuarios import cadastrar_usuario, edit_user, delete_user, login_usuario, refresh_tokenuser_by_id
-from listas core.middlewares.CORSMiddleware imlicar_cors
-from listas core.middlewares.authMiddleware import autenticar
+from core.configs import Settings 
+from core.database import get_connection
+from api.logic.filmes import get_filme_por_id, get_movies, cadastrar_filme, update_movie, delete_movie 
+from api.logic.atores import cadastrar_ator, list_all_actors 
+from api.logic.produtoras import list_all_producers, cadastrar_produtora 
+from api.logic.generos import list_all_genres 
+from api.logic.diretores import list_all_directors, cadastrar_diretor 
+from api.logic.solicitacoes import listar_solicitacoes, criar_solicitacao, recusar_solicitacao, aceitar_solicitacao, get_solicitacao_por_id 
+from api.logic.avaliacoes import listar_avaliacoes_filme, adicionar_avaliacao, get_avaliacao_usuario 
+from api.logic.listas import add_movie_to_list, create_list, delete_list, edit_list, remover_filme_lista, get_listas_usuario
+from api.logic.usuarios import cadastrar_usuario, edit_user, delete_user, login_usuario, refresh_tokens, get_me_from_token
+from api.logic.usuarios import cadastrar_usuario, edit_user, delete_user, login_usuario, refresh_tokens, get_user_by_id
+from core.middlewares.CORSMiddleware import aplicar_cors
+from core.middlewares.authMiddleware import autenticar
 
 
 ''' 
@@ -28,7 +30,7 @@ ParseResult(
     fragment='' 
 ) 
 
-- parse_qs (transforma algo em dicionáario python com valores sempre como listas): 
+- parse_qs (transforma algo em dicionário python com valores sempre como listas): 
 {'ano': ['2000'], 'lang': ['pt', 'en']} 
 ''' 
 
@@ -438,27 +440,25 @@ class MyHandler(BaseHTTPRequestHandler):
 				self.enviar_json(401, payload)
 				return
 			
-			dados = self.read_body() 
-			usuario_id = dados['usuario_id'] 
+			dados = self.read_body()
+			usuario_id = int(dados['usuario_id'])
 
 			# confirmar o user
 			if usuario_id != int(payload.get('sub')):
-				self.enviar_json(403, {'Erro': 'Acesso negado: você só pode fazer solicitações com a sua prórpia conta'})
+				self.enviar_json(403, {'Erro': 'Acesso negado: você só pode fazer solicitações com a sua própria conta'})
 				return
 
-			filme_json = dados['filme'] 
-			tipo = dados['tipo'] 
-			filme_id = dados.get('filme_id', None) 
-			
-			response = criar_solicitacao(usuario_id, filme_json, tipo, filme_id) 
-			
+			filme_json = dados['filme']
+			tipo = dados['tipo']
+			filme_id = dados.get('filme_id')  # pode ser None
+
+			response = criar_solicitacao(usuario_id, filme_json, tipo, filme_id)
+
 			if 'Erro' in response:
-				self.enviar_json(400, response) 
-				return
-			else: 
-				self.enviar_json(201, response) 
-				return
-				
+				self.enviar_json(400, response)
+			else:
+				self.enviar_json(201, response)
+
 		# --------------------------------------------- 
 		
 		# Nova avaliação de filme 
@@ -470,7 +470,7 @@ class MyHandler(BaseHTTPRequestHandler):
 				return
 			
 			dados = self.read_body() 
-			usuario_id = dados['usuario_id'] 
+			usuario_id = int(dados['usuario_id'])
 
 			# confirmar o user
 			if usuario_id != int(payload.get('sub')):
@@ -501,7 +501,7 @@ class MyHandler(BaseHTTPRequestHandler):
 				return
 			
 			dados = self.read_body() 
-			usuario_id = dados['usuario_id'] 
+			usuario_id = int(dados['usuario_id'])
 
 			# confirmar o user
 			if usuario_id != int(payload.get('sub')):
@@ -536,7 +536,7 @@ class MyHandler(BaseHTTPRequestHandler):
 			lista_id = dados['lista_id']
 			filme_id = dados['filme_id']
 
-			cursor.execute('SELECT usuario_id FROM listas WHERE listas.id = %s', lista_id)
+			cursor.execute('SELECT usuario_id FROM listas WHERE listas.id = %s', (lista_id,))
 			usuario_id = cursor.fetchone()
 
 			# confirmar o user
@@ -617,9 +617,8 @@ class MyHandler(BaseHTTPRequestHandler):
 
 	# ==================== Rotas PUT ==================== 
 	def do_PUT(self): 
-		# Edição de filme 
-		if self.path.startswith(f'{API}/filmes'): 
-			# somente admin pode editar filmes no sistema
+		# Edição de filme (apenas admin)
+		if self.path.startswith(f'{API}/filmes'):
 			payload = autenticar(self)
 			if 'Erro' in payload:
 				self.enviar_json(401, payload)
@@ -628,28 +627,31 @@ class MyHandler(BaseHTTPRequestHandler):
 				self.enviar_json(403, {'Erro': 'Acesso negado: apenas administradores podem editar filmes'})
 				return
 
-			try: 
-				filme_id = int(self.path.split('/')[-1]) 
-			except ValueError: 
-				self.enviar_json(400, {'Erro': 'ID inválido'}) 
-				return 
-			
-			dados = self.read_body() 
-			filme = dados['filme'] 
-			solicitacao_id = dados.get('solicitacao_id', None) 
-			
-			response = update_movie(filme, filme_id) 
-			
-			# se for uma solicitação de usuário -> marcar como aceita 
-			if solicitacao_id: 
-				aceitar_solicitacao(solicitacao_id) 
-				
-			if 'Erro' in response: 
-				self.enviar_json(400, response) 
+			try:
+				filme_id = int(self.path.split('/')[-1])
+			except ValueError:
+				self.enviar_json(400, {'Erro': 'ID inválido'})
 				return
-			else: 
-				self.enviar_json(201, response)
+
+			dados = self.read_body()
+			filme = dados['filme']
+			solicitacao_id = dados.get('solicitacao_id')
+
+			# Atualiza o filme
+			response = update_movie(filme, filme_id)
+			if 'Erro' in response:
+				self.enviar_json(400, response)
 				return
+
+			# Se for solicitação de usuário, marca como aceita
+			if solicitacao_id:
+				resultado = aceitar_solicitacao(solicitacao_id)
+				if 'Erro' in resultado:
+					self.enviar_json(400, resultado)
+					return
+
+			self.enviar_json(200, response)
+			return
 				
 		# --------------------------------------------- 
 		
@@ -670,7 +672,7 @@ class MyHandler(BaseHTTPRequestHandler):
 				self.enviar_json(400, {'Erro': 'ID inválido'}) 
 				return 
 
-			cursor.execute('SELECT usuario_id FROM listas WHERE listas.id = %s', lista_id)
+			cursor.execute('SELECT usuario_id FROM listas WHERE listas.id = %s', (lista_id,))
 			usuario_id = cursor.fetchone()
 
 			# confirmar o user
@@ -783,6 +785,8 @@ class MyHandler(BaseHTTPRequestHandler):
 		
         # Deletar filme de uma lista
 		elif self.path.startswith(f'{API}/listas/filme/'):
+			conn = get_connection()
+			cursor = conn.cursor()
 			# necessário estar logado
 			payload = autenticar(self)
 			if 'Erro' in payload:
@@ -797,7 +801,7 @@ class MyHandler(BaseHTTPRequestHandler):
 				self.enviar_json(400, {'Erro': 'ID inválido'}) 
 				return 
 
-			cursor.execute('SELECT usuario_id FROM listas WHERE listas.id = %s', lista_id)
+			cursor.execute('SELECT usuario_id FROM listas WHERE listas.id = %s', (lista_id,))
 			usuario_id = cursor.fetchone()
 
 			# confirmar o user
@@ -818,6 +822,9 @@ class MyHandler(BaseHTTPRequestHandler):
 		
         # Deletar lista
 		elif self.path.startswith(f'{API}/listas/'):
+			conn = get_connection()
+			cursor = conn.cursor()
+
 			# necessário estar logado
 			payload = autenticar(self)
 			if 'Erro' in payload:
@@ -830,9 +837,16 @@ class MyHandler(BaseHTTPRequestHandler):
 			except ValueError: 
 				self.enviar_json(400, {'Erro': 'ID inválido'}) 
 				return 
+			
+			cursor.execute('SELECT usuario_id FROM listas WHERE listas.id = %s', (lista_id,))
+			usuario_id = cursor.fetchone()
+
+			if usuario_id is None:
+				self.enviar_json(404, {'Erro': 'Lista não encontrada'})
+				return
 
 			# confirmar o user
-			if usuario_id != int(payload.get('sub')):
+			if usuario_id[0] != int(payload.get('sub')):
 				self.enviar_json(403, {'Erro': 'Acesso negado: você só pode deletar suas próprias listas'})
 				return
 			

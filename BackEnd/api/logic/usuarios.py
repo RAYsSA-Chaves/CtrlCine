@@ -208,8 +208,8 @@ def edit_user(requester_payload, user_id_to_edit, data):
     """
 
     # verifica se é realmente o usuário
-    requester_id = requester_payload.get('id')
-    if requester_id != int(user_id_to_edit):
+    requester_id = int(requester_payload.get('sub'))
+    if requester_id != user_id_to_edit:
         return {'Erro': 'Permissões insuficientes'}
 
     # atualiza somente os campos permitidos
