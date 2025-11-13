@@ -14,7 +14,7 @@ def create_list(usuario_id, nome):
 		conn.commit()
 		
 		# monta resposta com o nome da lista
-		response = {'Mensagem': f'Lista "{nome}" criada com sucesso!'}
+		response = {'Mensagem': f'Lista {nome} criada com sucesso!'}
 		
 	except Exception as e:
 		response = {'Erro': str(e)}
@@ -144,7 +144,7 @@ def get_listas_usuario(usuario_id):
 
 			# pega o último filme adicionado para usar como capa
 			cursor.execute('''
-				SELECT filmes.capa 
+				SELECT filmes.capa_vertical 
 				FROM filmes_listas
 				JOIN filmes ON filmes_listas.filme_id = filmes.id
 				WHERE filmes_listas.lista_id = %s

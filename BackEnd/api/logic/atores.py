@@ -134,7 +134,7 @@ def get_actor_name(nome):
 
 	try:
 		# busca o ator no banco
-		cursor.execute('SELECT * FROM atores WHERE atores.nome = %s', (nome,)) 
+		cursor.execute('SELECT * FROM atores WHERE atores.nome LIKE %s',(f"%{nome}%",))
 		ator = cursor.fetchone()
 
 		# ator não encontrado

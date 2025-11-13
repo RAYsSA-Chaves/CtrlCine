@@ -131,7 +131,7 @@ def get_director_name(nome):
 
 	try:
 		# busca o diretor no banco
-		cursor.execute('SELECT * FROM diretores WHERE diretores.nome = %s', (nome,)) 
+		cursor.execute('SELECT * FROM diretores WHERE diretores.nome LIKE %s', (f"%{nome}%",))
 		diretor = cursor.fetchone()
 
 		# diretor não encontrado

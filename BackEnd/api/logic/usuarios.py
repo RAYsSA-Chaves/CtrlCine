@@ -3,7 +3,7 @@
 import datetime
 
 from core.database import get_connection
-from core.security import get_password_hash, verify_password, create_access_token,  create_refresh_token, verify_access_token, verify_refresh_token
+from core.security import get_password_hash, verify_password, create_access_token,  create_refresh_token, verify_access_token, verify_refresh_token, TokenError
 
 
 # ---------- helpers ----------
@@ -18,8 +18,7 @@ def get_user_by_email(email):
 
 		# usuário não encontrado
         if not user:
-            response = {'Mensagem': 'Usuário não encontrado'}
-            return response
+            return None
 
 		# resposta com os dados do usuário
         response = {
@@ -59,7 +58,7 @@ def get_user_by_id(user_id):
             response = {'Mensagem': 'Usuário não encontrado'}
             return response
 
-		# res´psta com os dados do usuário
+		# resposta com os dados do usuário
         response = {
 			'id': user[0], 
 			'nome': user[1],  
@@ -68,7 +67,7 @@ def get_user_by_id(user_id):
             'senha': user[4],
             'foto': user[5],
             'tipo_user': user[6],
-            'data_cadastro': user[7]
+            'data_cadastro': str(user[7])
 		}
 	
 	# erro
@@ -106,7 +105,7 @@ def cadastrar_usuario(data):
         cursor.execute('''
             INSERT INTO usuarios (nome, sobrenome, email, senha, foto, tipo_user, data_cadastro)
             VALUES (%s, %s, %s, %s, %s, %s, %s)
-        ''' (
+        ''', (
             data['nome'],
             data.get('sobrenome', None),
             data['email'],
@@ -184,18 +183,15 @@ def refresh_tokens(refresh_token_str):
             'id': user['id']
         }
 
+    except TokenError as e:
+        return {'Erro': e.message}
     except Exception as e:
-        return {'Erro': str(e)}
+        return {'Erro': f'Erro inesperado: {type(e).__name__} -> {str(e)}'}
     
 # ---------------------------------------------
 
 # Pegar infos do usuário logado (através do token)
-def get_me_from_token(access_token_str):
-    # valida o token
-    payload = verify_access_token(access_token_str)
-    if not payload:
-        return {'Erro': 'Token inválido ou expirado'}
-
+def get_me_from_token(payload):
     # pega infos do usuário no banco
     user_id = payload.get('id')
     user = get_user_by_id(user_id)
@@ -225,7 +221,7 @@ def edit_user(requester_payload, user_id_to_edit, data):
         cursor.execute('''
             UPDATE usuarios 
             SET nome=%s, sobrenome=%s, foto=%s WHERE id=%s
-        ''' (data.get('nome'), data.get('sobrenome'), data.get('foto'), user_id_to_edit))
+        ''', (data.get('nome'), data.get('sobrenome'), data.get('foto'), user_id_to_edit))
         conn.commit()
 
     except Exception as e:

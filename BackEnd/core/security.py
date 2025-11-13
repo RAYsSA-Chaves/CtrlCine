@@ -32,7 +32,7 @@ def create_access_token(user_id: int, role: str):
     expire = now + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     # informações para guardar sobre o token e o usuário:
     payload = {
-        'sub': user_id,
+        'sub': str(user_id),
         'role': role,
         'type': 'access',
         'exp': expire
@@ -45,7 +45,7 @@ def create_refresh_token(user_id: int):
     now = datetime.datetime.now(timezone.utc)
     expire = now + timedelta(days=REFRESH_TOKEN_EXPIRE_DAYS)
     payload = {
-        'sub': user_id,
+        'sub': str(user_id),
         'type': 'refresh',
         'exp': expire
     }
@@ -59,7 +59,7 @@ def decode_token(token: str):
     Lança jwt.ExpiredSignatureError se expirou,
     lança jwt.InvalidTokenError se inválido
     """
-    payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+    payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM], options={"verify_exp": True})
     return payload
 
 # Centralizando formato para mensagens de erro

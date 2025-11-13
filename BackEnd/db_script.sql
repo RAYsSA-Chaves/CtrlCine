@@ -149,24 +149,24 @@ CREATE TABLE filme_ator (
 
 -- Inserindo gêneros
 INSERT INTO generos (nome) VALUES
-('Ação'), 1
-('Aventura'), 2
-('Animação'), 3
-('Terror'), 4
-('Suspense'), 5
-('Ficção'), 6
-('Comédia'), 7
-('Drama'), 8
-('Romance'), 9
-('Fantasia'), 10
-('Documentário'), 11
-('Musical'), 12
-('Criminal'), 13
-('Guerra'), 14
-('Histórico'), 15
-('Biografia'), 16
-('Esporte'), 17
-('Família'); 18
+('Ação'),
+('Aventura'),
+('Animação'),
+('Terror'),
+('Suspense'),
+('Ficção'),
+('Comédia'),
+('Drama'),
+('Romance'),
+('Fantasia'),
+('Documentário'),
+('Musical'),
+('Criminal'),
+('Guerra'),
+('Histórico'),
+('Biografia'),
+('Esporte'),
+('Família');
 
 -- Criando o usuário administrador
 INSERT INTO usuarios (nome, email, senha, tipo_user, data_cadastro) VALUES (
@@ -222,10 +222,10 @@ INSERT INTO atores (nome, foto) VALUES
 ('Sam Worthington', 'https://resizing.flixster.com/YNQWv9Xxaim-CGARtg9ptCT8e9I=/218x280/v2/https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/218027_v9_bc.jpg'),
 ('Zoe Saldana', 'https://br.web.img3.acsta.net/pictures/19/10/17/01/24/5480352.jpg');
 
-INSERT INTO filme_diretor VALUES (2, 2);
-INSERT INTO filme_produtora VALUES (2, 2);
-INSERT INTO filme_ator VALUES (2, 3), (2, 4);
-INSERT INTO filme_genero VALUES (2, 2), (2, 6), (2, 9);
+INSERT INTO filme_diretor (filme_id, diretor_id) VALUES (2, 2);
+INSERT INTO filme_produtora (filme_id, produtora_id) VALUES (2, 2);
+INSERT INTO filme_ator (filme_id, ator_id) VALUES (2, 3), (2, 4);
+INSERT INTO filme_genero (filme_id, genero_id) VALUES (2, 2), (2, 6), (2, 9);
 
 -- FILME 3
 INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer, nota_imdb, em_alta)
@@ -241,15 +241,16 @@ VALUES (
     TRUE
 );
 
-INSERT INTO diretores VALUES ('Scott Derrickson');
-INSERT INTO produtoras VALUES ('Blumhouse Productions');
-INSERT INTO atores VALUES
+INSERT INTO diretores (nome) VALUES ('Scott Derrickson');
+INSERT INTO produtoras (nome) VALUES ('Blumhouse Productions');
+INSERT INTO atores (nome, foto) VALUES
 ('Ethan Hawke', 'https://upload.wikimedia.org/wikipedia/commons/a/ae/Ethan_Hawke_at_Berlinale_2025-3.jpg'),
 ('Mason Thames', 'https://hips.hearstapps.com/hmg-prod/images/masonthames-6-12-25-sq-1-684c311434a79.jpg?crop=1xw:1xh;center,top&resize=1200:*');
-INSERT INTO filme_diretor VALUES (3, 3);
-INSERT INTO filme_produtora VALUES (3, 3);
-INSERT INTO filme_ator VALUES (3, 5), (3, 6);
-INSERT INTO filme_genero VALUES (3, 4), (3, 5);
+
+INSERT INTO filme_diretor (filme_id, diretor_id) VALUES (3, 3);
+INSERT INTO filme_produtora (filme_id, produtora_id) VALUES (3, 3);
+INSERT INTO filme_ator (filme_id, ator_id) VALUES (3, 5), (3, 6);
+INSERT INTO filme_genero (filme_id, genero_id) VALUES (3, 4), (3, 5);
 
 -- FILME 4
 INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer, nota_imdb, em_alta)
@@ -265,15 +266,15 @@ VALUES (
     TRUE
 );
 
-INSERT INTO diretores VALUES ('Ryan Coogler');
-INSERT INTO produtoras VALUES ('Proximity Media');
-INSERT INTO atores VALUES
+INSERT INTO diretores (nome) VALUES ('Ryan Coogler');
+INSERT INTO produtoras (nome) VALUES ('Proximity Media');
+INSERT INTO atores (nome, foto) VALUES
 ('Michael B. Jordan', 'https://br.web.img2.acsta.net/pictures/18/08/08/18/23/1187644.jpg');
 
-INSERT INTO filme_diretor VALUES (4, 4);
-INSERT INTO filme_produtora VALUES (4, 4);
-INSERT INTO filme_ator VALUES (4, 7);
-INSERT INTO filme_genero VALUES (4, 5), (4, 8);
+INSERT INTO filme_diretor (filme_id, diretor_id)  VALUES (4, 4);
+INSERT INTO filme_produtora (filme_id, produtora_id) VALUES (4, 4);
+INSERT INTO filme_ator (filme_id, ator_id) VALUES (4, 7);
+INSERT INTO filme_genero (filme_id, genero_id) VALUES (4, 5), (4, 8);
 
 -- FILME 5
 INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer, nota_imdb, em_alta)
@@ -297,10 +298,10 @@ INSERT INTO atores (nome, foto) VALUES
 ('Abigail Cowen', 'https://images.mubicdn.net/images/cast_member/579256/cache-981407-1720308272/image-w856.jpg'),
 ('Tom Lewis', 'https://m.media-amazon.com/images/S/pv-target-images/101ccc643b8a1af216c64e1a748bffe921419536b99c17a42c943fa380f286e6._SX300_.jpg');
 
-INSERT INTO filme_diretor VALUES (5, 5);
-INSERT INTO filme_produtora VALUES (5, 5), (5, 6);
-INSERT INTO filme_ator VALUES (5, 8), (5, 9);
-INSERT INTO filme_genero VALUES (5, 8), (5, 9);
+INSERT INTO filme_diretor (filme_id, diretor_id) VALUES (5, 5);
+INSERT INTO filme_produtora (filme_id, produtora_id) VALUES (5, 5), (5, 6);
+INSERT INTO filme_ator (filme_id, ator_id) VALUES (5, 8), (5, 9);
+INSERT INTO filme_genero (filme_id, genero_id) VALUES (5, 8), (5, 9);
 
 -- FILME 6
 INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer, nota_imdb, em_alta)
@@ -322,10 +323,10 @@ INSERT INTO atores (nome, foto) VALUES
 ('Nico Parker', 'https://image.tmdb.org/t/p/w500/gt0NJClVSCPCEfcPgcLj3f85uLa.jpg'),
 ('Gerard Butler', 'https://br.web.img3.acsta.net/pictures/18/10/17/19/01/1393995.jpg');
 
-INSERT INTO filme_diretor VALUES (6, 6);
-INSERT INTO filme_produtora VALUES (6, 7);
-INSERT INTO filme_ator VALUES (6, 5), (6, 10), (6, 11);
-INSERT INTO filme_genero VALUES (6, 2), (6, 18);
+INSERT INTO filme_diretor (filme_id, diretor_id) VALUES (6, 6);
+INSERT INTO filme_produtora (filme_id, produtora_id) VALUES (6, 7);
+INSERT INTO filme_ator (filme_id, ator_id) VALUES (6, 5), (6, 10), (6, 11);
+INSERT INTO filme_genero (filme_id, genero_id) VALUES (6, 2), (6, 18);
 
 -- FILME 7
 INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer, nota_imdb, em_alta)
@@ -341,15 +342,15 @@ VALUES (
     TRUE
 );
 
-INSERT INTO diretores VALUES ('Walter Salles');
-INSERT INTO produtoras VALUES ('RT Features'), ('VideoFilmes');
-INSERT INTO atores VALUES
+INSERT INTO diretores (nome) VALUES ('Walter Salles');
+INSERT INTO produtoras (nome) VALUES ('RT Features'), ('VideoFilmes');
+INSERT INTO atores (nome, foto) VALUES
 ('Fernanda Torres', 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Fernanda_Torres_at_the_2024_Toronto_International_Film_Festival_6.jpg/960px-Fernanda_Torres_at_the_2024_Toronto_International_Film_Festival_6.jpg');
 
-INSERT INTO filme_diretor VALUES (7, 7);
-INSERT INTO filme_produtora VALUES (7, 8), (7, 9);
-INSERT INTO filme_ator VALUES (7, 12);
-INSERT INTO filme_genero VALUES (7, 15), (7, 8);
+INSERT INTO filme_diretor (filme_id, diretor_id) VALUES (7, 7);
+INSERT INTO filme_produtora (filme_id, produtora_id) VALUES (7, 8), (7, 9);
+INSERT INTO filme_ator (filme_id, ator_id) VALUES (7, 12);
+INSERT INTO filme_genero (filme_id, genero_id) VALUES (7, 15), (7, 8);
 
 -- FILME 8
 INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer, nota_imdb, em_alta)
@@ -365,16 +366,16 @@ VALUES (
     TRUE
 );
 
-INSERT INTO diretores VALUES ('James Gunn');
-INSERT INTO produtoras VALUES ('DC Studios');
-INSERT INTO atores VALUES
+INSERT INTO diretores (nome) VALUES ('James Gunn');
+INSERT INTO produtoras (nome) VALUES ('DC Studios');
+INSERT INTO atores(nome, foto) VALUES
 ('David Corenswet', 'https://br.web.img3.acsta.net/pictures/20/01/07/17/21/0850335.jpg'),
 ('Nicholas Hoult', 'https://br.web.img3.acsta.net/pictures/19/10/11/03/35/2265623.jpg');
 
-INSERT INTO filme_diretor VALUES (8, 8);
-INSERT INTO filme_produtora VALUES (8, 10);
-INSERT INTO filme_ator VALUES (8, 13), (8, 14);
-INSERT INTO filme_genero VALUES (8, 1), (8, 6);
+INSERT INTO filme_diretor (filme_id, diretor_id) VALUES (8, 8);
+INSERT INTO filme_produtora (filme_id, produtora_id) VALUES (8, 10);
+INSERT INTO filme_ator (filme_id, ator_id) VALUES (8, 13), (8, 14);
+INSERT INTO filme_genero (filme_id, genero_id) VALUES (8, 1), (8, 6);
 
 -- FILME 9
 INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer, nota_imdb, em_alta)
@@ -390,15 +391,15 @@ VALUES (
     TRUE
 );
 
-INSERT INTO diretores VALUES ('Joseph Kosinski');
-INSERT INTO produtoras VALUES ('Apple Studios');
-INSERT INTO atores VALUES
+INSERT INTO diretores (nome) VALUES ('Joseph Kosinski');
+INSERT INTO produtoras (nome) VALUES ('Apple Studios');
+INSERT INTO atores (nome, foto) VALUES
 ('Brad Pitt', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS49q2IH6MCj-DC0zl8INPrZb4rIrXyCWwxIHCyWIlX3V9E42BYi6GGFIqaB_TicxUGqWdEIyf2UVTfGaCw1WKRZIJAVOcCWPybsAUVoA&s=10');
 
-INSERT INTO filme_diretor VALUES (9, 9);
-INSERT INTO filme_produtora VALUES (9, 11);
-INSERT INTO filme_ator VALUES (9, 15);
-INSERT INTO filme_genero VALUES (9, 1), (9, 2), (9, 16);
+INSERT INTO filme_diretor (filme_id, diretor_id) VALUES (9, 9);
+INSERT INTO filme_produtora (filme_id, produtora_id) VALUES (9, 11);
+INSERT INTO filme_ator (filme_id, ator_id) VALUES (9, 15);
+INSERT INTO filme_genero (filme_id, genero_id) VALUES (9, 1), (9, 2), (9, 16);
 
 -- FILME 10
 INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer, em_alta)
@@ -413,16 +414,16 @@ VALUES (
     FALSE
 );
 
-INSERT INTO diretores VALUES ('Emma Tammi');
-INSERT INTO atores VALUES
+INSERT INTO diretores (nome) VALUES ('Emma Tammi');
+INSERT INTO atores (nome, foto) VALUES
 ('Josh Hutcherson', 'https://ntvb.tmsimg.com/assets/assets/270768_v9_bd.jpg?w=360&h=480'),
 ('Piper Rubio', 'https://m.media-amazon.com/images/M/MV5BODQwNzRkNzYtMjdhNi00MDQ3LWIxNzItZGRhMTljZThhZTJkXkEyXkFqcGc@._V1_.jpg'),
 ('Elizabeth Lail', 'https://br.web.img3.acsta.net/pictures/18/12/30/22/15/3265750.jpg');
 
-INSERT INTO filme_diretor VALUES (10, 10);
-INSERT INTO filme_produtora VALUES (10, 3);
-INSERT INTO filme_ator VALUES (10, 16), (10, 17), (10, 18);
-INSERT INTO filme_genero VALUES (10, 4), (10, 5);
+INSERT INTO filme_diretor (filme_id, diretor_id) VALUES (10, 10);
+INSERT INTO filme_produtora (filme_id, produtora_id) VALUES (10, 3);
+INSERT INTO filme_ator (filme_id, ator_id) VALUES (10, 16), (10, 17), (10, 18);
+INSERT INTO filme_genero (filme_id, genero_id) VALUES (10, 4), (10, 5);
 
 -- FILME 11
 INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer, em_alta)
@@ -443,10 +444,10 @@ INSERT INTO atores (nome, foto) VALUES
 ('Jack Black', 'https://static.wikia.nocookie.net/music/images/4/4d/Jack_Black.jpg/revision/latest?cb=20180702021339'),
 ('Paul Rudd', 'https://m.media-amazon.com/images/M/MV5BMTY4NTEwNDg1MV5BMl5BanBnXkFtZTgwODMwMDA0ODE@._V1_FMjpg_UX1000_.jpg');
 
-INSERT INTO filme_diretor VALUES (11, 11);
-INSERT INTO filme_produtora VALUES (11, 12);
-INSERT INTO filme_ator VALUES (11, 19), (11, 20);
-INSERT INTO filme_genero VALUES (11, 4), (11, 1), (11, 2);
+INSERT INTO filme_diretor (filme_id, diretor_id) VALUES (11, 11);
+INSERT INTO filme_produtora (filme_id, produtora_id) VALUES (11, 12);
+INSERT INTO filme_ator (filme_id, ator_id) VALUES (11, 19), (11, 20);
+INSERT INTO filme_genero (filme_id, genero_id) VALUES (11, 4), (11, 1), (11, 2);
 
 -- FILME 12
 INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer)
@@ -464,10 +465,11 @@ INSERT INTO diretores (nome) VALUES ('Antoine Fuqua');
 INSERT INTO produtoras (nome) VALUES ('Lionsgate Studios');
 INSERT INTO atores (nome, foto) VALUES
 ('Jaafar Jackson', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrPm8LPOoaFKMNSig0K4nY3ZvXPZd9rtzcn3dPalLE3zbyLsnRBiavltFoggDDTvsWa3fe-g4Q-affAIwyvmZfaNFNC4jDSRaLz5ILR1c&s=10');
-INSERT INTO filme_diretor VALUES (12, 12);
-INSERT INTO filme_produtora VALUES (12, 13);
-INSERT INTO filme_ator VALUES (12, 21);
-INSERT INTO filme_genero VALUES (12, 11), (12, 15);
+
+INSERT INTO filme_diretor (filme_id, diretor_id) VALUES (12, 12);
+INSERT INTO filme_produtora (filme_id, produtora_id) VALUES (12, 13);
+INSERT INTO filme_ator (filme_id, ator_id)  VALUES (12, 21);
+INSERT INTO filme_genero (filme_id, genero_id) VALUES (12, 11), (12, 15);
 
 -- FILME 13
 INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer, nota_imdb, em_alta)
@@ -494,10 +496,10 @@ INSERT INTO atores (nome, foto) VALUES
 ('Tom Holland', 'https://br.web.img3.acsta.net/pictures/19/07/01/23/18/1152169.jpg'),
 ('Elizabeth Olsen', 'https://image.tmdb.org/t/p/original/mbMsmQE5CyMVTIGMGCw2XpcPCOc.jpg');
 
-INSERT INTO filme_diretor VALUES (13, 13);
-INSERT INTO filme_produtora VALUES (13, 1);
-INSERT INTO filme_ator VALUES (13, 22), (13, 23), (13, 24), (13, 25), (13, 26), (13, 27), (13, 28), (13, 29);
-INSERT INTO filme_genero VALUES (13, 1), (13, 2), (13, 10);
+INSERT INTO filme_diretor (filme_id, diretor_id) VALUES (13, 13);
+INSERT INTO filme_produtora (filme_id, produtora_id) VALUES (13, 1);
+INSERT INTO filme_ator (filme_id, ator_id) VALUES (13, 22), (13, 23), (13, 24), (13, 25), (13, 26), (13, 27), (13, 28), (13, 29);
+INSERT INTO filme_genero (filme_id, genero_id) VALUES (13, 1), (13, 2), (13, 10);
 
 -- FILME 14
 INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer, nota_imdb)
@@ -517,10 +519,10 @@ INSERT INTO produtoras (nome) VALUES ('Warner Bros Pictures');
 INSERT INTO atores (nome, foto) VALUES
 ('Robert Pattinson', 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Robert_Pattinson_2012.jpg/250px-Robert_Pattinson_2012.jpg');
 
-INSERT INTO filme_diretor VALUES (14, 14);
-INSERT INTO filme_produtora VALUES (14, 14);
-INSERT INTO filme_ator VALUES (14, 30);
-INSERT INTO filme_genero VALUES (14, 1), (14, 13), (14, 5);
+INSERT INTO filme_diretor (filme_id, diretor_id) VALUES (14, 14);
+INSERT INTO filme_produtora (filme_id, produtora_id) VALUES (14, 14);
+INSERT INTO filme_ator (filme_id, ator_id) VALUES (14, 30);
+INSERT INTO filme_genero (filme_id, genero_id) VALUES (14, 1), (14, 13), (14, 5);
 
 -- FILME 15
 INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer, nota_imdb)
@@ -537,12 +539,12 @@ VALUES (
 
 INSERT INTO diretores (nome) VALUES ('Jon Watts');
 INSERT INTO atores (nome, foto) VALUES
-('Tom Holland', 'https://upload.wikimedia.org/wikipedia/commons/b/b9/Tom_Holland_2022.jpg'),
 ('Zendaya', 'https://upload.wikimedia.org/wikipedia/commons/2/25/Zendaya_2023.jpg');
-INSERT INTO filme_diretor VALUES (15, 15);
-INSERT INTO filme_produtora VALUES (15, 1), (15, 12);
-INSERT INTO filme_ator VALUES (15, 31), (15, 32);
-INSERT INTO filme_genero VALUES (15, 1), (15, 2);
+
+INSERT INTO filme_diretor (filme_id, diretor_id) VALUES (15, 15);
+INSERT INTO filme_produtora (filme_id, produtora_id) VALUES (15, 1), (15, 12);
+INSERT INTO filme_ator (filme_id, ator_id) VALUES (15, 28), (15, 31);
+INSERT INTO filme_genero (filme_id, genero_id) VALUES (15, 1), (15, 2);
 
 -- FILME 16
 INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer, nota_imdb)
@@ -561,10 +563,11 @@ INSERT INTO diretores (nome) VALUES ('Mel Gibson');
 INSERT INTO produtoras (nome) VALUES ('Summit Entertainment');
 INSERT INTO atores (nome, foto) VALUES
 ('Andrew Garfield', 'https://media.themoviedb.org/t/p/w500/5ydZ6TluPtxlz5G8nlWMB7SGmow.jpg');
-INSERT INTO filme_diretor VALUES (16, 16);
-INSERT INTO filme_produtora VALUES (16, 15);
-INSERT INTO filme_ator VALUES (16, 33);
-INSERT INTO filme_genero VALUES (16, 14), (16, 15);
+
+INSERT INTO filme_diretor (filme_id, diretor_id) VALUES (16, 16);
+INSERT INTO filme_produtora (filme_id, produtora_id) VALUES (16, 15);
+INSERT INTO filme_ator (filme_id, ator_id) VALUES (16, 32);
+INSERT INTO filme_genero (filme_id, genero_id) VALUES (16, 14), (16, 15);
 
 -- FILME 17
 INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer, nota_imdb)
@@ -582,9 +585,9 @@ VALUES (
 INSERT INTO diretores (nome) VALUES ('Kip Andersen');
 INSERT INTO produtoras (nome) VALUES ('A.U.M. Films');
 
-INSERT INTO filme_diretor VALUES (17, 17);
-INSERT INTO filme_produtora VALUES (17, 16);
-INSERT INTO filme_genero VALUES (17, 11);
+INSERT INTO filme_diretor (filme_id, diretor_id) VALUES (17, 17);
+INSERT INTO filme_produtora (filme_id, produtora_id) VALUES (17, 16);
+INSERT INTO filme_genero (filme_id, genero_id) VALUES (17, 11);
 
 
 -- FILME 18
@@ -606,10 +609,10 @@ INSERT INTO atores (nome, foto) VALUES
 ('Auli`i Cravalho', 'https://br.web.img3.acsta.net/pictures/19/03/12/00/26/0962796.jpg'),
 ('Dwayne Johnson', 'https://br.web.img2.acsta.net/c_310_420/pictures/19/03/14/22/50/2171610.jpg');
 
-INSERT INTO filme_diretor VALUES (18, 18);
-INSERT INTO filme_produtora VALUES (18, 17);
-INSERT INTO filme_ator VALUES (18, 34), (18, 35);
-INSERT INTO filme_genero VALUES (18, 3), (18, 2), (18, 18);
+INSERT INTO filme_diretor (filme_id, diretor_id) VALUES (18, 18);
+INSERT INTO filme_produtora (filme_id, produtora_id) VALUES (18, 17);
+INSERT INTO filme_ator (filme_id, ator_id) VALUES (18, 33), (18, 34);
+INSERT INTO filme_genero (filme_id, genero_id) VALUES (18, 3), (18, 2), (18, 18);
 
 -- FILME 19
 INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer, nota_imdb)
@@ -627,13 +630,13 @@ VALUES (
 INSERT INTO diretores (nome) VALUES ('Chris Sanders');
 INSERT INTO atores (nome, foto) VALUES
 ('Nicolas Cage', 'https://upload.wikimedia.org/wikipedia/commons/f/f3/Nicolas_Cage_-_66%C3%A8me_Festival_de_Venise_%28Mostra%29.jpg'),
-('Emma Stone', 'https://m.media-amazon.com/images/M/MV5BMjI4NjM1NDkyN15BMl5BanBnXkFtZTgwODgyNTY1MjE@._V1_.jpg');
+('Emma Stone', 'https://m.media-amazon.com/images/M/MV5BMjI4NjM1NDkyN15BMl5BanBnXkFtZTgwODgyNTY1MjE@._V1_.jpg'),
 ('Ryan Reynolds', 'https://goldenglobes.com/wp-content/uploads/2023/10/ryan_reynolds_gettyimages-630281680.jpg?w=1968');
 
-INSERT INTO filme_diretor VALUES (19, 19);
-INSERT INTO filme_produtora VALUES (19, 7);
-INSERT INTO filme_ator VALUES (19, 36), (19, 37), (19, 38);
-INSERT INTO filme_genero VALUES (19, 3), (19, 2), (19, 18);
+INSERT INTO filme_diretor (filme_id, diretor_id) VALUES (19, 19);
+INSERT INTO filme_produtora (filme_id, produtora_id) VALUES (19, 7);
+INSERT INTO filme_ator (filme_id, ator_id) VALUES (19, 35), (19, 36), (19, 37);
+INSERT INTO filme_genero (filme_id, genero_id) VALUES (19, 3), (19, 2), (19, 18);
 
 -- FILME 20
 INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer, nota_imdb)
@@ -653,7 +656,8 @@ INSERT INTO produtoras (nome) VALUES ('Pixar Animation Studios');
 INSERT INTO atores (nome, foto) VALUES
 ('Jacob Tremblay', 'https://br.web.img2.acsta.net/pictures/20/01/04/00/32/5981389.jpg'),
 ('Jack Dylan Grazer', 'https://static.wikia.nocookie.net/disney/images/9/96/Jack_Dylan_Grazer.jpg/revision/latest?cb=20210429180401&path-prefix=pt-br');
-INSERT INTO filme_diretor VALUES (20, 20);
-INSERT INTO filme_produtora VALUES (20, 18), (20, 17);
-INSERT INTO filme_ator VALUES (20, 39), (20, 40);
-INSERT INTO filme_genero VALUES (20, 3), (20, 18);
+
+INSERT INTO filme_diretor (filme_id, diretor_id) VALUES (20, 20);
+INSERT INTO filme_produtora (filme_id, produtora_id) VALUES (20, 18), (20, 17);
+INSERT INTO filme_ator (filme_id, ator_id) VALUES (20, 38), (20, 39);
+INSERT INTO filme_genero (filme_id, genero_id) VALUES (20, 3), (20, 18);

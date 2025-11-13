@@ -13,7 +13,7 @@ from api.logic.diretores import list_all_directors, cadastrar_diretor
 from api.logic.solicitacoes import listar_solicitacoes, criar_solicitacao, recusar_solicitacao, aceitar_solicitacao, get_solicitacao_por_id 
 from api.logic.avaliacoes import listar_avaliacoes_filme, adicionar_avaliacao, get_avaliacao_usuario 
 from api.logic.listas import add_movie_to_list, create_list, delete_list, edit_list, remover_filme_lista, get_listas_usuario
-from api.logic.usuarios import cadastrar_usuario, edit_user, delete_user, login_usuario, refresh_tokens, get_me_from_token
+from api.logic.usuarios import cadastrar_usuario, edit_user, delete_user, login_usuario, refresh_tokens, get_user_by_id
 from core.middlewares.CORSMiddleware import aplicar_cors
 from core.middlewares.authMiddleware import autenticar
 
@@ -40,7 +40,7 @@ class MyHandler(BaseHTTPRequestHandler):
 	def read_body(self): 
 		content_length = int(self.headers['Content-Length']) # lê o tamanho do corpo da requisição e converte bytes -> int 
 		body = self.rfile.read(content_length) # lê o arquivo onde o python guarda o corpo da requisição recebida até onde ele termina (content_length) 
-		dados = json.loads(body) # converte JSON recebido em um objeto python 
+		dados = json.loads(body.decode('utf-8')) # converte JSON recebido em um objeto python 
 		return dados 
 	
 	# --------------------------------------------- 
@@ -312,17 +312,18 @@ class MyHandler(BaseHTTPRequestHandler):
 			# necessário estar logado
 			payload = autenticar(self)
 			if not payload:
-				self.enviar_json(401, {'Erro': 'Token ausente ou inválido'})
+				self.enviar_json(401, {'Erro': 'Token inválido ou ausente'})
 				return
 			
-			response = get_me_from_token(payload)
+			# pegar o usuário
+			user_id = payload.get('sub')
+			user = get_user_by_id(int(user_id))
 			
-			if 'Erro' in response:
-				self.enviar_json(401, response)
+			if not user:
+				self.enviar_json(404, {'Erro': 'Usuário não encontrado'})
 				return
-			else:
-				self.enviar_json(200, response)
-				return
+			
+			self.enviar_json(200, user)
 
 		# --------------------------------------------- 
 		

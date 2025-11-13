@@ -131,7 +131,7 @@ def get_producer_name(nome):
 
 	try:
 		# busca a produtoa no banco
-		cursor.execute('SELECT * FROM produtoras WHERE produtoras.nome = %s', (nome,)) 
+		cursor.execute('SELECT * FROM produtoras WHERE produtoras.nome LIKE %s', (f"%{nome}%",))
 		produtora = cursor.fetchone()
 
 		# produtora não encontrada

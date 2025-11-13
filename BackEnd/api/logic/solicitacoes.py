@@ -88,17 +88,19 @@ def criar_solicitacao(usuario_id, filme_json, tipo, filme_id):
 
 		# verificar se já existe
 		for campo, valor in campos_unicos.items():
-			cursor.execute('SELECT id FROM filmes WHERE {campo} = %s', (valor,))
+			cursor.execute(f'SELECT id FROM filmes WHERE {campo} = %s', (valor,))
 			existe = cursor.fetchone()
 			if existe:
 				response = {'Erro': f'Já existe um filme cadastrado com o mesmo {campo}'}
 				return response  # barra a operação
 
 		# guarda a solicitação na tabela no banco
+		filme_json = json.dumps(filme_json, ensure_ascii=False)
+
 		cursor.execute('''
             INSERT INTO solicitacoes (usuario_id, filme_id, filme, tipo)
 			VALUES (%s, %s, %s, %s)
-        ''', (usuario_id, filme_id, json.dumps(filme_json, ensure_ascii=False), tipo))
+        ''', (usuario_id, filme_id, filme_json, tipo))
 		conn.commit()
 		
         # ID da nova solicitação
@@ -113,9 +115,9 @@ def criar_solicitacao(usuario_id, filme_json, tipo, filme_id):
 			'Mensagem': 'Solicitação enviada com sucesso!',
 			'id': solicitacao[0], 
 			'usuario_id': solicitacao[1] ,
-			'filme_id': solicitacao.get('filme_id', None),
-            'filme': json.loads(solicitacao[2])['titulo'],
-			'tipo': solicitacao[3]
+			'filme_id': solicitacao[2],
+            'filme': json.loads(solicitacao[3])['titulo'],
+			'tipo': solicitacao[4]
 		}
 	
 	except Exception as e:

@@ -15,7 +15,7 @@ def get_movies(filters):
 	cursor = conn.cursor()
 
 	try:
-		query = 'SELECT * FROM filmes'
+		query = 'SELECT DISTINCT filmes.* FROM filmes'
 		joins = []
 		conds = []
 		params = []
