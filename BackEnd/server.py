@@ -1,21 +1,21 @@
-# Servidor das rotas da api
+# Servidor as da api
 
-from http.server import BaseHTTPRequestHandler, HTTPServer 
-import json 
-from urllib.parse import urlparse, parse_qs
+from listas http.server import BaseHTTPRequestHandler, HTTPSerport json 
+from listas urllib.parse import ur parse_qs
 
-from core.configs import Settings 
-from api.logic.filmes import get_filme_por_id, get_movies, cadastrar_filme, update_movie, delete_movie 
-from api.logic.atores import cadastrar_ator, list_all_actors 
-from api.logic.produtoras import list_all_producers, cadastrar_produtora 
-from api.logic.generos import list_all_genres 
-from api.logic.diretores import list_all_directors, cadastrar_diretor 
-from api.logic.solicitacoes import listar_solicitacoes, criar_solicitacao, recusar_solicitacao, aceitar_solicitacao, get_solicitacao_por_id 
-from api.logic.avaliacoes import listar_avaliacoes_filme, adicionar_avaliacao, get_avaliacao_usuario 
-from api.logic.listas import add_movie_to_list, create_list, delete_list, edit_list, remover_filme_lista, get_listas_usuario
-from api.logic.usuarios import cadastrar_usuario, edit_user, delete_user, login_usuario, refresh_tokens, get_user_by_id
-from core.middlewares.CORSMiddleware import aplicar_cors
-from core.middlewares.authMiddleware import autenticar
+from listas core.configs Settings 
+from listas core.database impoconnection
+from listas api.logic.filmes import get_filme_por_id, get_movies, cadastrar_filme, update_movete_movie 
+from listas api.logic.atores import cadastrar_ator,ll_actors 
+from listas api.logic.produtoras import list_all_producers, cadprodutora 
+from listas api.logic.generos importll_genres 
+from listas api.logic.diretores import list_all_directors, cr_diretor 
+from listas api.logic.solicitacoes import listar_solicitacoes, criar_solicitacao, recusar_solicitacao, aceitar_solicitacao, get_soao_por_id 
+from listas api.logic.avaliacoes import listar_avaliacoes_filme, adicionar_avaliacao, get_ao_usuario 
+from listas api.logic.listas import add_movie_to_list, create_list, delete_list, edit_list, remover_filme_lista, gas_usuario
+from listas api.logic.usuarios import cadastrar_usuario, edit_user, delete_user, login_usuario, refresh_tokenuser_by_id
+from listas core.middlewares.CORSMiddleware imlicar_cors
+from listas core.middlewares.authMiddleware import autenticar
 
 
 ''' 
@@ -83,8 +83,8 @@ class MyHandler(BaseHTTPRequestHandler):
 		elif self.path.startswith(f'{API}/filmes'): 
 			# necessário estar logado
 			payload = autenticar(self)
-			if not payload:
-				self.enviar_json(401, {'Erro': 'Token inválido ou ausente'})
+			if 'Erro' in payload:
+				self.enviar_json(401, payload)
 				return
 			
 			partes = self.path.split('/')  # divide as partes da url
@@ -144,8 +144,8 @@ class MyHandler(BaseHTTPRequestHandler):
 		elif self.path == f'{API}/atores': 
 			# necessário estar logado
 			payload = autenticar(self)
-			if not payload:
-				self.enviar_json(401, {'Erro': 'Token inválido ou ausente'})
+			if 'Erro' in payload:
+				self.enviar_json(401, payload)
 				return
 			
 			atores = list_all_actors() 
@@ -158,8 +158,8 @@ class MyHandler(BaseHTTPRequestHandler):
 		elif self.path == f'{API}/produtoras': 
 			# necessário estar logado
 			payload = autenticar(self)
-			if not payload:
-				self.enviar_json(401, {'Erro': 'Token inválido ou ausente'})
+			if 'Erro' in payload:
+				self.enviar_json(401, payload)
 				return
 			
 			produtoras = list_all_producers() 
@@ -172,8 +172,8 @@ class MyHandler(BaseHTTPRequestHandler):
 		elif self.path == f'{API}/generos': 
 			# necessário estar logado
 			payload = autenticar(self)
-			if not payload:
-				self.enviar_json(401, {'Erro': 'Token inválido ou ausente'})
+			if 'Erro' in payload:
+				self.enviar_json(401, payload)
 				return
 			
 			generos = list_all_genres() 
@@ -186,8 +186,8 @@ class MyHandler(BaseHTTPRequestHandler):
 		elif self.path == f'{API}/diretores': 
 			# necessário estar logado
 			payload = autenticar(self)
-			if not payload:
-				self.enviar_json(401, {'Erro': 'Token inválido ou ausente'})
+			if 'Erro' in payload:
+				self.enviar_json(401, payload)
 				return
 			
 			diretores = list_all_directors() 
@@ -200,8 +200,8 @@ class MyHandler(BaseHTTPRequestHandler):
 		elif self.path.startswith(f'{API}/solicitacoes'): 
 			# somente admin pode ver solicitações
 			payload = autenticar(self)
-			if not payload:
-				self.enviar_json(401, {'Erro': 'Token inválido ou ausente'})
+			if 'Erro' in payload:
+				self.enviar_json(401, payload)
 				return
 			if payload.get('role') != 'admin':
 				self.enviar_json(403, {'Erro': 'Acesso negado: apenas administradores podem ver as solicitações dos usuários'})
@@ -235,8 +235,8 @@ class MyHandler(BaseHTTPRequestHandler):
 		elif self.path.startswith(f'{API}/avaliacoes/filme/'): 
 			# necessário estar logado
 			payload = autenticar(self)
-			if not payload:
-				self.enviar_json(401, {'Erro': 'Token inválido ou ausente'})
+			if 'Erro' in payload:
+				self.enviar_json(401, payload)
 				return
 			
 			try: 
@@ -258,10 +258,10 @@ class MyHandler(BaseHTTPRequestHandler):
 		
 		# Avaliação de usuário específico para um filme 
 		elif self.path.startswith(f'{API}/avaliacoes/usuario/'): 
-			# necessário estar logadov
+			# necessário estar logado
 			payload = autenticar(self)
-			if not payload:
-				self.enviar_json(401, {'Erro': 'Token inválido ou ausente'})
+			if 'Erro' in payload:
+				self.enviar_json(401, payload)
 				return
 			
 			try: 
@@ -286,14 +286,19 @@ class MyHandler(BaseHTTPRequestHandler):
 		elif self.path.startswith(f'{API}/listas/usuario/'):
 			# necessário estar logado
 			payload = autenticar(self)
-			if not payload:
-				self.enviar_json(401, {'Erro': 'Token inválido ou ausente'})
+			if 'Erro' in payload:
+				self.enviar_json(401, payload)
 				return
 			
 			try:
 				usuario_id = int(self.path.split('/')[-1])
 			except Exception as e:
 				self.enviar_json(400, {'Erro': 'ID inválido'})
+				return
+
+			# confirmar o user
+			if usuario_id != int(payload.get('sub')):
+				self.enviar_json(403, {'Erro': 'Acesso negado: você só pode ver as suas listas'})
 				return
 			
 			response = get_listas_usuario(usuario_id)
@@ -311,16 +316,16 @@ class MyHandler(BaseHTTPRequestHandler):
 		elif self.path == f'{API}/usuarios/me':
 			# necessário estar logado
 			payload = autenticar(self)
-			if not payload:
-				self.enviar_json(401, {'Erro': 'Token inválido ou ausente'})
+			if 'Erro' in payload:
+				self.enviar_json(401, payload)
 				return
 			
 			# pegar o usuário
 			user_id = payload.get('sub')
 			user = get_user_by_id(int(user_id))
 			
-			if not user:
-				self.enviar_json(404, {'Erro': 'Usuário não encontrado'})
+			if 'Erro' in user:
+				self.enviar_json(404, user)
 				return
 			
 			self.enviar_json(200, user)
@@ -338,8 +343,8 @@ class MyHandler(BaseHTTPRequestHandler):
 		if self.path == f'{API}/filmes': 
 			# somente admin pode cadastrar filmes no sistema
 			payload = autenticar(self)
-			if not payload:
-				self.enviar_json(401, {'Erro': 'Token inválido ou ausente'})
+			if 'Erro' in payload:
+				self.enviar_json(401, payload)
 				return
 			if payload.get('role') != 'admin':
 				self.enviar_json(403, {'Erro': 'Acesso negado: apenas administradores podem cadastrar novos filmes no sistema'})
@@ -368,8 +373,8 @@ class MyHandler(BaseHTTPRequestHandler):
 		elif self.path == f'{API}/atores': 
 			# necessário estar logado
 			payload = autenticar(self)
-			if not payload:
-				self.enviar_json(401, {'Erro': 'Token inválido ou ausente'})
+			if 'Erro' in payload:
+				self.enviar_json(401, payload)
 				return
 			
 			dados = self.read_body() 
@@ -391,8 +396,8 @@ class MyHandler(BaseHTTPRequestHandler):
 		elif self.path == f'{API}/diretores': 
 			# necessário estar logado
 			payload = autenticar(self)
-			if not payload:
-				self.enviar_json(401, {'Erro': 'Token inválido ou ausente'})
+			if 'Erro' in payload:
+				self.enviar_json(401, payload)
 				return
 			
 			dados = self.read_body() 
@@ -410,8 +415,8 @@ class MyHandler(BaseHTTPRequestHandler):
 		elif self.path == f'{API}/produtoras': 
 			# necessário estar logado
 			payload = autenticar(self)
-			if not payload:
-				self.enviar_json(401, {'Erro': 'Token inválido ou ausente'})
+			if 'Erro' in payload:
+				self.enviar_json(401, payload)
 				return
 			
 			dados = self.read_body() 
@@ -429,12 +434,18 @@ class MyHandler(BaseHTTPRequestHandler):
 		elif self.path == f'{API}/solicitacoes':
 			# necessário estar logado 
 			payload = autenticar(self)
-			if not payload:
-				self.enviar_json(401, {'Erro': 'Token inválido ou ausente'})
+			if 'Erro' in payload:
+				self.enviar_json(401, payload)
 				return
 			
 			dados = self.read_body() 
 			usuario_id = dados['usuario_id'] 
+
+			# confirmar o user
+			if usuario_id != int(payload.get('sub')):
+				self.enviar_json(403, {'Erro': 'Acesso negado: você só pode fazer solicitações com a sua prórpia conta'})
+				return
+
 			filme_json = dados['filme'] 
 			tipo = dados['tipo'] 
 			filme_id = dados.get('filme_id', None) 
@@ -454,12 +465,18 @@ class MyHandler(BaseHTTPRequestHandler):
 		elif self.path == f'{API}/avaliacoes': 
 			# necessário estar logado
 			payload = autenticar(self)
-			if not payload:
-				self.enviar_json(401, {'Erro': 'Token inválido ou ausente'})
+			if 'Erro' in payload:
+				self.enviar_json(401, payload)
 				return
 			
 			dados = self.read_body() 
 			usuario_id = dados['usuario_id'] 
+
+			# confirmar o user
+			if usuario_id != int(payload.get('sub')):
+				self.enviar_json(403, {'Erro': 'Acesso negado: você só pode avaliar filmes com a sua própria conta'})
+				return
+
 			filme_id = dados['filme_id'] 
 			nota = dados['nota'] 
 			resenha = dados.get('resenha', None) 
@@ -479,12 +496,18 @@ class MyHandler(BaseHTTPRequestHandler):
 		elif self.path == f'{API}/listas':
 			# necessário estar logado
 			payload = autenticar(self)
-			if not payload:
-				self.enviar_json(401, {'Erro': 'Token inválido ou ausente'})
+			if 'Erro' in payload:
+				self.enviar_json(401, payload)
 				return
 			
 			dados = self.read_body() 
 			usuario_id = dados['usuario_id'] 
+
+			# confirmar o user
+			if usuario_id != int(payload.get('sub')):
+				self.enviar_json(403, {'Erro': 'Acesso negado: você só pode criar listas para  asua própria conta'})
+				return
+
 			nome = dados['nome'] 
 			
 			response = create_list(usuario_id, nome)
@@ -500,15 +523,26 @@ class MyHandler(BaseHTTPRequestHandler):
 				
         # Adicionar filme em uma lista
 		elif self.path == f'{API}/listas/filme':
+			conn = get_connection()
+			cursor = conn.cursor()
+
 			# necessário estar logado
 			payload = autenticar(self)
-			if not payload:
-				self.enviar_json(401, {'Erro': 'Token inválido ou ausente'})
+			if 'Erro' in payload:
+				self.enviar_json(401, payload)
 				return
 			
 			dados = self.read_body() 
-			lista_id = dados['lista_id'] 
-			filme_id = dados['filme_id'] 
+			lista_id = dados['lista_id']
+			filme_id = dados['filme_id']
+
+			cursor.execute('SELECT usuario_id FROM listas WHERE listas.id = %s', lista_id)
+			usuario_id = cursor.fetchone()
+
+			# confirmar o user
+			if usuario_id[0] != int(payload.get('sub')):
+				self.enviar_json(403, {'Erro': 'Acesso negado: você só pode adicionar filmes às suas próprias listas'})
+				return
 			
 			response = add_movie_to_list(lista_id, filme_id)
 			
@@ -587,8 +621,8 @@ class MyHandler(BaseHTTPRequestHandler):
 		if self.path.startswith(f'{API}/filmes'): 
 			# somente admin pode editar filmes no sistema
 			payload = autenticar(self)
-			if not payload:
-				self.enviar_json(401, {'Erro': 'Token inválido ou ausente'})
+			if 'Erro' in payload:
+				self.enviar_json(401, payload)
 				return
 			if payload.get('role') != 'admin':
 				self.enviar_json(403, {'Erro': 'Acesso negado: apenas administradores podem editar filmes'})
@@ -621,10 +655,13 @@ class MyHandler(BaseHTTPRequestHandler):
 		
 		# Edição de nome de lista
 		elif self.path.startswith(f'{API}/listas'):
+			conn = get_connection()
+			cursor = conn.cursor()
+
 			# necessário estar logado
 			payload = autenticar(self)
-			if not payload:
-				self.enviar_json(401, {'Erro': 'Token inválido ou ausente'})
+			if 'Erro' in payload:
+				self.enviar_json(401, payload)
 				return
 			
 			try:
@@ -632,6 +669,14 @@ class MyHandler(BaseHTTPRequestHandler):
 			except ValueError: 
 				self.enviar_json(400, {'Erro': 'ID inválido'}) 
 				return 
+
+			cursor.execute('SELECT usuario_id FROM listas WHERE listas.id = %s', lista_id)
+			usuario_id = cursor.fetchone()
+
+			# confirmar o user
+			if usuario_id[0] != int(payload.get('sub')):
+				self.enviar_json(403, {'Erro': 'Acesso negado: você só pode adicionar filmes às suas próprias listas'})
+				return
 			
 			dados = self.read_body()
 			novo_nome = dados['nome'] 
@@ -651,8 +696,8 @@ class MyHandler(BaseHTTPRequestHandler):
 		elif self.path.startswith(f'{API}/usuarios/editar/'):
 			# necessário estar logado
 			payload = autenticar(self)
-			if not payload:
-				self.enviar_json(401, {'Erro': 'Token inválido ou ausente'})
+			if 'Erro' in payload:
+				self.enviar_json(401, payload)
 				return
 	
 			try:
@@ -684,8 +729,8 @@ class MyHandler(BaseHTTPRequestHandler):
 		if self.path.startswith(f'{API}/filmes/'): 
 			# somente admin pode deletar filmes
 			payload = autenticar(self)
-			if not payload:
-				self.enviar_json(401, {'Erro': 'Token inválido ou ausente'})
+			if 'Erro' in payload:
+				self.enviar_json(401, payload)
 				return
 			if payload.get('role') != 'admin':
 				self.enviar_json(403, {'Erro': 'Acesso negado: apenas administradores podem deletar filmes'})
@@ -712,8 +757,8 @@ class MyHandler(BaseHTTPRequestHandler):
 		elif self.path.startswith(f'{API}/solicitacoes/'): 
 			# somente admin pode descartar uma solicitação de usuário
 			payload = autenticar(self)
-			if not payload:
-				self.enviar_json(401, {'Erro': 'Token inválido ou ausente'})
+			if 'Erro' in payload:
+				self.enviar_json(401, payload)
 				return
 			if payload.get('role') != 'admin':
 				self.enviar_json(403, {'Erro': 'Acesso negado: apenas administradores podem descartar solicitações dos usuários'})
@@ -740,8 +785,8 @@ class MyHandler(BaseHTTPRequestHandler):
 		elif self.path.startswith(f'{API}/listas/filme/'):
 			# necessário estar logado
 			payload = autenticar(self)
-			if not payload:
-				self.enviar_json(401, {'Erro': 'Token inválido ou ausente'})
+			if 'Erro' in payload:
+				self.enviar_json(401, payload)
 				return
 			
 			partes = self.path.split('/')
@@ -750,7 +795,15 @@ class MyHandler(BaseHTTPRequestHandler):
 				filme_id = int(partes[-1])
 			except ValueError: 
 				self.enviar_json(400, {'Erro': 'ID inválido'}) 
-				return  
+				return 
+
+			cursor.execute('SELECT usuario_id FROM listas WHERE listas.id = %s', lista_id)
+			usuario_id = cursor.fetchone()
+
+			# confirmar o user
+			if usuario_id[0] != int(payload.get('sub')):
+				self.enviar_json(403, {'Erro': 'Acesso negado: você só pode deletar filmes das suas próprias listas'})
+				return
 			
 			response = remover_filme_lista(lista_id, filme_id)
 
@@ -767,8 +820,8 @@ class MyHandler(BaseHTTPRequestHandler):
 		elif self.path.startswith(f'{API}/listas/'):
 			# necessário estar logado
 			payload = autenticar(self)
-			if not payload:
-				self.enviar_json(401, {'Erro': 'Token inválido ou ausente'})
+			if 'Erro' in payload:
+				self.enviar_json(401, payload)
 				return
 			
 			id_str = self.path.split('/')[-1] 
@@ -777,6 +830,11 @@ class MyHandler(BaseHTTPRequestHandler):
 			except ValueError: 
 				self.enviar_json(400, {'Erro': 'ID inválido'}) 
 				return 
+
+			# confirmar o user
+			if usuario_id != int(payload.get('sub')):
+				self.enviar_json(403, {'Erro': 'Acesso negado: você só pode deletar suas próprias listas'})
+				return
 			
 			response = delete_list(lista_id)
 			if 'Erro' in response:
@@ -792,8 +850,8 @@ class MyHandler(BaseHTTPRequestHandler):
 		elif self.path.startswith(f'{API}/usuarios/'):
 			# necessário estar logado
 			payload = autenticar(self)
-			if not payload:
-				self.enviar_json(401, {'Erro': 'Token inválido ou ausente'})
+			if 'Erro' in payload:
+				self.enviar_json(401, payload)
 				return
 	
 			try:

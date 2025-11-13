@@ -185,8 +185,6 @@ def refresh_tokens(refresh_token_str):
 
     except TokenError as e:
         return {'Erro': e.message}
-    except Exception as e:
-        return {'Erro': f'Erro inesperado: {type(e).__name__} -> {str(e)}'}
     
 # ---------------------------------------------
 

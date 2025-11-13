@@ -2,8 +2,7 @@
 
 from pwdlib import PasswordHash
 import jwt
-import datetime
-from datetime import timezone, timedelta  # timedelta -> armazena quantidades de tempo
+from datetime import datetime, timezone, timedelta  # timedelta -> armazena quantidades de tempo
 
 
 # Configurações para o hash
@@ -12,7 +11,7 @@ pwd_context = PasswordHash.recommended()  # ele decide sozinho como hashear
 # Configurações para o token
 SECRET_KEY = 'my_super_secret_key'
 ALGORITHM = 'HS256'
-ACCESS_TOKEN_EXPIRE_MINUTES = 60
+ACCESS_TOKEN_EXPIRE_MINUTES = 1
 REFRESH_TOKEN_EXPIRE_DAYS = 7
 
 
@@ -28,26 +27,28 @@ def verify_password(password: str, hashed_password: str):
 
 # Função para gerar um token
 def create_access_token(user_id: int, role: str):
-    now = datetime.datetime.now(timezone.utc)
+    now = datetime.now(timezone.utc)
     expire = now + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    expire_timestamp = int(expire.timestamp())  # timestamp = um número que representa um ponto no tempo
     # informações para guardar sobre o token e o usuário:
     payload = {
         'sub': str(user_id),
         'role': role,
         'type': 'access',
-        'exp': expire
+        'exp': expire_timestamp
     }
     token = jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
     return token
 
 # Função para gerar um token de refresh
 def create_refresh_token(user_id: int):
-    now = datetime.datetime.now(timezone.utc)
+    now = datetime.now(timezone.utc)
     expire = now + timedelta(days=REFRESH_TOKEN_EXPIRE_DAYS)
+    expire_timestamp = int(expire.timestamp())
     payload = {
         'sub': str(user_id),
         'type': 'refresh',
-        'exp': expire
+        'exp': expire_timestamp
     }
     token = jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
     return token
