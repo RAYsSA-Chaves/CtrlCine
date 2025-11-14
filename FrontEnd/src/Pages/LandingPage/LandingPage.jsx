@@ -30,16 +30,28 @@ export default function LandingPage() {
 
             {/* Conteúdo principal */}
             <main>
-                <CardInfo
+                <section className='infoCardsSection'>
+                    <CardInfo
                     style='left'
                     title='Viva o cinema do seu jeito!'
                     paragraphs={[
                         'Descubra novos títulos, explore catálogos por gênero, ano, diretor, nota e muito mais!', 
                         'Avalie, escreva resenhas e acompanhe seus assistidos ao longo do ano!'
                     ]}
+                    image={Img2}
+                    alt='Ilustração de câmera cinematográfica'
+                />
+                <CardInfo
+                    style='right'
+                    title='Seu universo cinematográfico pessoal'
+                    paragraphs={[
+                        'Monte suas listas personalizadas, adicione lembretes de estreias e muito mais — tudo em um só lugar.', 
+                        'Seja para registrar o que já viu ou planejar o que vai assistir, o CtrlCine transforma sua paixão por filmes em uma experiência completa.'
+                    ]}
                     image={Img1}
                     alt='Ilustração de claquete'
                 />
+                </section>
             </main>
         </div>
     )

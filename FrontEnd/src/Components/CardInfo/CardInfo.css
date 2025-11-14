@@ -1,44 +1,65 @@
-/* Variações dos cards informativos */
+/* Variações de estilos dos cards informativos */
 
-.leftInfoCard {
-    clip-path: polygon(0 69%, 100% 57%, 100% 100%, 0% 100%);
-}
-
-.rightInfoCard {
-    clip-path: polygon(0 100%, 100% 100%, 100% 57, 0 69%);
-}
-
+/* Estilo base */
 .rightInfoCard, .leftInfoCard {
     background-color: var(--black-purple);
     display: flex;
     flex-direction: column;
-    align-items: self-end;
+    justify-content: center;
     text-align: center;
-    padding: 2rem;
+    padding: 4rem;
+    height: 23rem;
+}
+.leftInfoCard {
+    align-items: flex-end;
+}
+.rightInfoCard {
+    align-items: flex-start;
+}
+.shadow {
+    filter: drop-shadow(0px 0px 6px  rgba(184, 6, 6, 0.5));
+    transition: filter 0.3s ease;
     position: relative;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-    transition: box-shadow 0.3s ease;
-    height: 50rem;
 }
-
-.rightInfoCard:hover, .leftInfoCard:hover {
-    box-shadow: 0 16px 40px rgba(223, 0, 0, 0.3);
-}
-
-.rightInfoCard img {
+.leftImg, .rightImg {
+    width: 22%;
     position: absolute;
     top: 50%;
-    right: 10%;
+    transform: translateY(-50%);
     transition: transform 0.3s ease;
 }
-
-.leftInfoCard img {
-    position: absolute;
-    top: 50%;
-    left: 10%;
-    transition: transform 0.3s ease;
+.rightInfoCard *, .leftInfoCard * {
+    width: 80%;
+}
+.rightInfoCard h3, .leftInfoCard h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
 }
 
-.rightInfoCard:hover img, .leftInfoCard:hover img {
-    box-shadow: 0 16px 40px rgba(223, 0, 0, 0.3);
+/* Direções */
+.leftInfoCard {
+    clip-path: polygon(0 17%, 14% 15%, 100% 0%, 100% 100%, 0% 100%);
+}
+.rightInfoCard {
+    clip-path: polygon(100% 17%, 86% 15%, 0 0%, 0 100%, 100% 100%);
+}
+.leftImg {
+    left: -6%;
+}
+.rightImg {
+    right: -6%;
+}
+
+/* Hover */
+.infoCard:hover .leftImg,
+.infoCard:hover .rightImg {
+    transform: translateY(-50%) scale(1.1);
+}
+.shadow:hover {
+    filter: drop-shadow(0 0 12px rgba(201, 4, 4, 0.5));
+}
+
+.infoCard {
+    position: relative;
 }

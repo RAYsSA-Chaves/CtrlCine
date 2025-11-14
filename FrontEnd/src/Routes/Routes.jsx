@@ -19,6 +19,7 @@ export default function Router() {
 
                 {/* Públicas */}
                 <Route path="/landingPage" element={<LandingPage />} />
+                <Route path="/" element={<LandingPage />} />
 
                 {/* Privadas */}
                 {/* <Route
