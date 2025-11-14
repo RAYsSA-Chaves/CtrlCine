@@ -1,0 +1,44 @@
+/* Variações dos cards informativos */
+
+.leftInfoCard {
+    clip-path: polygon(0 69%, 100% 57%, 100% 100%, 0% 100%);
+}
+
+.rightInfoCard {
+    clip-path: polygon(0 100%, 100% 100%, 100% 57, 0 69%);
+}
+
+.rightInfoCard, .leftInfoCard {
+    background-color: var(--black-purple);
+    display: flex;
+    flex-direction: column;
+    align-items: self-end;
+    text-align: center;
+    padding: 2rem;
+    position: relative;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.3s ease;
+    height: 50rem;
+}
+
+.rightInfoCard:hover, .leftInfoCard:hover {
+    box-shadow: 0 16px 40px rgba(223, 0, 0, 0.3);
+}
+
+.rightInfoCard img {
+    position: absolute;
+    top: 50%;
+    right: 10%;
+    transition: transform 0.3s ease;
+}
+
+.leftInfoCard img {
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    transition: transform 0.3s ease;
+}
+
+.rightInfoCard:hover img, .leftInfoCard:hover img {
+    box-shadow: 0 16px 40px rgba(223, 0, 0, 0.3);
+}

@@ -1,8 +1,14 @@
 /* Reset global do estilo */
 
-#root * {
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Manrope';
+    font-size: 18px;
+    color: #fff;
+}
+
+body {
+    background-color: var(--black-bg);
 }

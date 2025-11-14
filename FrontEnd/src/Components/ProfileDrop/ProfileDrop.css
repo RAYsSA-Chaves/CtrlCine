@@ -1,0 +1,72 @@
+.user-menu-container {
+    position: relative;
+    width: 220px;
+    font-family: sans-serif;
+}
+
+.user-header {
+    background: #2b292e;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 40px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.user-photo {
+    width: 35px;
+    height: 35px;
+    background: #ff6536;
+    border-radius: 50%;
+}
+
+.user-name {
+    flex: 1;
+}
+
+.arrow {
+    font-size: 16px;
+    transition: transform 0.2s;
+}
+
+.arrow.up {
+    transform: rotate(180deg);
+}
+
+.dropdown {
+    margin-top: 10px;
+    background: #2b292e;
+    padding: 12px 0;
+    border-radius: 20px;
+    animation: fadeIn 0.15s ease-out;
+}
+
+.dropdown-item {
+    color: white;
+    padding: 10px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+    border-radius: 14px;
+}
+
+.dropdown-item:hover {
+    background: #1f1d20;
+}
+
+.icon {
+    font-size: 18px;
+}
+
+.logout {
+    color: #ff6363;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to   { opacity: 1; transform: translateY(0); }
+}

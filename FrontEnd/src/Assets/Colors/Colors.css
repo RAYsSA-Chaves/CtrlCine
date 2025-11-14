@@ -3,7 +3,9 @@
 :root {
     --black-bg: #201E21;
     --red: #E50000;
-    --black-purple: #262626;
+    --dark-red: #bb0606;
+    --black-purple: #494152;
     --gray: #393939;
     --dark-black-purple: #1A1A1A;
+    --light-white: #caced5;
 }

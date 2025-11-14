@@ -1,0 +1,55 @@
+/* Estilo do cabeçalho */
+
+.headerHome {
+    min-height: 100vh;
+    background-image: 
+        linear-gradient(to bottom, transparent 10%, var(--black-bg) 100%),
+        url('../../Assets/Images/header_fundo.svg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    margin-bottom: 20rem;
+}
+
+.landingPage {
+    min-height: 100vh;
+    background-color: var(--black-bg);
+}
+
+.transparentLogo {
+    width: 13rem;
+    height: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.headerTxt {
+    position: absolute;
+    top: 95%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.headerTxt h1 {
+    font-size: 2.5em !important;
+    margin-bottom: 10px;
+}
+
+.headerTxt p {
+    color: var(--light-white)
+}
+
+.headerTxt p:last-of-type {
+    margin-bottom: 15px;
+}
+
+/* ------------- */
+
