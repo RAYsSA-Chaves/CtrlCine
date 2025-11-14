@@ -5,7 +5,7 @@ import PlayIcon from '../../Assets/Images/Icons/play_icon.svg'
 import CardInfo from '../../Components/CardInfo/CardInfo'
 import Img1 from '../../Assets/Images/ilustration1.png'
 import Img2 from '../../Assets/Images/ilustration2.png'
-import Img3 from '../../Assets/Images/ilustration3.png'
+import FAQList from '../../Components/FAQList/FAQLst'
 
 
 export default function LandingPage() {
@@ -30,6 +30,7 @@ export default function LandingPage() {
 
             {/* Conteúdo principal */}
             <main>
+                {/* Cards */}
                 <section className='infoCardsSection'>
                     <CardInfo
                     style='left'
@@ -41,6 +42,7 @@ export default function LandingPage() {
                     image={Img2}
                     alt='Ilustração de câmera cinematográfica'
                 />
+
                 <CardInfo
                     style='right'
                     title='Seu universo cinematográfico pessoal'
@@ -52,6 +54,19 @@ export default function LandingPage() {
                     alt='Ilustração de claquete'
                 />
                 </section>
+
+                {/* FAQ */}
+                <h2>Perguntas Frequentes</h2>
+                <FAQList />
+
+                <aside className='loginBanner'>
+                    <h2>Descubra o que temos para você!</h2>
+                    <Botao
+                        style = 'primary'
+                        text = 'Entrar'
+                        onClick = {() => alert('Oi')}
+                    />
+                </aside>
             </main>
         </div>
     )

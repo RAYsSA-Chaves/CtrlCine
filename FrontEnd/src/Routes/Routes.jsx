@@ -1,8 +1,9 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoutes";
-
 import NavBar from "../Components/NavBar/Nav";
-import LandingPage from "../Pages/LandingPage/LandingPage";
+import HomeRoute from "./HomeRoute";
+import Footer from "../Components/Footer/Footer";
+
 
 export default function Router() {
     const location = useLocation();
@@ -18,8 +19,7 @@ export default function Router() {
             <Routes>
 
                 {/* Públicas */}
-                <Route path="/landingPage" element={<LandingPage />} />
-                <Route path="/" element={<LandingPage />} />
+                <Route path="/" element={<HomeRoute />} />
 
                 {/* Privadas */}
                 {/* <Route
@@ -49,6 +49,8 @@ export default function Router() {
                     }
                 /> */}
             </Routes>
+
+            <Footer />
         </>
     );
 }

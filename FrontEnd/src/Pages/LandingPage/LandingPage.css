@@ -51,6 +51,11 @@
     margin-bottom: 15px;
 }
 
+.landingPage h2 {
+    font-size: 28px !important;
+    margin-bottom: 2rem;
+}
+
 /* ------------- */
 
 main {
@@ -62,4 +67,31 @@ main {
     display: flex;
     flex-direction: column;
     gap: 6rem;
+    margin-bottom: 6rem;
+}
+
+.loginBanner {
+    background-image: url('../../Assets/Images/banner1.svg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 200px;
+    border-radius: 12px;
+    margin-top: 4rem;
+    padding: 3rem;
+}
+
+.loginBanner h2 {
+    margin: 0;
+}
+
+/* Responsividade para notebook */
+@media (max-width: 1600px) {
+    main {
+        margin-right: 5rem;
+        margin-left: 5rem;
+    }
 }

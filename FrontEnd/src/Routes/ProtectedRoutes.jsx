@@ -12,7 +12,7 @@ export default function ProtectedRoute({ children }) {
 
     // se não tem usuário, token inválido/expirou
     if (!user) {
-        return <Navigate to='/landingPage' replace />;
+        return <Navigate to='/' replace />;
     }
 
     return children;

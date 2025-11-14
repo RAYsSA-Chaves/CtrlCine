@@ -10,17 +10,21 @@
     padding: 4rem;
     height: 23rem;
 }
+
 .leftInfoCard {
     align-items: flex-end;
 }
+
 .rightInfoCard {
     align-items: flex-start;
 }
+
 .shadow {
     filter: drop-shadow(0px 0px 6px  rgba(184, 6, 6, 0.5));
     transition: filter 0.3s ease;
     position: relative;
 }
+
 .leftImg, .rightImg {
     width: 22%;
     position: absolute;
@@ -28,38 +32,60 @@
     transform: translateY(-50%);
     transition: transform 0.3s ease;
 }
+
 .rightInfoCard *, .leftInfoCard * {
     width: 80%;
 }
+
 .rightInfoCard h3, .leftInfoCard h3 {
     font-size: 1.5rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     font-weight: 600;
 }
+
+/* ---------------- */
 
 /* Direções */
 .leftInfoCard {
     clip-path: polygon(0 17%, 14% 15%, 100% 0%, 100% 100%, 0% 100%);
 }
+
 .rightInfoCard {
     clip-path: polygon(100% 17%, 86% 15%, 0 0%, 0 100%, 100% 100%);
 }
+
 .leftImg {
     left: -6%;
 }
+
 .rightImg {
     right: -6%;
 }
+
+/* ---------------- */
 
 /* Hover */
 .infoCard:hover .leftImg,
 .infoCard:hover .rightImg {
     transform: translateY(-50%) scale(1.1);
 }
+
 .shadow:hover {
     filter: drop-shadow(0 0 12px rgba(201, 4, 4, 0.5));
 }
 
 .infoCard {
     position: relative;
+}
+
+/* ---------------- */
+
+/* Responsividade para notebook */
+@media (max-width: 1600px) {
+    .rightInfoCard, .leftInfoCard {
+        height: 20rem;
+    }
+    .leftImg, .rightImg {
+        width: 26%;
+    }
 }

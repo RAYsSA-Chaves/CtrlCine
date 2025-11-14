@@ -1,3 +1,4 @@
+/* Estilo base */
 .primaryBtn, .secondaryBtn, .terciaryBtn {
     display: flex;
     width: fit-content;
@@ -10,6 +11,9 @@
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* ---------------- */
+
+/* Estilos específicos */
 .primaryBtn {
     background-color: var(--red);
 }
@@ -35,6 +39,8 @@
     background-color: #fff;
     color: #000;
 }
+
+/* ---------------- */
 
 /* Ícone do botão */
 .icon {

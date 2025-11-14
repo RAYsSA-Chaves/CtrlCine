@@ -1,0 +1,73 @@
+/* Container do card */
+.faqItem {
+    cursor: pointer;
+    padding: 10px 0;
+}
+
+/* ---------------- */
+
+/* Setinha */
+.faqItem svg {
+    height: 30px;
+    width: 30px;
+    padding: 6px;
+}
+
+.faqItem:hover svg {
+    background-color: var(--black-purple);
+    border-radius: 5px;
+}
+
+/* ---------------- */
+
+/* Pergunta */
+.faqHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* ---------------- */
+
+/* Pergunta + resposta */
+.openedFaq {
+    display: flex;
+    align-items: top;
+    justify-content: space-between;
+}
+
+.openedDrop{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+/* ---------------- */
+
+/* Número */
+.faqNumber {
+    background-color: var(--red);
+    padding: 10px;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 14px;
+    width: fit-content;
+    height: fit-content;
+    margin-right: 10px;
+}
+
+/* ---------------- */
+
+/* Texto da pergunta */
+.faqQuestion {
+    font-weight: 200;
+}
+
+/* ---------------- */
+
+/* Texto da resposta */
+.faqAnswer {
+    margin-top: 1rem;
+    font-size: 14px;
+    font-weight: 200;
+}
