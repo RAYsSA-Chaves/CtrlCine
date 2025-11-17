@@ -121,6 +121,7 @@ def get_movies(filters):
 					'titulo': f[1],
 					'capa_vertical': f[3],
 					'lancamento': f[4].isoformat(),
+					'nota_imdb': f[8],
 					'em_alta': f[9],
 					'nota_ctrlcine': f[10]
 				})

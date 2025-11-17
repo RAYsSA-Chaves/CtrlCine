@@ -5,24 +5,31 @@ from core.database import get_connection
 
 # Criar nova lista
 def create_list(usuario_id, nome):
-	conn = get_connection()
-	cursor = conn.cursor()
+    conn = get_connection()
+    cursor = conn.cursor()
 
-	try:
-		# insere nova lista no banco
-		cursor.execute('INSERT INTO listas (nome, usuario_id) VALUES (%s, %s)', (nome, usuario_id))
-		conn.commit()
-		
-		# monta resposta com o nome da lista
-		response = {'Mensagem': f'Lista {nome} criada com sucesso!'}
-		
-	except Exception as e:
-		response = {'Erro': str(e)}
-		
-	finally:
-		cursor.close()
-		conn.close()
-		return response
+    try:
+        cursor.execute(
+            'INSERT INTO listas (nome, usuario_id) VALUES (%s, %s)',
+            (nome, usuario_id)
+        )
+        conn.commit()
+
+        # pega o id gerado automaticamente
+        novo_id = cursor.lastrowid
+
+        response = {
+            'id': novo_id,
+            'nome': nome
+        }
+
+    except Exception as e:
+        response = {'Erro': str(e)}
+
+    finally:
+        cursor.close()
+        conn.close()
+        return response
 
 # -------------------------------------------------------------
 

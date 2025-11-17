@@ -1,3 +1,5 @@
+// Rotas protegidas (apenas para usuários logados) -> retornam para '/'
+
 import { useContext } from 'react';
 import { Navigate } from 'react-router-dom';
 import { AuthContext } from '../Services/AuthContext';

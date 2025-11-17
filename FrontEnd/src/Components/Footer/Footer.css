@@ -1,3 +1,4 @@
+/* Container */
 footer {
     display: flex;
     flex-direction: column;
@@ -10,12 +11,16 @@ footer {
     padding: 2rem 3rem;
 }
 
+/* ---------------- */
+
 /* Logo */
 footer img {
     width: 120px;
     height: auto;
     margin-bottom: 20px;
 }
+
+/* ---------------- */
 
 /* Links */
 .footerLinks {
@@ -32,4 +37,11 @@ footer img {
 
 .footerLinks li:hover {
     text-decoration: underline;
+}
+
+/* ---------------- */
+
+/* Linha divisória */
+footer .divider {
+    background: linear-gradient(to right, var(--black-purple), var(--red), var(--black-purple));
 }

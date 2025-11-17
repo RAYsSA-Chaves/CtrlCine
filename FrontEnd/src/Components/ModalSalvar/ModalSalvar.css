@@ -1,0 +1,206 @@
+/* Card do modal */
+.modalSalvar {
+    background: url('../../Assets/Images/modal_bg.png');
+    outline: none;
+    border: none;
+    width: 50vw;
+    border-radius: 12px;
+    position: relative;
+}
+
+/* Header */
+.headerModal {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    height: fit-content;
+    border-bottom: 1px solid #5f5f5f;
+}
+
+.headerModal .logo {
+    width: 130px;
+    height: auto;
+    padding-top: 0.8rem;
+    padding-left: 1rem;
+}
+
+.headerModal .secondaryBtn {
+    height: 10vh;
+    width: 5vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--black-purple);
+    border-radius: 0 4px 0px 0;
+}
+
+.headerModal .secondaryBtn:hover {
+    background-color: var(--dark-black-purple);
+}
+
+.headerModal .secondaryBtn .icon {
+    margin: 0;
+}
+
+.textoInfo {
+    font-size: 0.95rem;
+    margin-bottom: 18px;
+}
+
+.modalContent {
+    margin: 3rem 2rem 1rem 2rem;
+}
+
+.modalContent h1 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+/* -------- DROPDOWN ---------- */
+
+.dropdownSalvar {
+    position: relative;
+    margin-top: 2rem;
+    margin-bottom: 20px;
+    width: 30vw;
+}
+
+.dropBtn {
+    background-color: var(--black-purple);
+    padding: 14px 20px;
+    width: 100%;
+    border: 2px solid #5f5f5f;
+    border-radius: 50px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dropBtn:hover {
+    background-color: var(--dark-black-purple);
+}
+
+.dropContent {
+    width: 100%;
+    position: absolute;
+    background: var(--black-purple);
+    border: 2px solid #5f5f5f;
+    border-radius: 20px;
+    padding: 8px;
+    top: 65px;
+    overflow-y: auto;
+    max-height: 200px; 
+}
+
+.dropItem {
+    padding: 15px 10px;
+    border-radius: 12px;
+    cursor: pointer;
+    background: var(--black-purple);
+    margin-bottom: 6px;
+}
+
+.dropItem:hover, .dropNovo:hover {
+    background-color: var(--dark-black-purple);
+}
+
+.dropNovo {
+    padding: 15px 10px;
+    margin-top: 6px;
+    border-radius: 12px;
+    background: var(--black-purple);
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+/* -------- CHIPS ---------- */
+
+.chipsArea {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.chip {
+    background: var(--dark-black-purple);
+    border: 1px solid #5f5f5f;
+    padding: 6px 12px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.chip:hover {
+    background: #000;
+}
+
+
+.removeChip {
+    cursor: pointer;
+}
+
+/* -------- BOTÕES ---------- */
+
+.footerBtns {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    background-color: transparent;
+    padding: 0;
+    margin: 3rem 2rem 1rem 2rem;
+}
+
+/* Botões usando seu genérico */
+.cancelarBtn {
+    background: #333;
+    color: #fff;
+}
+
+.confirmarBtn {
+    background: #ff0033;
+    color: #fff;
+}
+
+.primaryBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.checkboxItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.checkboxItem input {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--red);
+}
+
+/* Largura da scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* Cor de fundo do trilho (track) */
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* A parte que você arrasta */
+::-webkit-scrollbar-thumb {
+    background: #888;         /* cor */
+    border-radius: 10px;      /* 👈 arredonda */
+}
+
+/* Hover */
+::-webkit-scrollbar-thumb:hover {
+    background: var(--dark-black-purple);
+}

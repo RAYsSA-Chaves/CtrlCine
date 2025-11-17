@@ -1,15 +1,18 @@
+// Notificações na NavBar
+
 import { useState } from 'react';
 import './NotificationDrop.css';
 import Bell from '../../Assets/Images/Icons/bell_icon.svg'
+
 
 export default function NotificationDrop() {
     const [open, setOpen] = useState(false);
     const [hasNew, setHasNew] = useState(true); // controla a bolinha vermelha
 
+    // Ao abrir, remove a bolinha vermelha
     function toggleMenu() {
         setOpen(!open);
-
-        // Ao abrir, remove o indicador
+        
         if (!open) {
             setHasNew(false);
         }
@@ -19,7 +22,7 @@ export default function NotificationDrop() {
         <div className='notificationContainer'>
             
             {/* Ícone do sino */}
-            <div className='bellButton' onClick={toggleMenu}>
+            <div className={`bellBtn ${open ? 'active' : ''}`} onClick={toggleMenu}>
                 <img src={Bell} alt='Ícone de sino' />
                 {hasNew && <span className='redDot'></span>}
             </div>
@@ -29,7 +32,7 @@ export default function NotificationDrop() {
                 <div className='notificationDropdown'>
                     <div className='dropdownHeader'>
                         <span>Notificações</span>
-                        <button className='clear-btn'>Limpar tudo</button>
+                        <button className='clearBtn'>Limpar tudo</button>
                     </div>
 
                     <div className='divider'></div>

@@ -1,0 +1,18 @@
+/* Conteúdo do modal */
+.successModal {
+    background: url('../../Assets/Images/modal_bg.png');
+    outline: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 5rem;
+    width: 30vw;
+    border-radius: 12px;
+}
+
+.successModal svg {
+    stroke: #00ff73;
+    margin-bottom: 2rem;
+}

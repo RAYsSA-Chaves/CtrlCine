@@ -1,3 +1,5 @@
+// Página inicial para usuários deslogaados
+
 import './LandingPage.css'
 import Botao from '../../Components/Botao/Botao'
 import logoTransparent from '../../Assets/Images/Logo/logo_transparent.png'
@@ -13,7 +15,7 @@ export default function LandingPage() {
         <div className='landingPage'>
             {/* Cabeçalho */}
             <header className='headerHome' id='headerLandingPage'>
-                <img src={logoTransparent} alt="Logo" className='transparentLogo'/>
+                <img src={logoTransparent} alt='Logo' className='transparentLogo'/>
                 {/* Texto de introdução */}
                 <section aria-label='Texto do cabeçalho' className='headerTxt'>
                     <h1>CtrlCine - Seu Cinema, do Seu Jeito.</h1>
@@ -23,7 +25,7 @@ export default function LandingPage() {
                         style = 'primary'
                         text = 'Entrar'
                         icon={PlayIcon}
-                        onClick = {() => alert('Oi')}
+                        to='/login'
                     />
                 </section>
             </header>
@@ -59,12 +61,13 @@ export default function LandingPage() {
                 <h2>Perguntas Frequentes</h2>
                 <FAQList />
 
+                {/* Banner */}
                 <aside className='loginBanner'>
                     <h2>Descubra o que temos para você!</h2>
                     <Botao
                         style = 'primary'
                         text = 'Entrar'
-                        onClick = {() => alert('Oi')}
+                        to='/login'
                     />
                 </aside>
             </main>

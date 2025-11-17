@@ -1,0 +1,64 @@
+/* Container */
+.inputContainer {
+    position: relative;
+    width: 100%;
+    margin: 30px 0;
+}
+
+/* ---------------- */
+
+/* Ícone */
+.inputIcon {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* ---------------- */
+
+/* Label flutuante */
+.floatingLabel {
+    position: absolute;
+    left: 50px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    transition: 0.30s ease;
+}
+
+/* ---------------- */
+
+/* Input focado ou com texto → label sobe */
+.floatingLabel.active {
+    top: -5px;
+    left: 22px;
+    transform: translateY(-20%);
+    font-size: 13px;
+    background-color: var(--black-bg);
+    padding: 0 4px;
+}
+
+/* ---------------- */
+
+/* Campo de input */
+.inputField {
+    width: 100%;
+    padding: 20px 16px 18px 50px; /* espaço para o ícone */
+    border-radius: 12px;
+    outline: none;
+    border: none; 
+    background-color: var(--gray);
+}
+
+/* ---------------- */
+
+/* Placeholder */
+.inputField::placeholder {
+    color: var(--light-white);
+}
+
+.inputField:focus, .inputField.active {
+    background-color: transparent;
+    outline: auto;
+}

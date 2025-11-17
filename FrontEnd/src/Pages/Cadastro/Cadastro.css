@@ -1,0 +1,32 @@
+/* Adaptações do estilo do form de login para form de cadastro */
+
+#registerPage {
+    margin: 3rem 0;
+}
+
+#registerPage .loginImage {
+    background-image: url('../../Assets/Images/cadastroImg.svg');
+}
+
+.inputsDisplay {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    height: 60px;
+}
+
+#registerPage .inputField:nth-child(2) {
+    padding: 20px 16px 18px 30px; /* espaço para o ícone */
+}
+
+#registerPage .inputContainer:nth-child(2) .floatingLabel {
+    left: 30px;
+}
+
+#registerPage .entryForm {
+    margin: 2rem 0;
+}
+
+#registerPage .errorMessage {
+    margin-bottom: 2rem;
+}

@@ -1,0 +1,105 @@
+.userListsPage {
+    padding: 12rem 2rem;
+    flex: 1;
+}
+
+.userListsPage header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6rem;
+}
+
+.userListsPage h1 {
+    font-size: 30px !important;
+    margin-bottom: 4rem;
+}
+
+.noListsMessage p {
+    text-align: center;
+    font-size: 20px !important;
+}
+
+.listasGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.listaWrapper {
+    position: relative;
+    width: 100%;
+}
+
+.btnEditar {
+    position: absolute;
+    right: -6%;
+    top: 8%;
+    padding: 15px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    background: linear-gradient(180deg, #8c2e274a, #cf000076);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(10px); /* Safari */
+    border: 1px solid #86747464;
+    display: none;
+}
+
+
+.listaWrapper:hover .btnEditar{
+    display: block;
+}
+
+.listaWrapper:hover .genderCard {
+    background-color: var(--dark-black-purple);
+}
+
+.listaWrapper:hover .genderCard::after {
+    background: linear-gradient(to bottom, rgba(32, 30, 33, 0.32) 50%, var(--dark-black-purple) 100%);
+}
+
+.btnEditar:hover {
+    background: linear-gradient(180deg, #812b2b3c, #5303036d);
+    border: 1px solid #4a202053;
+}
+
+.customModal {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    max-width: 400px;
+    width: 100%;
+    position: relative;
+}
+
+.closeBtn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.modalBtns {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.modalContent input {
+    background-color: var(--dark-black-purple);
+    border: solid 1px #5f5f5f;
+    padding: 1rem;
+    width: 100%;
+    border-radius: 12px;
+}
+
+.modalContent .floatingLabel {
+    left: 30px;
+}
+
+.modalContent .floatingLabel.active {
+    background-color: var(--black-purple);
+}

@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import './FAQList.css'
-import FAQItem from '../FaqItem/FaqItem'
+import FAQItem from '../FAQItem/FAQItem';
 
 
 export default function FAQList() {
@@ -25,7 +25,7 @@ export default function FAQList() {
 
     return (
         // Seção com perguntas e respostas
-        <section className="faqList">
+        <section className='faqList'>
             {lista.map((item, index) => (
                 <div key={index}>
                     <FAQItem
@@ -37,7 +37,7 @@ export default function FAQList() {
                     />
                     {/* Linha divisória */}
                     {index < lista.length - 1 && (
-                        <div className="divider"></div>
+                        <div className='divider'></div>
                     )}
                 </div>
             ))}

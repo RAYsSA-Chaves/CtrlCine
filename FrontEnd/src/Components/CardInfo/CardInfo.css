@@ -71,7 +71,7 @@
 }
 
 .shadow:hover {
-    filter: drop-shadow(0 0 12px rgba(201, 4, 4, 0.5));
+    filter: drop-shadow(0 0 14px rgba(201, 4, 4, 0.5));
 }
 
 .infoCard {

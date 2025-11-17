@@ -3,7 +3,7 @@
 .headerHome {
     min-height: 100vh;
     background-image: 
-        linear-gradient(to bottom, transparent 10%, var(--black-bg) 100%),
+        linear-gradient(to bottom, transparent 5%, var(--black-bg) 100%),
         url('../../Assets/Images/header_fundo.svg');
     background-size: cover;
     background-position: center;

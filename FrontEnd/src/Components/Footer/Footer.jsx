@@ -7,7 +7,7 @@ export default function Footer() {
     return (
         <footer>
             {/* Logo */}
-            <img src={Logo} alt="Logo" />
+            <img src={Logo} alt='Logo' />
 
             {/* Links */}
             <ul className='footerLinks'>

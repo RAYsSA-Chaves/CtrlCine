@@ -10,7 +10,6 @@ export function userUpdater(funcaoDoSetUser) {
     updateUserCallback = funcaoDoSetUser;
 }
 
-
 // Centralizando o axios
 const api = axios.create({
     baseURL: 'http://localhost:8000/api',
@@ -42,10 +41,19 @@ api.interceptors.response.use(
     (response) => response,
     async (error) => {
 
+        console.error('🚨 ERRO:', error);
+
         const originalRequest = error.config;
+
+        // erro no login -> não tenta dar refresh no token nem dá reload na página
+        if (originalRequest.url.includes("/usuarios/login")) {
+            return Promise.reject(error);
+        }
 
         // se o token expirou e ainda não tentou refresh
         if (error.response?.status === 401 && !originalRequest._retry) {
+
+            console.warn('⚠️ TOKEN EXPIRADO — tentando refresh...');
 
             originalRequest._retry = true;  // evita loop
 
@@ -53,17 +61,22 @@ api.interceptors.response.use(
 
             // se não tem refresh → desloga
             if (!refreshToken) {
+                console.error('❌ Sem refresh token — usuário será deslogado');
                 localStorage.clear();
                 window.location.reload();
                 return Promise.reject(error);
             }
 
             try {
+                console.log('🔄 Pedindo tokens novos...');
+                
                 // tenta pedir novos tokens
                 const refreshResponse = await axios.post(
                     'http://localhost:8000/api/usuarios/refresh',
                     { refresh_token: refreshToken }
                 );
+
+                console.log('✅ Refresh funcionou!', refreshResponse.data);
 
                 const newAccess = refreshResponse.data.access_token;
                 const newRefresh = refreshResponse.data.refresh_token;
@@ -78,18 +91,23 @@ api.interceptors.response.use(
                 // atualiza o usuário no AuthContext usando a função enviada
                 if (updateUserCallback) {
                     try {
+                        console.log('👤 Atualizando usuário com novo token...');
+
                         const userRes = await api.get('/usuarios/me');
                         updateUserCallback(userRes.data); // ATUALIZA O CONTEXTO
                     } catch (e) {
-                        console.warn('Não foi possível atualizar o usuário após refresh:' + e);
+                        console.error('❌ Falha ao atualizar usuário:', e);
                     }
                 }
 
+                console.log('📤 Reenviando requisição original...');
 
                 // reenvia a requisição original com o novo token
                 return api(originalRequest);
 
             } catch (refreshError) {
+                console.error('❌ Refresh falhou!', refreshError);
+                
                 // refresh falhou -> logout
                 localStorage.clear();
                 window.location.reload();
@@ -97,7 +115,7 @@ api.interceptors.response.use(
             }
         }
 
-        // Qualquer outro erro
+        // qualquer outro erro
         return Promise.reject(error);
     }
 );
