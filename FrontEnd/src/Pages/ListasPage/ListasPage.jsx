@@ -1,7 +1,7 @@
 import './ListasPage.css'
 import { useState, useEffect, useContext } from 'react'
 import api from '../../Services/Api'
-import GenderCard from '../../Components/GenderCard/GenderCard'
+import ListCard from '../../Components/ListCard/ListCard';
 import { Pencil, X } from 'lucide-react'
 import Modal from 'react-modal'
 import XIcon from '../../Assets/Images/Icons/x_icon.svg'
@@ -142,7 +142,7 @@ export default function ListasPage() {
             });
 
             showSuccess("Lista criada com sucesso!");
-            fetchListas(); // atualiza a grid
+            fetchListas(); 
             fecharModalCriar();
 
         } catch (err) {
@@ -177,17 +177,10 @@ export default function ListasPage() {
                 <div className='listasGrid'>
                     {listas.map(lista => (
                         <div key={lista.id} className='listaWrapper'>
-                            <GenderCard
+                            <ListCard
                                 nome={lista.nome}
-                                imagem={lista.capa || '/default_cover.svg'}
+                                onEditar={() => abrirModal(lista)}
                             />
-                            <button
-                                className='btnEditar'
-                                onClick={() => abrirModal(lista)}
-                                title='Editar lista'
-                            >
-                                <Pencil />
-                            </button>
                         </div>
                     ))}
                 </div>

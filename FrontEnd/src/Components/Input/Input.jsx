@@ -4,7 +4,14 @@ import './Input.css';
 import { useState } from 'react';
 
 
-export default function Input({ label, icon, placeholder, type = 'text', value, onChange, name }) {
+export default function Input({ 
+    label, 
+    icon, 
+    placeholder, 
+    type = 'text', 
+    value, onChange, 
+    name }) {
+        
     // controla se o input está focado (para flutuar label e mostrar placeholder)
     const [focused, setFocused] = useState(false);
 
@@ -42,9 +49,7 @@ export default function Input({ label, icon, placeholder, type = 'text', value, 
                 name={name}
                 // limites de caracteres
                 maxLength={
-                    name === 'senha' ? 32 : 
-                    name === 'email' ? 255 :
-                    undefined}
+                    name === 'senha' ? 32 : 255}
                 autocomplete='off'
                 required
             />

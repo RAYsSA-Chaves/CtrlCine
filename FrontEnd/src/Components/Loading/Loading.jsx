@@ -1,16 +1,17 @@
 // Bolinha de loading
 
-import { Ring } from 'ldrs/react'
+import { ring } from 'ldrs'
 
+ring.register()
 
 export default function Loader() {
     return (
-        <Ring
+        <l-ring
             size="40"
             stroke="5"
-            bgOpacity="0"
+            bg-opacity="0"
             speed="2"
-            color="white" 
-        />
+            color="white"
+        ></l-ring>
     )
 }

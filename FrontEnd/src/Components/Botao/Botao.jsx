@@ -4,7 +4,16 @@ import './Botao.css';
 import { useNavigate } from 'react-router-dom';
 
 
-export default function Botao({ style, text = '', icon = null, onClick, to, type = 'button', disabled = false }) {
+export default function Botao({ 
+    style, 
+    text = '', 
+    icon = null, 
+    onClick, 
+    to, 
+    type = 'button', 
+    disabled = false 
+}) {
+    
     const navigate = useNavigate();
 
     // função do click e navegação passadas pelo pai

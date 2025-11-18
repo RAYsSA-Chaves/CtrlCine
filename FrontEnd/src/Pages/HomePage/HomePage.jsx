@@ -57,27 +57,34 @@ export default function HomePage() {
     // Estados para guardar os gêneros puxados do banco
     const [generos, setGeneros] = useState([]);
 
-     // Guardando capa para cada gênero
-    const gendersCovers = {
-        'Ação': AcaoImg,
-        'Aventura' : AventuraImg,
-        'Comédia': ComediaImg,
-        'Drama': DramaImg,
-        'Terror':  TerrorImg,
-        'Suspense': SuspenseImg,
-        'Romance': RomanceImg,
-        'Criminal': CriminalImg,
-        'Biografia': BiografiaImg,
-        'Histórico': HistoricoImg,
-        'Guerra': GuerraImg,
-        'Família': FamiliaImg,
-        'Esporte': EsporteImg,
-        'Musical': MusicalImg,
-        'Documentário': DocImg,
-        'Fantasia': FantasiaImg,
-        'Ficção': FiccaoImg,
-        'Animação': AnimacaoImg
+    // Configuração para slider de gêneros e filmes
+    const genderSettings = {
+        dots: false,
+        infinite: true,
+        speed: 800,
+        slidesToShow: 5,  // quantos cards aparecem na tela
+        slidesToScroll: 5,
+        arrows: true,
+        responsive: [
+            {
+                breakpoint: 1400,
+                settings: {
+                    slidesToShow: 4,
+                    slidesToScroll: 4,
+                }
+            }
+        ]
     };
+
+    // Filmes em alta
+    const [topFilmes, setTopFilmes] = useState([]);
+
+    // Estados para o modal
+    const [modalSalvarAberto, setModalSalvarAberto] = useState(false);
+    const [filmeSelecionado, setFilmeSelecionado] = useState(null);
+
+    // Guardar filmes não lançados
+    const [filmesLancamento, setFilmesLancamento] = useState([]);
 
     // Puxando gêneros do banco
     useEffect(() => {
@@ -90,19 +97,6 @@ export default function HomePage() {
             });
     }, []);
 
-    // Configuração para slider de gêneros
-    const genderSettings = {
-        dots: false,
-        infinite: true,
-        speed: 800,
-        slidesToShow: 5,      // quantos cards aparecem na tela
-        slidesToScroll: 5,
-        arrows: true,
-    };
-
-    // Filmes em alta
-    const [topFilmes, setTopFilmes] = useState([]);
-
     // Puxando filmes em alta
     useEffect(() => {
         api.get('/filmes?em_alta=true')
@@ -114,11 +108,7 @@ export default function HomePage() {
             });
     }, []);
 
-    // Estados para o modal
-    const [modalSalvarAberto, setModalSalvarAberto] = useState(false);
-    const [filmeSelecionado, setFilmeSelecionado] = useState(null);
-
-    // função para formatar data recebida do banco
+    // Função para formatar data recebida do banco
     function formatarData(dataISO) {
         const data = new Date(dataISO);
 
@@ -133,9 +123,6 @@ export default function HomePage() {
 
         return `${dia} ${mes} ${ano}`;
     }
-
-    // Guardar filmes não lançados
-    const [filmesLancamento, setFilmesLancamento] = useState([]);
 
     // Buscar filmes não lançados
     useEffect(() => {
@@ -241,19 +228,6 @@ export default function HomePage() {
                 </div>
             </section>
 
-            <ModalSalvarFilme
-                isOpen={modalSalvarAberto}
-                onRequestClose={() => {
-                    setModalSalvarAberto(false);
-
-                    // força o slick recalcular
-                    setTimeout(() => {
-                        window.dispatchEvent(new Event('resize'));
-                    }, 50);
-                }}
-                filme={filmeSelecionado}
-            />
-
             {/* Banner */}
             <section>
                 <aside className='loginBanner'>
@@ -265,6 +239,20 @@ export default function HomePage() {
                         />
                 </aside>
             </section>
+
+            <ModalSalvarFilme
+                isOpen={modalSalvarAberto}
+                onRequestClose={() => {
+                    setModalSalvarAberto(false);
+
+                    // força o slick recalcular o espaço
+                    setTimeout(() => {
+                        window.dispatchEvent(new Event("resize"));
+                    }, 50);
+                }}
+                filme={filmeSelecionado}
+            />
+            
         </div>
     )
 }

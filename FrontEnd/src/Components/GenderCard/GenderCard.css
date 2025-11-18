@@ -36,7 +36,7 @@
     left: 50%;
     transform: translateX(-50%);
     width: 83%;
-    height: 77%;
+    height: 76%;
     border-radius: 12px;
     background: linear-gradient(to bottom, rgba(32, 30, 33, 0.32) 50%, var(--black-purple) 100%);
     pointer-events: none;

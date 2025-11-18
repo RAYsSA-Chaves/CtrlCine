@@ -3,6 +3,7 @@
 import './Footer.css'
 import Logo from '../../Assets/Images/Logo/Logo.svg'
 
+
 export default function Footer() {
     return (
         <footer>

@@ -137,7 +137,7 @@ export default function Cadastro() {
     
                     {/* Form */}
                     <form className='entryForm' onSubmit={handleSubmit}>
-                        <div>
+                        <div className='cadastroForm'>
                             <h1>Cadastro</h1>
                             <p>Por favor, preencha suas informações abaixo</p>
     
@@ -179,6 +179,7 @@ export default function Cadastro() {
                                 onChange={handleChange}
                                 name = 'email'
                             />
+
                             <div className='passwordField'>
                                 <Input
                                     label='Senha'
@@ -228,6 +229,7 @@ export default function Cadastro() {
                                 <p>Já tem uma conta?</p>
                                 <Link to='/login'>Entre!</Link>
                             </div>
+                            
                         </div>
                     </form>
                 </div>

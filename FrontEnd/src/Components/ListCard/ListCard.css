@@ -1,0 +1,43 @@
+/* Container */
+.listCard {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background-color: var(--black-purple);
+    border-radius: 12px;
+    border: solid 1px #5f5f5f;
+    cursor: pointer;
+    height: 4rem;
+    padding: 1rem;
+}
+
+.listCard:hover {
+    background-color: var(--dark-black-purple);
+}
+
+/* ---------------- */
+
+/* Botão editar */
+.btnEditar svg {
+    width: 16px;
+    height: auto;
+}
+
+.btnEditar {
+    display: none;
+    border: none;
+    padding: 6px 8px;
+    border-radius: 10px;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.listCard:hover .btnEditar {
+    display: block;
+}
+
+.btnEditar:hover {
+    background-color: #000;
+    border: solid 1px var(--light-gray);
+}

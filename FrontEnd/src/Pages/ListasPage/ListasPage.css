@@ -21,9 +21,15 @@
 }
 
 .listasGrid {
+    width: 100%;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: 
+        20rem   
+        20rem
+        20rem   
+        20rem;
+    align-items: center;
+    gap: min(2rem);
 }
 
 .listaWrapper {
@@ -31,24 +37,6 @@
     width: 100%;
 }
 
-.btnEditar {
-    position: absolute;
-    right: -6%;
-    top: 8%;
-    padding: 15px 16px;
-    border-radius: 10px;
-    cursor: pointer;
-    background: linear-gradient(180deg, #8c2e274a, #cf000076);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(10px); /* Safari */
-    border: 1px solid #86747464;
-    display: none;
-}
-
-
-.listaWrapper:hover .btnEditar{
-    display: block;
-}
 
 .listaWrapper:hover .genderCard {
     background-color: var(--dark-black-purple);
@@ -56,11 +44,6 @@
 
 .listaWrapper:hover .genderCard::after {
     background: linear-gradient(to bottom, rgba(32, 30, 33, 0.32) 50%, var(--dark-black-purple) 100%);
-}
-
-.btnEditar:hover {
-    background: linear-gradient(180deg, #812b2b3c, #5303036d);
-    border: 1px solid #4a202053;
 }
 
 .customModal {

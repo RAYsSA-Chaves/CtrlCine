@@ -4,7 +4,11 @@
     margin: 3rem 0;
 }
 
-#registerPage .loginImage {
+.cadastroForm {
+    width: 35vw;
+}
+
+#registerPage .formImage {
     background-image: url('../../Assets/Images/cadastroImg.svg');
 }
 

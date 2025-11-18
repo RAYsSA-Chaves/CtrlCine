@@ -7,7 +7,7 @@ import { AuthContext } from '../../Services/AuthContext';
 import api from '../../Services/Api';
 import { ChevronDown, ChevronUp, Plus, X } from 'lucide-react';
 
-// Modaais reutilizáveis
+// Modais reutilizáveis
 import LoadingModal from '../../Components/LoadingModal/LoadingModal'
 import SuccessModal from '../../Components/SuccessModal/SuccessModal'
 
@@ -45,13 +45,13 @@ export default function ModalSalvarFilme({ isOpen, onRequestClose, filme }) {
 
         async function carregarListas() {
             try {
-                setLoadingOpen(true); // mostra o loading
+                setLoadingOpen(true);  // mostra o loading
 
                 // pega todas as listas do usuário
                 const res = await api.get(`/listas/usuario/${user.id}`);
                 const listas = res.data;
 
-                // faz todas as consultas de filmes
+                // pega filmes daquela lista
                 const respostas = await Promise.all(
                     listas.map(lista => api.get(`/filmes?lista=${lista.id}`))
                 );
@@ -80,8 +80,7 @@ export default function ModalSalvarFilme({ isOpen, onRequestClose, filme }) {
 
             } finally {
                 setTimeout(() => {
-                    // para o loading
-                    setLoadingOpen(false);
+                    setLoadingOpen(false);  // para o loading
                 }, 150);
             }
         }
@@ -115,7 +114,7 @@ export default function ModalSalvarFilme({ isOpen, onRequestClose, filme }) {
         if (!nome) return;
 
         const nova = {
-            id: 'fake-' + novasListas.length,
+            id: 'fake-' + novasListas.length,  // id fake para conseguir salvar e mapear
             nome,
         };
 
@@ -126,10 +125,11 @@ export default function ModalSalvarFilme({ isOpen, onRequestClose, filme }) {
     // salvar tudo
     async function confirmar() {
         try {
-            setLoadingOpen(true);
+            setLoadingOpen(true);  // mostra o loading
 
             let novasCriadas = [];
 
+            // cria as novas listas no banco
             for (let lista of novasListas) {
                 const resp = await api.post('/listas', {
                     usuario_id: user.id,
@@ -156,7 +156,7 @@ export default function ModalSalvarFilme({ isOpen, onRequestClose, filme }) {
                 });
             }
 
-            setLoadingOpen(false);
+            setLoadingOpen(false);  // para o loading
             setSuccessMsg('Filme salvo com sucesso!');
             setSuccessOpen(true);
 
@@ -180,6 +180,7 @@ export default function ModalSalvarFilme({ isOpen, onRequestClose, filme }) {
                 className='modalSalvar'
                 overlayClassName='modalOverlay'
             >
+                {/* Cabeçalho padrão do modal */}
                 <header className='headerModal'>
                     <img src={Logo} alt='Logo' className='logo' />
                     <Botao
@@ -189,6 +190,7 @@ export default function ModalSalvarFilme({ isOpen, onRequestClose, filme }) {
                     />
                 </header>
 
+                {/* Conteúdo do modal */}
                 <section className='modalContent'>
                     <h1>Salve o filme nas suas listas</h1>
 
@@ -196,6 +198,7 @@ export default function ModalSalvarFilme({ isOpen, onRequestClose, filme }) {
                         Escolha uma lista para salvar <strong>{filme?.titulo}</strong>:
                     </p>
 
+                    {/* Dropdown de opções de listas */}
                     <div className='dropdownSalvar'>
                         <button className='dropBtn' onClick={toggleDropdown}>
                             Selecionar listas
@@ -204,7 +207,6 @@ export default function ModalSalvarFilme({ isOpen, onRequestClose, filme }) {
 
                         {dropdownAberto && (
                             <div className='dropContent'>
-
                                 {listasUsuario.map((lista) => (
                                     <label key={lista.id} className='dropItem checkboxItem'>
                                         <input
@@ -225,6 +227,7 @@ export default function ModalSalvarFilme({ isOpen, onRequestClose, filme }) {
                         )}
                     </div>
 
+                    {/* Chip labels */}
                     <div className='chipsArea'>
                         {selecionadas.map((l) => (
                             <div className='chip' key={l.id}>
@@ -235,6 +238,7 @@ export default function ModalSalvarFilme({ isOpen, onRequestClose, filme }) {
                     </div>
                 </section>
 
+                {/* Footer padrão do modal */}
                 <footer className='footerBtns'>
                     <Botao style='secondary' text='Cancelar' onClick={onRequestClose} />
                     <Botao
@@ -246,6 +250,7 @@ export default function ModalSalvarFilme({ isOpen, onRequestClose, filme }) {
                 </footer>
             </Modal>
 
+            {/* Modais internos */}
             <LoadingModal isOpen={loadingOpen} />
             <SuccessModal isOpen={successOpen} message={successMsg} />
         </>

@@ -86,7 +86,7 @@ export default function Login() {
         <main className='loginPage'>
             <div className='contentContainer'>
                 {/* Imagem */}
-                <div className='loginImage'>
+                <div className='formImage'>
                     <Botao 
                         style = 'primary'
                         text = 'Voltar'

@@ -8,8 +8,16 @@ import SaveIcon from '../../Assets/Images/Icons/flag_icon.svg'
 import TrashIcon from '../../Assets/Images/Icons/trash_icon.svg'
 
 
-export default function MovieCard({ titulo, imagem, stars = null, btnSalvar, btnDeletar, lancamento = null }) {
-    const  {user } = useContext(AuthContext); 
+export default function MovieCard({ 
+    titulo, 
+    imagem, 
+    stars = null, 
+    btnSalvar, 
+    btnDeletar, 
+    lancamento = null }) {
+
+    // Pega infos do usuário logado
+    const  { user } = useContext(AuthContext); 
 
     // Função para renderizar estrelas completas ou vazias
     const renderStars = (nota) => {
@@ -37,12 +45,14 @@ export default function MovieCard({ titulo, imagem, stars = null, btnSalvar, btn
             <div className='cardImg'>
                 <img src={imagem} alt="Capa do filme" />
 
+                {/* Botão salvar para user comum */}
                 {user.role === 'comum' && (
                     <button onClick={btnSalvar} className='saveBtn'>
                         <img src={SaveIcon} alt="" />
                     </button>
                 ) }
 
+                {/* Botão deletar par adm */}
                 {user.role === 'admin' && (
                     <button onClick={btnDeletar} className='deleteBtn'>
                         <img src={TrashIcon} alt="" />
@@ -51,9 +61,11 @@ export default function MovieCard({ titulo, imagem, stars = null, btnSalvar, btn
             </div>
             <section className='movieInfos'>
                 <h3>{titulo}</h3>
+                
                 {stars && (
                     <div className="movieStars">{renderStars(stars)}</div>
                 )}
+
                 {lancamento && (
                     <div className="movieStars" id='lancamento'>
                         <p>Estreia em</p>

@@ -134,6 +134,7 @@
     background-repeat: no-repeat !important;
 }
 
+
 .homePage aside h2 {
     font-size: 28px !important
 }
@@ -141,4 +142,11 @@
 .homePage aside {
     background-image: url('../../Assets/Images/banner2.svg');
     height: 35vh;
+}
+
+/* Responsividade para notebook */
+@media (max-width: 1400px) {
+    .slick-prev {
+        left: 88% !important;
+    }
 }

@@ -1,3 +1,4 @@
+/* Container */
 .movieCard {
     padding: 20px;
     background-color: var(--black-purple);
@@ -16,8 +17,9 @@
     background-color: var(--dark-black-purple);
 }
 
+/* ---------------- */
 
-
+/* Imagem */
 .movieCard img {
     width: 14rem;
     height: 16rem;
@@ -26,6 +28,13 @@
     border-radius: 10px;
 }
 
+.cardImg {
+    position: relative;
+}
+
+/* ---------------- */
+
+/* Título + infos */
 .movieCard section {
     display: flex;
     flex-direction: column;
@@ -39,44 +48,7 @@
     font-weight: 400;
 }
 
-.cardImg {
-    position: relative;
-}
-
-.cardImg button {
-    position: absolute;
-    right: 5%;
-    top: 5%;
-    padding: 15px 16px;
-    border-radius: 10px;
-    cursor: pointer;
-}
-
-.cardImg button img {
-    width: 90%;
-    height: auto;
-    border-radius: 0;
-}
-
-.saveBtn {
-    background: linear-gradient(180deg, #4532524a, #45325276);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(10px); /* Safari */
-    border: 1px solid #8f859664;
-    display: none;
-}
-
-.movieCard:hover .saveBtn {
-    display: block;
-}
-
-.saveBtn:hover {
-    background: linear-gradient(180deg, #3608543c, #3608546d);
-    border: 1px solid #9677ab53;
-}
-
 /* Estrelas */
-
 .movieStars {
     position: absolute;
     bottom: 20px;
@@ -108,4 +80,39 @@
 
 #lancamento span, p {
     font-size: 14px;
+}
+
+/* ---------------- */
+
+/* Botão salvar ou deletar */
+.cardImg button {
+    position: absolute;
+    right: 5%;
+    top: 5%;
+    padding: 15px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.cardImg button img {
+    width: 90%;
+    height: auto;
+    border-radius: 0;
+}
+
+.saveBtn {
+    background: linear-gradient(180deg, #4532524a, #45325276);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(10px); /* Safari */
+    border: 1px solid #8f859664;
+    display: none;
+}
+
+.movieCard:hover .saveBtn {
+    display: block;
+}
+
+.saveBtn:hover {
+    background: linear-gradient(180deg, #3608543c, #3608546d);
+    border: 1px solid #9677ab53;
 }

@@ -1,4 +1,4 @@
-/* Card do modal */
+/* Container do modal */
 .modalSalvar {
     background: url('../../Assets/Images/modal_bg.png');
     outline: none;
@@ -8,6 +8,8 @@
     position: relative;
 }
 
+/* ---------------- */
+
 /* Header */
 .headerModal {
     display: flex;
@@ -15,13 +17,13 @@
     align-items: flex-start;
     height: fit-content;
     border-bottom: 1px solid #5f5f5f;
+    align-items: center;
 }
 
 .headerModal .logo {
-    width: 130px;
+    width: 120px;
     height: auto;
-    padding-top: 0.8rem;
-    padding-left: 1rem;
+    padding-left: 0.8rem;
 }
 
 .headerModal .secondaryBtn {
@@ -31,7 +33,7 @@
     align-items: center;
     justify-content: center;
     background-color: var(--black-purple);
-    border-radius: 0 4px 0px 0;
+    border-radius: 0 12px 0px 0;
 }
 
 .headerModal .secondaryBtn:hover {
@@ -42,6 +44,9 @@
     margin: 0;
 }
 
+/* ---------------- */
+
+/* Conteúdo */
 .textoInfo {
     font-size: 0.95rem;
     margin-bottom: 18px;
@@ -57,7 +62,7 @@
     margin-bottom: 1rem;
 }
 
-/* -------- DROPDOWN ---------- */
+/* dropdown */
 
 .dropdownSalvar {
     position: relative;
@@ -116,7 +121,20 @@
     cursor: pointer;
 }
 
-/* -------- CHIPS ---------- */
+.checkboxItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.checkboxItem input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--red);
+}
+
+/* chip labels */
 
 .chipsArea {
     display: flex;
@@ -139,12 +157,11 @@
     background: #000;
 }
 
-
 .removeChip {
     cursor: pointer;
 }
 
-/* -------- BOTÕES ---------- */
+/* botões do footer */
 
 .footerBtns {
     display: flex;
@@ -155,52 +172,27 @@
     margin: 3rem 2rem 1rem 2rem;
 }
 
-/* Botões usando seu genérico */
-.cancelarBtn {
-    background: #333;
-    color: #fff;
-}
-
-.confirmarBtn {
-    background: #ff0033;
-    color: #fff;
-}
-
 .primaryBtn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
 }
 
-.checkboxItem {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-}
+/* ---------------- */
 
-.checkboxItem input {
-    width: 18px;
-    height: 18px;
-    accent-color: var(--red);
-}
-
-/* Largura da scrollbar */
+/* Scrollbar do dropdown */
 ::-webkit-scrollbar {
     width: 8px;
 }
 
-/* Cor de fundo do trilho (track) */
 ::-webkit-scrollbar-track {
     background: transparent;
 }
 
-/* A parte que você arrasta */
 ::-webkit-scrollbar-thumb {
-    background: #888;         /* cor */
-    border-radius: 10px;      /* 👈 arredonda */
+    background: #888;
+    border-radius: 10px;
 }
 
-/* Hover */
 ::-webkit-scrollbar-thumb:hover {
     background: var(--dark-black-purple);
 }
