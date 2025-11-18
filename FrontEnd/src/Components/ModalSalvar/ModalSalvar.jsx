@@ -117,7 +117,6 @@ export default function ModalSalvarFilme({ isOpen, onRequestClose, filme }) {
         const nova = {
             id: 'fake-' + novasListas.length,
             nome,
-            nova: true,
         };
 
         setNovasListas([...novasListas, nova]);
