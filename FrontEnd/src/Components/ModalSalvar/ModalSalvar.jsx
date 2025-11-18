@@ -1,4 +1,4 @@
-/* Centralizando modal para salvar filmes em listas (modal) */
+/* Centralizando modal para salvar filmes em listas */
 
 import { useState, useEffect, useContext } from 'react';
 import Modal from 'react-modal';
