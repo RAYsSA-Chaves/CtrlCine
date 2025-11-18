@@ -58,6 +58,9 @@
     color: var(--light-white);
 }
 
+/* ---------------- */
+
+/* Estilo ativo */
 .inputField:focus, .inputField.active {
     background-color: transparent;
     outline: auto;

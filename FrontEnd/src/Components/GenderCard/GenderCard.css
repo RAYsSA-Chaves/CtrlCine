@@ -1,3 +1,4 @@
+/* Conainer do card */
 .genderCard {
     position: relative;
     overflow: hidden;
@@ -16,16 +17,18 @@
     background-color: var(--dark-black-purple);
 }
 
-.genderCard:hover::after {
-    background: linear-gradient(to bottom, rgba(32, 30, 33, 0.32) 50%, var(--dark-black-purple) 100%);
-}
+/* ---------------- */
 
+/* Imagem */
 .genderCard img {
     width: 95%;
     height: auto;
     border-radius: 12px;
 }
 
+/* ---------------- */
+
+/* Gradiente para a imagem */
 .genderCard::after {
     content: '';
     position: absolute;
@@ -36,9 +39,16 @@
     height: 77%;
     border-radius: 12px;
     background: linear-gradient(to bottom, rgba(32, 30, 33, 0.32) 50%, var(--black-purple) 100%);
-    pointer-events: none; /* permite clicar normalmente nos elementos */
+    pointer-events: none;
 }
 
+.genderCard:hover::after {
+    background: linear-gradient(to bottom, rgba(32, 30, 33, 0.32) 50%, var(--dark-black-purple) 100%);
+}
+
+/* ---------------- */
+
+/* Nome e ícone */
 .genderCard section {
     display: flex;
     align-items: center;

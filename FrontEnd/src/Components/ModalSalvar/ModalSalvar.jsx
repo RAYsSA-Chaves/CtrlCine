@@ -1,23 +1,25 @@
-/* Centralizando função de salvar filmes em listas (modal) */
-import { useState, useEffect, useContext } from "react";
-import Modal from "react-modal";
-import "./ModalSalvar.css";
-import { AuthContext } from "../../Services/AuthContext";
-import api from '../../Services/Api';
-import { ChevronDown, ChevronUp, Plus, X } from "lucide-react";
+/* Centralizando modal para salvar filmes em listas (modal) */
 
-// Modais reutilizáveis
+import { useState, useEffect, useContext } from 'react';
+import Modal from 'react-modal';
+import './ModalSalvar.css';
+import { AuthContext } from '../../Services/AuthContext';
+import api from '../../Services/Api';
+import { ChevronDown, ChevronUp, Plus, X } from 'lucide-react';
+
+// Modaais reutilizáveis
 import LoadingModal from '../../Components/LoadingModal/LoadingModal'
 import SuccessModal from '../../Components/SuccessModal/SuccessModal'
 
 import Logo from '../../Assets/Images/Logo/Logo.svg'
-import Botao from "../Botao/Botao";
+import Botao from '../Botao/Botao';
 import XIcon from '../../Assets/Images/Icons/x_icon.svg'
 
-Modal.setAppElement("#root");
 
+Modal.setAppElement('#root');
 export default function ModalSalvarFilme({ isOpen, onRequestClose, filme }) {
 
+    // Pega infos do usuário logado
     const { user } = useContext(AuthContext);
 
     // Listas já existentes do usuário
@@ -35,11 +37,9 @@ export default function ModalSalvarFilme({ isOpen, onRequestClose, filme }) {
     // Estados dos modais internos
     const [loadingOpen, setLoadingOpen] = useState(false);
     const [successOpen, setSuccessOpen] = useState(false);
-    const [successMsg, setSuccessMsg] = useState("");
+    const [successMsg, setSuccessMsg] = useState('');
 
-    // =========================================================
-    // 🔥 USE EFFECT COM LOADING MAIS RÁPIDO (PROMISE.ALL) 🔥
-    // =========================================================
+    // Carrega listas do usuário
     useEffect(() => {
         if (!isOpen) return;
 
@@ -51,13 +51,14 @@ export default function ModalSalvarFilme({ isOpen, onRequestClose, filme }) {
                 const res = await api.get(`/listas/usuario/${user.id}`);
                 const listas = res.data;
 
-                // 🔥 Faz TODAS as consultas de filmes ao mesmo tempo!
+                // faz todas as consultas de filmes
                 const respostas = await Promise.all(
                     listas.map(lista => api.get(`/filmes?lista=${lista.id}`))
                 );
 
                 const listasFiltradas = [];
 
+                // não mostra a lista como opção caso o filme já esteja nela
                 for (let i = 0; i < listas.length; i++) {
                     const filmes = respostas[i].data;
 
@@ -79,20 +80,21 @@ export default function ModalSalvarFilme({ isOpen, onRequestClose, filme }) {
 
             } finally {
                 setTimeout(() => {
+                    // para o loading
                     setLoadingOpen(false);
-                }, 150); // muito mais rápido agora
+                }, 150);
             }
         }
 
         carregarListas();
     }, [isOpen]);
-    // =========================================================
 
-
+    // abre o drop de opções de listas
     function toggleDropdown() {
         setDropdownAberto(!dropdownAberto);
     }
 
+    // marca a lista como selecionada (ou desmarca)
     function selecionarLista(lista) {
         const existe = selecionadas.some((l) => l.id === lista.id);
         if (!existe) {
@@ -102,16 +104,18 @@ export default function ModalSalvarFilme({ isOpen, onRequestClose, filme }) {
         }
     }
 
+    // desmarcar clicando no chip label
     function removerChip(id) {
         setSelecionadas(selecionadas.filter((l) => l.id !== id));
     }
 
+    // função do botão nova lista
     function criarNovaLista() {
-        const nome = prompt("Digite o nome da nova lista:");
+        const nome = prompt('Digite o nome da nova lista:');
         if (!nome) return;
 
         const nova = {
-            id: "fake-" + novasListas.length,
+            id: 'fake-' + novasListas.length,
             nome,
             nova: true,
         };
@@ -120,7 +124,7 @@ export default function ModalSalvarFilme({ isOpen, onRequestClose, filme }) {
         setSelecionadas([...selecionadas, nova]);
     }
 
-    // SALVAR TUDO (Loading + Sucesso)
+    // salvar tudo
     async function confirmar() {
         try {
             setLoadingOpen(true);
@@ -128,7 +132,7 @@ export default function ModalSalvarFilme({ isOpen, onRequestClose, filme }) {
             let novasCriadas = [];
 
             for (let lista of novasListas) {
-                const resp = await api.post("/listas", {
+                const resp = await api.post('/listas', {
                     usuario_id: user.id,
                     nome: lista.nome,
                 });
@@ -139,20 +143,22 @@ export default function ModalSalvarFilme({ isOpen, onRequestClose, filme }) {
                 });
             }
 
+            // pega o id do banco das listas criadas
             const listasFinais = selecionadas.map((l) => {
                 const criada = novasCriadas.find((x) => x.nome === l.nome);
                 return criada ? criada.id : l.id;
             });
 
+            // salva id da lista e id do filme no banco
             for (let lista_id of listasFinais) {
-                await api.post("/listas/filme", {
+                await api.post('/listas/filme', {
                     lista_id,
                     filme_id: filme.id,
                 });
             }
 
             setLoadingOpen(false);
-            setSuccessMsg("Filme salvo com sucesso!");
+            setSuccessMsg('Filme salvo com sucesso!');
             setSuccessOpen(true);
 
             setTimeout(() => {
@@ -163,7 +169,7 @@ export default function ModalSalvarFilme({ isOpen, onRequestClose, filme }) {
         } catch (err) {
             console.error(err);
             setLoadingOpen(false);
-            alert("Erro ao salvar filme.");
+            alert('Erro ao salvar filme.');
         }
     }
 
@@ -172,38 +178,38 @@ export default function ModalSalvarFilme({ isOpen, onRequestClose, filme }) {
             <Modal
                 isOpen={isOpen}
                 onRequestClose={onRequestClose}
-                className="modalSalvar"
-                overlayClassName="modalOverlay"
+                className='modalSalvar'
+                overlayClassName='modalOverlay'
             >
-                <header className="headerModal">
-                    <img src={Logo} alt="Logo" className="logo" />
+                <header className='headerModal'>
+                    <img src={Logo} alt='Logo' className='logo' />
                     <Botao
-                        style="secondary"
+                        style='secondary'
                         icon={XIcon}
                         onClick={onRequestClose}
                     />
                 </header>
 
-                <section className="modalContent">
+                <section className='modalContent'>
                     <h1>Salve o filme nas suas listas</h1>
 
-                    <p className="textoInfo">
+                    <p className='textoInfo'>
                         Escolha uma lista para salvar <strong>{filme?.titulo}</strong>:
                     </p>
 
-                    <div className="dropdownSalvar">
-                        <button className="dropBtn" onClick={toggleDropdown}>
+                    <div className='dropdownSalvar'>
+                        <button className='dropBtn' onClick={toggleDropdown}>
                             Selecionar listas
                             {dropdownAberto ? <ChevronUp /> : <ChevronDown />}
                         </button>
 
                         {dropdownAberto && (
-                            <div className="dropContent">
+                            <div className='dropContent'>
 
                                 {listasUsuario.map((lista) => (
-                                    <label key={lista.id} className="dropItem checkboxItem">
+                                    <label key={lista.id} className='dropItem checkboxItem'>
                                         <input
-                                            type="checkbox"
+                                            type='checkbox'
                                             checked={selecionadas.some((l) => l.id === lista.id)}
                                             readOnly
                                             onClick={() => selecionarLista(lista)}
@@ -212,7 +218,7 @@ export default function ModalSalvarFilme({ isOpen, onRequestClose, filme }) {
                                     </label>
                                 ))}
 
-                                <div className="dropNovo" onClick={criarNovaLista}>
+                                <div className='dropNovo' onClick={criarNovaLista}>
                                     <span>Nova lista</span>
                                     <Plus />
                                 </div>
@@ -220,21 +226,21 @@ export default function ModalSalvarFilme({ isOpen, onRequestClose, filme }) {
                         )}
                     </div>
 
-                    <div className="chipsArea">
+                    <div className='chipsArea'>
                         {selecionadas.map((l) => (
-                            <div className="chip" key={l.id}>
+                            <div className='chip' key={l.id}>
                                 {l.nome}
-                                <X className="removeChip" onClick={() => removerChip(l.id)} />
+                                <X className='removeChip' onClick={() => removerChip(l.id)} />
                             </div>
                         ))}
                     </div>
                 </section>
 
-                <footer className="footerBtns">
-                    <Botao style="secondary" text="Cancelar" onClick={onRequestClose} />
+                <footer className='footerBtns'>
+                    <Botao style='secondary' text='Cancelar' onClick={onRequestClose} />
                     <Botao
-                        style="primary"
-                        text="Confirmar"
+                        style='primary'
+                        text='Confirmar'
                         onClick={confirmar}
                         disabled={selecionadas.length === 0}
                     />

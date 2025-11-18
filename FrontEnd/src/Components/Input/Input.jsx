@@ -30,6 +30,7 @@ export default function Input({ label, icon, placeholder, type = 'text', value, 
                 {label}
             </label>
 
+            {/* Input */}
             <input
                 type={type}
                 className={`inputField ${focused || value ? 'active' : ''}`}
@@ -44,7 +45,7 @@ export default function Input({ label, icon, placeholder, type = 'text', value, 
                     name === 'senha' ? 32 : 
                     name === 'email' ? 255 :
                     undefined}
-                autocomplete="off"
+                autocomplete='off'
                 required
             />
         </div>

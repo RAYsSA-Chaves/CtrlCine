@@ -28,6 +28,7 @@ export default function FAQList() {
         <section className='faqList'>
             {lista.map((item, index) => (
                 <div key={index}>
+                    {/* Item com pergunta + resposta */}
                     <FAQItem
                         number={item.num}
                         question={item.pergunta}

@@ -3,4 +3,5 @@
     height: 1px;
     margin: 10px 0;
     background: linear-gradient(to right, var(--black-bg), var(--red), var(--black-bg));
+    width: 100%;
 }

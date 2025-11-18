@@ -1,5 +1,7 @@
+// Bolinha de loading
+
 import { Ring } from 'ldrs/react'
-import 'ldrs/react/Ring.css'
+
 
 export default function Loader() {
     return (
