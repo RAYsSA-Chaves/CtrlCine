@@ -665,6 +665,6 @@ INSERT INTO atores (nome, foto) VALUES
 ('Tom Hanks', 'https://f.i.uol.com.br/fotografia/2023/10/02/1696268846651b022ecf404_1696268846_3x4_md.jpg');
 
 INSERT INTO filme_diretor (filme_id, diretor_id) VALUES (21, 21);
-INSERT INTO filme_produtora (filme_id, produtora_id) VALUES (20, 18);
+INSERT INTO filme_produtora (filme_id, produtora_id) VALUES (21, 18);
 INSERT INTO filme_ator (filme_id, ator_id) VALUES (21, 40);
 INSERT INTO filme_genero (filme_id, genero_id) VALUES (21, 3), (21, 18);
