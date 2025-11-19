@@ -1,0 +1,49 @@
+.listaFilmesPage {
+    padding: 12rem 2rem;
+    flex: 1;
+    margin-bottom: 2rem;
+}
+
+/* ------------- */
+
+/* Caminho da página */
+.breadcrumb {
+    margin-bottom: 4rem;
+}
+
+.breadcrumb * {
+    font-size: 30px;
+    font-weight: bolder !important;
+}
+
+.breadcrumbLink {
+    text-decoration: none;
+}
+
+.breadcrumbLink:hover {
+    text-decoration: underline;
+}
+
+/* ------------- */
+
+/* Disposição dos filmes */
+.filmesGrid {
+    display: grid;
+    grid-template-columns: 
+        15rem   
+        15rem
+        15rem   
+        15rem
+        15rem;
+    align-items: center;
+    gap: min(3.5rem);
+}
+
+/* ------------- */
+
+/* Mensagem caso não tenha filmes */
+.noMoviesMessage p {
+    text-align: center;
+    margin-top: 10rem;
+    font-size: 20px !important;
+}

@@ -57,6 +57,28 @@ export default function HomePage() {
     // Estados para guardar os gêneros puxados do banco
     const [generos, setGeneros] = useState([]);
 
+    // Guardando capa para cada gênero
+    const gendersCovers = {
+        'Ação': AcaoImg,
+        'Aventura' : AventuraImg,
+        'Comédia': ComediaImg,
+        'Drama': DramaImg,
+        'Terror':  TerrorImg,
+        'Suspense': SuspenseImg,
+        'Romance': RomanceImg,
+        'Criminal': CriminalImg,
+        'Biografia': BiografiaImg,
+        'Histórico': HistoricoImg,
+        'Guerra': GuerraImg,
+        'Família': FamiliaImg,
+        'Esporte': EsporteImg,
+        'Musical': MusicalImg,
+        'Documentário': DocImg,
+        'Fantasia': FantasiaImg,
+        'Ficção': FiccaoImg,
+        'Animação': AnimacaoImg
+    };
+
     // Configuração para slider de gêneros e filmes
     const genderSettings = {
         dots: false,
@@ -113,8 +135,8 @@ export default function HomePage() {
         const data = new Date(dataISO);
 
         const meses = [
-            "janeiro", "fevereiro", "março", "abril", "maio", "junho",
-            "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"
+            'janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
+            'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'
         ];
 
         const dia = data.getDate();
@@ -129,7 +151,7 @@ export default function HomePage() {
         api.get('/filmes?lancamento=true')
             .then(res => {
                 if (Array.isArray(res.data)) {
-                    setFilmesLancamento(res.data);
+                    setFilmesLancamento([...res.data].reverse());
                 }
             })
             .catch(err => {
@@ -154,14 +176,14 @@ export default function HomePage() {
                                 <Botao 
                                     style='primary'
                                     text='Saber mais'
-                                    to={`/filme/${filme.id}`} // <-- corrigido
+                                    to={`/filme/${filme.id}`}
                                 />
                                 <Botao 
                                     style='secondary'
                                     icon={SaveIcon}
                                     onClick = {() => {
-                                        setFilmeSelecionado(filme); // salva os dados do filme
-                                        setModalSalvarAberto(true); // abre modal
+                                        setFilmeSelecionado(filme);  // salva os dados do filme
+                                        setModalSalvarAberto(true);  // abre modal
                                     }}
                                 />
                             </div>
@@ -173,7 +195,7 @@ export default function HomePage() {
             {/* Seção de gêneros */}
             <section>
                 <h1>Gêneros</h1>
-                <div className="generosContainer">
+                <div className='generosContainer'>
                     <Slider {...genderSettings}>
                         {generos.map((genero) => (
                             <GenderCard 
@@ -189,7 +211,7 @@ export default function HomePage() {
             {/* Seção de filmes em alta */}
             <section>
                 <h1>Em alta</h1>
-                <div className="generosContainer">
+                <div className='generosContainer'>
                     <Slider {...genderSettings}>
                         {topFilmes.map(filme => (
                             <MovieCard 
@@ -198,8 +220,8 @@ export default function HomePage() {
                                 imagem={filme.capa_vertical}
                                 stars={filme.nota_imdb}
                                 btnSalvar={() => {
-                                    setFilmeSelecionado(filme); // salva os dados do filme
-                                    setModalSalvarAberto(true); // abre modal
+                                    setFilmeSelecionado(filme);
+                                    setModalSalvarAberto(true);
                                 }}
                             />
                         ))}
@@ -210,7 +232,7 @@ export default function HomePage() {
             {/* Seção de filmes não lançados */}
             <section>
                 <h1>Em breve</h1>
-                <div className="generosContainer">
+                <div className='generosContainer'>
                     <Slider {...genderSettings}>
                         {filmesLancamento.map(filme => (
                             <MovieCard
@@ -240,14 +262,14 @@ export default function HomePage() {
                 </aside>
             </section>
 
+            {/* Modal */}
             <ModalSalvarFilme
                 isOpen={modalSalvarAberto}
                 onRequestClose={() => {
                     setModalSalvarAberto(false);
-
-                    // força o slick recalcular o espaço
+                    // força o slick a recalcular o espaço
                     setTimeout(() => {
-                        window.dispatchEvent(new Event("resize"));
+                        window.dispatchEvent(new Event('resize'));
                     }, 50);
                 }}
                 filme={filmeSelecionado}

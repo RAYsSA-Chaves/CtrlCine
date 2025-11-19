@@ -7,7 +7,7 @@ import Logo from '../../Assets/Images/Logo/Logo.svg'
 import Input from '../../Components/Input/Input'
 import { Eye, EyeOff, TriangleAlert } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom';
-import { useState, useContext } from "react";
+import { useState, useContext } from 'react';
 import { AuthContext } from '../../Services/AuthContext';
 import EmailIcon from '../../Assets/Images/Icons/email_icon.svg'
 import Cadeado from '../../Assets/Images/Icons/cadeado_icon.svg'
@@ -22,12 +22,12 @@ export default function Login() {
 
     // estados dos inputs
     const [form, setForm] = useState({
-        email: "",
-        senha: ""
+        email: '',
+        senha: ''
     });
 
     // mensagem de erro
-    const [error, setError] = useState("");
+    const [error, setError] = useState('');
 
     // estado para o modal de loading
     const [isLoading, setIsLoading] = useState(false);
@@ -47,14 +47,14 @@ export default function Login() {
     function validate() {
 
         // email
-        if (!form.email.includes("@") || !form.email.includes(".")) {
-            setError("Usuário e/ou senha inválidos.");
+        if (!form.email.includes('@') || !form.email.includes('.')) {
+            setError('Usuário e/ou senha inválidos.');
             return false;
         }
 
         // senha
         if (form.senha.length < 1) {
-            setError("Usuário e/ou senha inválidos.");
+            setError('Usuário e/ou senha inválidos.');
             return false;
         }
         return true;
@@ -63,7 +63,7 @@ export default function Login() {
     // envio para API
     async function handleSubmit(e) {
         e.preventDefault();
-        setError("");
+        setError('');
 
         if (!validate()) return;
 
@@ -72,12 +72,12 @@ export default function Login() {
         try {
             const ok = await login(form.email, form.senha);
             if (ok) {
-                navigate("/home");
+                navigate('/home');
                 setIsLoading(false);
             }
 
         } catch (error) {
-            setError("Usuário e/ou senha inválidos.");
+            setError('Usuário e/ou senha inválidos.');
             setIsLoading(false);
         }
     }
@@ -98,13 +98,13 @@ export default function Login() {
 
                 {/* Form */}
                 <form className='entryForm' onSubmit={handleSubmit}>
-                    <div>
+                    <div className='loginForm'>
                         <h1>Login</h1>
                         <p>Por favor, preencha as informações da sua conta abaixo</p>
 
                         {/* Erro */}
                         {error && (
-                            <div className="errorMessage">
+                            <div className='errorMessage'>
                                 <TriangleAlert/>
                                 <p>{error}</p>
                             </div>
@@ -120,6 +120,7 @@ export default function Login() {
                             onChange={handleChange}
                             name = 'email'
                         />
+
                         <div className='passwordField'>
                             <Input
                                 label='Senha'
@@ -131,13 +132,14 @@ export default function Login() {
                                 name = 'senha'
                             />
                             <div 
-                                className="eyeBtn"
+                                className='eyeBtn'
                                 onClick={() => setShowPassword(!showPassword)}
                             >
                                 {showPassword ? <EyeOff size={20}/> : <Eye size={20}/>}
                             </div>
                         </div>
                         
+                        {/* Botão entrar */}
                         <Botao 
                             style = 'primary'
                             text = 'Entrar'
@@ -151,6 +153,7 @@ export default function Login() {
                             <p>Ainda não tem uma conta?</p>
                             <Link to='/cadastro'>Crie uma!</Link>
                         </div>
+                        
                     </div>
                 </form>
             </div>

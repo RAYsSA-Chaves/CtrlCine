@@ -8,7 +8,7 @@ import Logo from '../../Assets/Images/Logo/Logo.svg'
 import Input from '../../Components/Input/Input'
 import { Eye, EyeOff, TriangleAlert } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom';
-import { useState } from "react";
+import { useState } from 'react';
 import EmailIcon from '../../Assets/Images/Icons/email_icon.svg'
 import Cadeado from '../../Assets/Images/Icons/cadeado_icon.svg'
 import UserIcom from '../../Assets/Images/Icons/user_icon.svg'
@@ -22,18 +22,18 @@ export default function Cadastro() {
         
         // estados dos inputs
         const [form, setForm] = useState({
-            nome: "",
-            sobrenome: "",
-            email: "",
-            senha: "",
-            confirmarSenha: ""
+            nome: '',
+            sobrenome: '',
+            email: '',
+            senha: '',
+            confirmarSenha: ''
         });
     
         // mensagem de erro
-        const [error, setError] = useState("");
+        const [error, setError] = useState('');
 
         // estado para o modal de sucesso
-        const [success, setSuccess] = useState("")
+        const [success, setSuccess] = useState('')
     
         // estado para o modal de loading
         const [isLoading, setIsLoading] = useState(false);
@@ -55,25 +55,25 @@ export default function Cadastro() {
 
             // nome
             if (form.nome.trim().length < 2) {
-                setError("Digite um nome válido.")
+                setError('Digite um nome válido.')
                 return false
             }
     
             // email
-            if (!form.email.includes("@") || !form.email.includes(".")) {
-                setError("Digite um email válido.")
+            if (!form.email.includes('@') || !form.email.includes('.')) {
+                setError('Digite um email válido.')
                 return false;
             }
     
             // senha
             if (form.senha.length < 6) {
-                setError("A senha deve ter no mínimo 6 caracteres.")
+                setError('A senha deve ter no mínimo 6 caracteres.')
                 return false;
             }
 
             // confirmar senha
             if (form.senha !== form.confirmarSenha) {
-                setError("As senhas não coincidem.")
+                setError('As senhas não coincidem.')
                 return false
             }
             
@@ -83,14 +83,14 @@ export default function Cadastro() {
         // envio para API
         async function handleSubmit(e) {
             e.preventDefault();
-            setError("");
+            setError('');
     
             if (!validate()) return;
     
             setIsLoading(true);
     
             try {
-                const response = await api.post("/usuarios/cadastro", {
+                const response = await api.post('/usuarios/cadastro', {
                     nome: form.nome,
                     sobrenome: form.sobrenome,
                     email: form.email,
@@ -105,7 +105,7 @@ export default function Cadastro() {
 
                     // esperar 3 segundos e mandar para login
                     setTimeout(() => {
-                        navigate("/login")
+                        navigate('/login')
                     }, 3000)
                 }
     
@@ -116,7 +116,7 @@ export default function Cadastro() {
                 if (error.response?.data?.Erro) {
                     setError(error.response.data.Erro)
                 } else {
-                    setError("Erro ao cadastrar. Tente novamente.")
+                    setError('Erro ao cadastrar. Tente novamente.')
                 }
             }
         }
@@ -125,7 +125,7 @@ export default function Cadastro() {
             <main className='loginPage' id='registerPage'>
                 <div className='contentContainer'>
                     {/* Imagem */}
-                    <div className='loginImage'>
+                    <div className='formImage'>
                         <Botao 
                             style = 'primary'
                             text = 'Voltar'
@@ -143,7 +143,7 @@ export default function Cadastro() {
     
                             {/* Erro */}
                             {error && (
-                                <div className="errorMessage">
+                                <div className='errorMessage'>
                                     <TriangleAlert/>
                                     <p>{error}</p>
                                 </div>
@@ -191,7 +191,7 @@ export default function Cadastro() {
                                     name = 'senha'
                                 />
                                 <div 
-                                    className="eyeBtn"
+                                    className='eyeBtn'
                                     onClick={() => setShowPassword(!showPassword)}
                                 >
                                     {showPassword ? <EyeOff size={20}/> : <Eye size={20}/>}
@@ -209,13 +209,14 @@ export default function Cadastro() {
                                     name = 'confirmarSenha'
                                 />
                                 <div 
-                                    className="eyeBtn"
+                                    className='eyeBtn'
                                     onClick={() => setShowPassword2(!showPassword2)}
                                 >
                                     {showPassword2 ? <EyeOff size={20}/> : <Eye size={20}/>}
                                 </div>
                             </div>
                             
+                            {/* Botão cadastrar */}
                             <Botao 
                                 style = 'primary'
                                 text = 'Cadastrar'
@@ -224,7 +225,7 @@ export default function Cadastro() {
     
                             <div className='divider'></div>
     
-                            {/* Link para cadastro */}
+                            {/* Link para login */}
                             <div className='formLinks'>
                                 <p>Já tem uma conta?</p>
                                 <Link to='/login'>Entre!</Link>
@@ -234,8 +235,9 @@ export default function Cadastro() {
                     </form>
                 </div>
     
+                {/* Modais */}
                 <LoadingModal isOpen={isLoading}/>
-                <SuccessModal isOpen={success} message="Usuário cadastrado com sucesso!" />
+                <SuccessModal isOpen={success} message='Usuário cadastrado com sucesso!' />
             </main>
         )
 }

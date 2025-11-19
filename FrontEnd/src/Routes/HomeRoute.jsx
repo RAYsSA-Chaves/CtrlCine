@@ -1,6 +1,8 @@
-/* Decidir a rota do '/'
+/* 
+Decidir a rota do '/'
 - se usuário deslogado -> LandingPage
-- se logado -> Home */
+- se logado -> Home 
+*/
 
 import { AuthContext } from '../Services/AuthContext';
 import LandingPage from '../Pages/LandingPage/LandingPage';

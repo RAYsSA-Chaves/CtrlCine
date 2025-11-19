@@ -1,5 +1,11 @@
-/* Estilo do cabeçalho */
+main {
+    margin: 0 8rem;
+    margin-bottom: 5rem;
+}
 
+/* ------------- */
+
+/* Estilo do cabeçalho */
 .headerHome {
     min-height: 100vh;
     background-image: 
@@ -10,11 +16,6 @@
     background-repeat: no-repeat;
     position: relative;
     margin-bottom: 20rem;
-}
-
-.landingPage {
-    min-height: 100vh;
-    background-color: var(--black-bg);
 }
 
 .transparentLogo {
@@ -58,11 +59,7 @@
 
 /* ------------- */
 
-main {
-    margin: 0 8rem;
-    margin-bottom: 5rem;
-}
-
+/* Seção de cards */
 .infoCardsSection {
     display: flex;
     flex-direction: column;
@@ -70,6 +67,9 @@ main {
     margin-bottom: 6rem;
 }
 
+/* ------------- */
+
+/* Banner */
 .loginBanner {
     background-image: url('../../Assets/Images/banner1.svg');
     background-size: cover;
@@ -87,6 +87,8 @@ main {
 .loginBanner h2 {
     margin: 0;
 }
+
+/* ------------- */
 
 /* Responsividade para notebook */
 @media (max-width: 1600px) {

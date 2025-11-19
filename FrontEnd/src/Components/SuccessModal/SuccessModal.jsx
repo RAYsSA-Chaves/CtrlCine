@@ -10,8 +10,8 @@ export default function SuccessModal({ isOpen, message }) {
     return (
         <Modal
             isOpen={isOpen}
-            className="successModal"
-            overlayClassName="modalOverlay"
+            className='successModal'
+            overlayClassName='modalOverlay'
             closeTimeoutMS={200}  // tempo para saída
             shouldCloseOnOverlayClick={false} 
         >

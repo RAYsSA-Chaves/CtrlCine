@@ -1,4 +1,4 @@
-// Perfil do usuário na NavBar
+// Perfil do usuário na navbar
 
 import './ProfileDrop.css'
 import { useState, useContext } from 'react';
@@ -17,8 +17,10 @@ export default function ProfileDrop() {
             
             {/* Cabeçalho */}
             <div className='userHeader' onClick={() => setOpen(!open)}>
-                <div className='userPhoto'></div>
-                <span className='userName'>{user.nome}</span>
+                <div className='user'>
+                    <div className='userPhoto'></div>
+                    <span className='userName'>{user.nome}</span>
+                </div>
                 <span className='arrow'>{open ? <ChevronUp/> : <ChevronDown/>}</span>
             </div>
 

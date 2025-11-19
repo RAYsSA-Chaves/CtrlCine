@@ -9,6 +9,7 @@ import Login from '../Pages/Login/Login';
 import HomePage from '../Pages/HomePage/HomePage';
 import Cadastro from '../Pages/Cadastro/Cadastro';
 import ListasPage from '../Pages/ListasPage/ListasPage.jsx'
+import ListaEspecificaPage from '../Pages/ListaEspecifica/ListaEspecifica.jsx';
 
 
 export default function Router() {
@@ -17,6 +18,7 @@ export default function Router() {
     // rotas SEM navbar
     const noNavbarRoutes = ['/login', '/cadastro', '/movieRegistration'];
     const hideNavbar = noNavbarRoutes.includes(location.pathname);
+    
     // rotas SEM footer
     const noFooterRoutes = ['/login', '/cadastro', '/movieRegistration'];
     const hideFooter = noFooterRoutes.includes(location.pathname);
@@ -51,23 +53,15 @@ export default function Router() {
                     }
                 />}
 
-                {/* <Route
-                    path='/administration'
+                {<Route
+                    path='/listas/:id'
                     element={
                         <ProtectedRoute>
-                            <AdministrationPage />
+                            <ListaEspecificaPage />
                         </ProtectedRoute>
                     }
-                />
+                />}
 
-                <Route
-                    path='/registerMovie'
-                    element={
-                        <ProtectedRoute>
-                            <RegisterMovie />
-                        </ProtectedRoute>
-                    }
-                /> */}
             </Routes>
 
             {!hideFooter && <Footer />}

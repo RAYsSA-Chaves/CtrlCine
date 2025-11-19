@@ -14,7 +14,9 @@ export default function MovieCard({
     stars = null, 
     btnSalvar, 
     btnDeletar, 
-    lancamento = null }) {
+    lancamento = null,
+    minhaNota = null
+}) {
 
     // Pega infos do usuário logado
     const  { user } = useContext(AuthContext); 
@@ -30,11 +32,11 @@ export default function MovieCard({
         const starsArray = [];
 
         for (let i = 0; i < fullStars; i++) {
-            starsArray.push(<Star key={`full-${i}`} className="star filled" fill="currentColor"/>);
+            starsArray.push(<Star key={`full-${i}`} className='star filled' fill='currentColor'/>);
         }
 
         for (let i = 0; i < emptyStars; i++) {
-            starsArray.push(<Star key={`empty-${i}`} className="star empty" fill="currentColor"/>);
+            starsArray.push(<Star key={`empty-${i}`} className='star empty' fill='currentColor'/>);
         }
 
         return starsArray;
@@ -43,35 +45,48 @@ export default function MovieCard({
     return (
         <article className='movieCard'>
             <div className='cardImg'>
-                <img src={imagem} alt="Capa do filme" />
+                <img src={imagem} alt='Capa do filme' />
 
                 {/* Botão salvar para user comum */}
-                {user.role === 'comum' && (
+                {user.role === 'comum' && btnSalvar && (
                     <button onClick={btnSalvar} className='saveBtn'>
-                        <img src={SaveIcon} alt="" />
+                        <img src={SaveIcon} alt='Ícone de flag' />
                     </button>
                 ) }
 
-                {/* Botão deletar par adm */}
-                {user.role === 'admin' && (
-                    <button onClick={btnDeletar} className='deleteBtn'>
-                        <img src={TrashIcon} alt="" />
+                {/* Botão deletar */}
+                {btnDeletar && (
+                    <button
+                        className="deleteBtn"
+                        onClick={btnDeletar}
+                    >
+                        <img src={TrashIcon} alt="Ícone de lixeira" />
                     </button>
-                ) }
+                )}
             </div>
             <section className='movieInfos'>
                 <h3>{titulo}</h3>
                 
                 {stars && (
-                    <div className="movieStars">{renderStars(stars)}</div>
+                    <div className='movieStars'>{renderStars(stars)}</div>
                 )}
 
                 {lancamento && (
-                    <div className="movieStars" id='lancamento'>
+                    <div className='movieStars' id='lancamento'>
                         <p>Estreia em</p>
                         <span>{lancamento}</span>
                     </div>
                 )}
+
+                {minhaNota !== null && (
+                    <div className="userRating">
+                        <p>Minha nota:</p>
+                        <div className="starsRow">
+                            {renderStars(minhaNota)}
+                        </div>
+                    </div>
+                )}
+                
             </section>
         </article>
     )

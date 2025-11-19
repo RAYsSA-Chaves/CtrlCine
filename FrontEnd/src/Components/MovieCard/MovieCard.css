@@ -48,7 +48,7 @@
     font-weight: 400;
 }
 
-/* Estrelas */
+/* estrelas */
 .movieStars {
     position: absolute;
     bottom: 20px;
@@ -73,6 +73,21 @@
     color: #5f5f5f !important;
 }
 
+.userRating {
+    position: absolute;
+    bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 6px;
+}
+
+.starsRow {
+    display: flex;
+    gap: 2px;
+}
+
+/* data */
 #lancamento p {
     color: #5f5f5f;
     margin-right: 4px;
@@ -108,11 +123,24 @@
     display: none;
 }
 
-.movieCard:hover .saveBtn {
+.cardImg .deleteBtn {
+    background: linear-gradient(180deg, #c114144a, #98090976);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(10px); /* Safari */
+    border: 1px solid #94313164;
+    display: none;
+}
+
+.movieCard:hover .saveBtn, .movieCard:hover .deleteBtn {
     display: block;
 }
 
 .saveBtn:hover {
     background: linear-gradient(180deg, #3608543c, #3608546d);
     border: 1px solid #9677ab53;
+}
+
+.cardImg .deleteBtn:hover {
+    background: linear-gradient(180deg, #a307074a, #3e0202a3);
+    border: 1px solid #820d0d64;
 }

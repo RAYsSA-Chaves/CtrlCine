@@ -1,31 +1,32 @@
+// Página de listas de filmes do usuário
+
 import './ListasPage.css'
 import { useState, useEffect, useContext } from 'react'
 import api from '../../Services/Api'
 import ListCard from '../../Components/ListCard/ListCard';
-import { Pencil, X } from 'lucide-react'
 import Modal from 'react-modal'
 import XIcon from '../../Assets/Images/Icons/x_icon.svg'
 import Logo from '../../Assets/Images/Logo/Logo.svg'
 import Botao from '../../Components/Botao/Botao'
 import Input from '../../Components/Input/Input'
-// Modais de loading e sucesso
 import LoadingModal from '../../Components/LoadingModal/LoadingModal'
 import SuccessModal from '../../Components/SuccessModal/SuccessModal'
-
-// Importa contexto
 import { AuthContext } from '../../Services/AuthContext'
+import { useNavigate } from 'react-router-dom';
+
 
 export default function ListasPage() {
+    const navigate = useNavigate();
     const { user } = useContext(AuthContext)  // pega usuário logado
 
     const [listas, setListas] = useState([])
 
-    // Modal estados
+    // Estados para modal de edição
     const [modalAberto, setModalAberto] = useState(false)
     const [listaSelecionada, setListaSelecionada] = useState(null)
     const [novoNome, setNovoNome] = useState('')
 
-    // Loading states
+    // Loading
     const [loadingListas, setLoadingListas] = useState(true)
     const [processando, setProcessando] = useState(false)
 
@@ -134,75 +135,75 @@ export default function ListasPage() {
         if (!novoNomeCriar.trim()) return;
 
         try {
-            setProcessando(true); // mostra LoadingModal
+            setProcessando(true);
 
-            const res = await api.post("/listas", {
+            const res = await api.post('/listas', {
                 usuario_id: user.id,
                 nome: novoNomeCriar.trim(),
             });
 
-            showSuccess("Lista criada com sucesso!");
+            showSuccess('Lista criada com sucesso!');
             fetchListas(); 
             fecharModalCriar();
 
         } catch (err) {
             console.error(err);
-            alert(err.response?.data?.Erro || "Erro ao criar lista.");
+            alert(err.response?.data?.Erro || 'Erro ao criar lista.');
         } finally {
             setProcessando(false);
         }
     }
 
     Modal.setAppElement('#root')
-
     return (
         <div className='userListsPage'>
             <header>
                 <h1>Minhas Listas</h1>
                  <Botao
-                    style="primary"
-                    text="Nova lista"
+                    style='primary'
+                    text='Nova lista'
                     onClick={abrirModalCriar}
                 />
             </header>
 
-            {/* Modal de loading enquanto busca listas */}
+            {/* Mensagem caso usuário não tenha listas criadas */}
             { !loadingListas && listas.length === 0 && (
-                <div className="noListsMessage">
+                <div className='noListsMessage'>
                     <p>Você ainda não possui listas!</p>
                 </div>
             )}
 
+            {/* Renderiza listas */}
             {listas.length > 0 && (
                 <div className='listasGrid'>
                     {listas.map(lista => (
-                        <div key={lista.id} className='listaWrapper'>
-                            <ListCard
-                                nome={lista.nome}
-                                onEditar={() => abrirModal(lista)}
-                            />
-                        </div>
+                        <ListCard
+                            key={lista.id}
+                            nome={lista.nome}
+                            onEditar={() => abrirModal(lista)}
+                            onClick={() => navigate(`/listas/${lista.id}`)}
+                        />
                     ))}
                 </div>
             )}
 
-            {/* Dentro do return da página: */}
+            {/* Modal de edição/deleção */}
             <Modal
                 isOpen={modalAberto}
                 onRequestClose={fecharModal}
-                className="modalSalvar"
-                overlayClassName="modalOverlay"
+                className='modalSalvar'
+                overlayClassName='modalOverlay'
             >
-                <header className="headerModal">
-                    <img src={Logo} alt="Logo" className="logo" />
+                <header className='headerModal'>
+                    <img src={Logo} alt='Logo' className='logo' />
                     <Botao
-                        style="secondary"
+                        style='secondary'
                         icon={XIcon}
                         onClick={fecharModal}
                     />
                 </header>
                 
-                <section className="modalContent">
+                <section className='modalContent'>
                     <h1>Editar Lista</h1>
                     <Input
                         label='Nome da lista'
@@ -213,53 +214,55 @@ export default function ListasPage() {
                     />           
                 </section>
 
-                <footer className="footerBtns">
-                <Botao style="secondary" text="Deletar lista" onClick={deletarLista} />
+                <footer className='footerBtns'>
+                <Botao style='secondary' text='Deletar lista' onClick={deletarLista} />
                 <Botao
-                    style="primary"
-                    text="Editar"
+                    style='primary'
+                    text='Editar'
                     onClick={editarLista}
                     disabled={processando}
                 />
                 </footer>
             </Modal>
 
+            {/* Modal de criação de lista */}
             <Modal
                 isOpen={modalCriarAberto}
                 onRequestClose={fecharModalCriar}
-                className="modalSalvar"
-                overlayClassName="modalOverlay"
+                className='modalSalvar'
+                overlayClassName='modalOverlay'
             >
-                <header className="headerModal">
-                    <img src={Logo} alt="Logo" className="logo" />
+                <header className='headerModal'>
+                    <img src={Logo} alt='Logo' className='logo' />
                     <Botao
-                        style="secondary"
+                        style='secondary'
                         icon={XIcon}
                         onClick={fecharModalCriar}
                     />
                 </header>
 
-                <section className="modalContent">
+                <section className='modalContent'>
                     <h1>Criar Nova Lista</h1>
                     <Input
-                        label="Nome da lista"
+                        label='Nome da lista'
                         value={novoNomeCriar}
                         onChange={(e) => setNovoNomeCriar(e.target.value)}
                         disabled={processando}
                     />
                 </section>
 
-                <footer className="footerBtns">
-                    <Botao style="secondary" text="Cancelar" onClick={fecharModalCriar} />
+                <footer className='footerBtns'>
+                    <Botao style='secondary' text='Cancelar' onClick={fecharModalCriar} />
                     <Botao
-                        style="primary"
-                        text="Criar"
+                        style='primary'
+                        text='Criar'
                         onClick={criarLista}
                         disabled={processando || !novoNomeCriar.trim()}
                     />
                 </footer>
             </Modal>
 
+            {/* Modais reutilizáveis */}
             <LoadingModal isOpen={processando} />
             <SuccessModal
                 isOpen={successAberto}

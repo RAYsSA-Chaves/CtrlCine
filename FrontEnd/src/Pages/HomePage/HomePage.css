@@ -1,3 +1,4 @@
+/* Estilos básicos */
 .homePage {
     flex: 1;
 }
@@ -52,6 +53,7 @@
     z-index: 1;
 }
 
+/* botões do carrossel */
 .displayBtns {
     display: flex;
     gap: 1rem;
@@ -94,9 +96,6 @@
     margin: 0;
 }
 
-/* ------------- */
-
-/* Botões do carrossel */
 .slick-prev, .slick-next {
     width: 50px !important;
     height: 50px !important;
@@ -134,7 +133,9 @@
     background-repeat: no-repeat !important;
 }
 
+/* ------------- */
 
+/* Banner */
 .homePage aside h2 {
     font-size: 28px !important
 }
@@ -143,6 +144,8 @@
     background-image: url('../../Assets/Images/banner2.svg');
     height: 35vh;
 }
+
+/* ------------- */
 
 /* Responsividade para notebook */
 @media (max-width: 1400px) {

@@ -15,62 +15,33 @@
     margin-bottom: 4rem;
 }
 
+/* ------------- */
+
+/* Mensagem caso não tenha listas */
 .noListsMessage p {
     text-align: center;
     font-size: 20px !important;
 }
 
+/* ------------- */
+
+/* Disposição das listas */
 .listasGrid {
     width: 100%;
     display: grid;
     grid-template-columns: 
-        20rem   
-        20rem
-        20rem   
-        20rem;
+        15rem   
+        15rem
+        15rem   
+        15rem
+        15rem;
     align-items: center;
-    gap: min(2rem);
+    gap: min(4rem);
 }
 
-.listaWrapper {
-    position: relative;
-    width: 100%;
-}
+/* ------------- */
 
-
-.listaWrapper:hover .genderCard {
-    background-color: var(--dark-black-purple);
-}
-
-.listaWrapper:hover .genderCard::after {
-    background: linear-gradient(to bottom, rgba(32, 30, 33, 0.32) 50%, var(--dark-black-purple) 100%);
-}
-
-.customModal {
-    background: #fff;
-    padding: 2rem;
-    border-radius: 8px;
-    max-width: 400px;
-    width: 100%;
-    position: relative;
-}
-
-.closeBtn {
-    position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
-    background: transparent;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-}
-
-.modalBtns {
-    display: flex;
-    gap: 1rem;
-    margin-top: 1rem;
-}
-
+/* Conteúdo do modal */
 .modalContent input {
     background-color: var(--dark-black-purple);
     border: solid 1px #5f5f5f;
