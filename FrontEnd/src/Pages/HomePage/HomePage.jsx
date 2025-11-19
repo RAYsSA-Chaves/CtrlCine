@@ -34,6 +34,8 @@ import ModalSalvarFilme from '../../Components/ModalSalvar/ModalSalvar';
 
 
 export default function HomePage() {
+    const navigate = useNavigate();
+
     // Filmes para o carrossel
     const filmes = [
         { id: 2, titulo: 'Avatar: Fogo e Cinzas', imagem: AvatarImg},
@@ -176,7 +178,7 @@ export default function HomePage() {
                                 <Botao 
                                     style='primary'
                                     text='Saber mais'
-                                    to={`/filme/${filme.id}`}
+                                    to={`/filmes/${filme.id}`}
                                 />
                                 <Botao 
                                     style='secondary'
@@ -216,6 +218,7 @@ export default function HomePage() {
                         {topFilmes.map(filme => (
                             <MovieCard 
                                 key={filme.id} 
+                                id={filme.id}
                                 titulo={filme.titulo}
                                 imagem={filme.capa_vertical}
                                 stars={filme.nota_imdb}
@@ -237,6 +240,7 @@ export default function HomePage() {
                         {filmesLancamento.map(filme => (
                             <MovieCard
                                 key={filme.id}
+                                id={filme.id}
                                 titulo={filme.titulo}
                                 imagem={filme.capa_vertical}
                                 lancamento={formatarData(filme.lancamento)}

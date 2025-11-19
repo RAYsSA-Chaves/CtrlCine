@@ -6,10 +6,12 @@ import { useContext } from 'react';
 import { AuthContext } from '../../Services/AuthContext';
 import SaveIcon from '../../Assets/Images/Icons/flag_icon.svg'
 import TrashIcon from '../../Assets/Images/Icons/trash_icon.svg'
+import { useNavigate } from 'react-router-dom';
 
 
 export default function MovieCard({ 
     titulo, 
+    id,
     imagem, 
     stars = null, 
     btnSalvar, 
@@ -17,6 +19,8 @@ export default function MovieCard({
     lancamento = null,
     minhaNota = null
 }) {
+
+    const navigate = useNavigate();
 
     // Pega infos do usuário logado
     const  { user } = useContext(AuthContext); 
@@ -43,13 +47,19 @@ export default function MovieCard({
     };
 
     return (
-        <article className='movieCard'>
+        <article className='movieCard' onClick={() => navigate(`/filmes/${id}`)}>
             <div className='cardImg'>
                 <img src={imagem} alt='Capa do filme' />
 
                 {/* Botão salvar para user comum */}
                 {user.role === 'comum' && btnSalvar && (
-                    <button onClick={btnSalvar} className='saveBtn'>
+                    <button 
+                        className='saveBtn' 
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            btnSalvar();
+                        }}
+                    >
                         <img src={SaveIcon} alt='Ícone de flag' />
                     </button>
                 ) }
@@ -58,7 +68,10 @@ export default function MovieCard({
                 {btnDeletar && (
                     <button
                         className="deleteBtn"
-                        onClick={btnDeletar}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            btnDeletar();
+                        }}
                     >
                         <img src={TrashIcon} alt="Ícone de lixeira" />
                     </button>

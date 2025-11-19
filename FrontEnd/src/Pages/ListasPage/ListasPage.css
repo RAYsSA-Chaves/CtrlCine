@@ -36,6 +36,7 @@
         15rem
         15rem;
     align-items: center;
+    justify-content: space-between;
     gap: min(4rem);
 }
 
@@ -56,4 +57,21 @@
 
 .modalContent .floatingLabel.active {
     background-color: var(--black-purple);
+}
+
+/* ------------- */
+
+/* Responsividade para notebook */
+@media (max-width: 1600px) {
+    .listasGrid {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 
+            15rem
+            15rem   
+            15rem
+            15rem;
+        align-items: center;
+        justify-content: space-between;
+    }
 }

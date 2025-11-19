@@ -1,7 +1,7 @@
 /* Adaptações do estilo do form de login para form de cadastro */
 
 #registerPage {
-    margin: 3rem 0;
+    margin: 0.3rem 0;
 }
 
 .cadastroForm {
@@ -33,4 +33,13 @@
 
 #registerPage .errorMessage {
     margin-bottom: 2rem;
+}
+
+/* ------------- */
+
+/* Responsividade para notebook */
+@media (max-width: 1600px) {
+    #registerPage {
+    margin: 2rem 0;
+}
 }

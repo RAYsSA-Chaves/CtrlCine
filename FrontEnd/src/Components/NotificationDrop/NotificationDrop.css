@@ -111,7 +111,10 @@
 
 .notificationItem p {
     flex: 1;
-    font-size: 15px;
+}
+
+.notificationItem strong, .notificationItem p {
+    font-size: 16px !important;
 }
 
 .deleteBtn {

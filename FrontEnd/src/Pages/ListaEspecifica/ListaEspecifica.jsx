@@ -159,6 +159,7 @@ export default function ListaEspecificaPage() {
                     {filmes.map(filme => (
                         <MovieCard 
                             key={filme.id}
+                            id={filme.id}
                             titulo={filme.titulo}
                             imagem={filme.capa_vertical}
                             minhaNota={minhasNotas[filme.id]}

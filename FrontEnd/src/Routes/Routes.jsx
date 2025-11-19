@@ -10,6 +10,7 @@ import HomePage from '../Pages/HomePage/HomePage';
 import Cadastro from '../Pages/Cadastro/Cadastro';
 import ListasPage from '../Pages/ListasPage/ListasPage.jsx'
 import ListaEspecificaPage from '../Pages/ListaEspecifica/ListaEspecifica.jsx';
+import MoviePage from '../Pages/MoviePage/MoviePage.jsx';
 
 
 export default function Router() {
@@ -58,6 +59,15 @@ export default function Router() {
                     element={
                         <ProtectedRoute>
                             <ListaEspecificaPage />
+                        </ProtectedRoute>
+                    }
+                />}
+
+                {<Route
+                    path='/filmes/:id'
+                    element={
+                        <ProtectedRoute>
+                            <MoviePage />
                         </ProtectedRoute>
                     }
                 />}

@@ -28,6 +28,7 @@
 
 /* Disposição dos filmes */
 .filmesGrid {
+    width: 95%;
     display: grid;
     grid-template-columns: 
         15rem   
@@ -36,6 +37,7 @@
         15rem
         15rem;
     align-items: center;
+    justify-content: space-between;
     gap: min(3.5rem);
 }
 
@@ -46,4 +48,20 @@
     text-align: center;
     margin-top: 10rem;
     font-size: 20px !important;
+}
+
+/* Responsividade para notebook */
+@media (max-width: 1600px) {
+    .filmesGrid {
+        width: 98%;
+        display: grid;
+        grid-template-columns: 
+            15rem
+            15rem   
+            15rem
+            15rem;
+        align-items: center;
+        justify-content: space-between;
+        gap: min(3.5rem);
+    }
 }
