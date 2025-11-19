@@ -149,22 +149,9 @@ def get_listas_usuario(usuario_id):
 			lista_id = lista[0]
 			nome = lista[1]
 
-			# pega o último filme adicionado para usar como capa
-			cursor.execute('''
-				SELECT filmes.capa_vertical 
-				FROM filmes_listas
-				JOIN filmes ON filmes_listas.filme_id = filmes.id
-				WHERE filmes_listas.lista_id = %s
-				ORDER BY filmes_listas.id DESC
-				LIMIT 1
-			''', (lista_id,))
-			capa = cursor.fetchone()
-			capa_url = capa[0] if capa else None
-
 			response.append({
 				'id': lista_id,
-				'nome': nome,
-				'capa': capa_url
+				'nome': nome
 			})
 			
 	except Exception as e:

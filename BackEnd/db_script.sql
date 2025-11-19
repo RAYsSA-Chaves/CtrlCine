@@ -60,20 +60,6 @@ CREATE TABLE avaliacoes_usuarios (
     FOREIGN KEY (filme_id) REFERENCES filmes(id) ON DELETE CASCADE
 );
 
--- Tabela de lembretes
-CREATE TABLE lembretes (
-    id INTEGER PRIMARY KEY AUTO_INCREMENT,
-    usuario_id INTEGER,
-    filme_id INTEGER,
-    data_envio DATE,
-    tipo ENUM('lançamento próximo', 'lançou'),
-    titulo VARCHAR(255),
-    mensagem TEXT,
-    enviado BOOLEAN DEFAULT FALSE,
-    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
-    FOREIGN KEY (filme_id) REFERENCES filmes(id) ON DELETE CASCADE
-);
-
 -- Tabela de solicitações (ex: novo filme, edição)
 CREATE TABLE solicitacoes (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -661,3 +647,24 @@ INSERT INTO filme_diretor (filme_id, diretor_id) VALUES (20, 20);
 INSERT INTO filme_produtora (filme_id, produtora_id) VALUES (20, 18), (20, 17);
 INSERT INTO filme_ator (filme_id, ator_id) VALUES (20, 38), (20, 39);
 INSERT INTO filme_genero (filme_id, genero_id) VALUES (20, 3), (20, 18);
+
+-- FILME 21
+INSERT INTO filmes (titulo, capa_horizontal, capa_vertical, lancamento, duracao, sinopse, trailer)
+VALUES (
+    'Toy Story 5',
+    'https://cdn.oantagonista.com/uploads/2025/03/jLITglCQD9pwquxYdJjg0VzaVAF-1.jpg',
+    'https://ingresso-a.akamaihd.net/prd/img/movie/toy-story-5/295b846d-604f-4183-b363-bdaeb900e858.webp',
+    '2026-06-18',
+    '00h 00min',
+    'Toy Story 5 foca no conflito entre "brinquedo vs. tecnologia", com a turma liderada por Jessie enfrentando uma nova ameaça: um tablet inteligente em forma de sapo chamado Lilypad, que está roubando a atenção de Bonnie. O filme explora os desafios dos brinquedos clássicos em um mundo dominado por dispositivos eletrônicos, buscando encontrar um equilíbrio entre as formas antigas e novas de brincar. ',
+    'https://youtu.be/83ThLwyV1kE?si=3MITTMxoufvG1LU8'
+);
+
+INSERT INTO diretores (nome) VALUES ('Andrew Stanton');
+INSERT INTO atores (nome, foto) VALUES
+('Tom Hanks', 'https://f.i.uol.com.br/fotografia/2023/10/02/1696268846651b022ecf404_1696268846_3x4_md.jpg');
+
+INSERT INTO filme_diretor (filme_id, diretor_id) VALUES (21, 21);
+INSERT INTO filme_produtora (filme_id, produtora_id) VALUES (20, 18);
+INSERT INTO filme_ator (filme_id, ator_id) VALUES (21, 40);
+INSERT INTO filme_genero (filme_id, genero_id) VALUES (21, 3), (21, 18);
