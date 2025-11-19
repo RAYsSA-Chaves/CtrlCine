@@ -5,6 +5,6 @@ class Settings:
 
     # infos do banco
     DB_HOST = 'localhost'
-    DB_USER = 'senai'
-    DB_PASSWORD = 'root'
+    DB_USER = 'root'
+    DB_PASSWORD = 'senai'
     DB_NAME = 'CtrlCine'

@@ -1,3 +1,5 @@
+// Página de filme específico
+
 import './MoviePage.css'
 import { useState, useEffect, useContext } from 'react'
 import { useParams } from 'react-router-dom'
@@ -5,6 +7,12 @@ import api from '../../Services/Api'
 import LoadingModal from '../../Components/LoadingModal/LoadingModal'
 import Botao from '../../Components/Botao/Botao'
 import { AuthContext } from '../../Services/AuthContext'
+import SaveIcon from '../../Assets/Images/Icons/flag_icon.svg'
+import ModalSalvarFilme from '../../Components/ModalSalvar/ModalSalvar'
+import { Star } from 'lucide-react'
+import SinopseIcon from '../../Assets/Images/Icons/sinopse_icon.svg'
+import TrailerIcon from '../../Assets/Images/Icons/trailer_icon.svg'
+
 
 export default function MoviePage() {
     const { id } = useParams()
@@ -15,6 +23,10 @@ export default function MoviePage() {
     const [erro, setErro] = useState('')
 
     const { user } = useContext(AuthContext)   // usuário logado
+
+    // Estados para o modal
+    const [modalSalvarAberto, setModalSalvarAberto] = useState(false);
+    const [filmeSelecionado, setFilmeSelecionado] = useState(null);
 
     // ============================
     //     BUSCA FILME
@@ -84,34 +96,59 @@ export default function MoviePage() {
         <div className="filmePage">
 
             {/* Banner */}
-            <div className='banner'>
-                <img src={filme?.capa_horizontal} alt={filme?.titulo} />
-                <h1>{filme?.titulo}</h1>
-            </div>
-
-            <div className='conteudo'>
-                <div className='infos'>
+            <article className='filmeCapa'>
+                <img src={filme?.capa_horizontal} alt={filme?.titulo} className='capaHorizontal' />
+                <div>
                     <h1>{filme?.titulo}</h1>
+                    <div className='displayBtns'>
+                        <Botao 
+                            style='primary'
+                            text='Editar'
+                        />
+                        <Botao 
+                            style='secondary'
+                            icon={SaveIcon}
+                            onClick = {() => {
+                                setFilmeSelecionado(filme);
+                                setModalSalvarAberto(true);
+                            }}
+                        />
+                    </div>
+                </div>
+            </article>
 
-                    <p className='detalhes'>
-                        <span>{new Date(filme.lancamento).getFullYear()}</span> •
-                        <span>{filme.duracao} min</span> •
-                        <span>IMDB {filme.nota_imdb}</span>
-                    </p>
-
-                    <p className='sinopse'>{filme.sinopse}</p>
+            {/* Informações */}
+            <section className='infosFilme'>
+                <div className='infos1'>
+                    {/* Sinopse */}
+                    <article id='sinopse'>
+                        <div className='titleDisplay'>
+                            <img src={SinopseIcon} alt="Ícone de texto" />
+                            <p>Sinopse</p>
+                        </div>
+                        <p className='sinopse'>{filme.sinopse}</p>
+                    </article>
 
                     {/* Trailer */}
-                    {filme.trailer && (
-                        <a href={filme.trailer} target="_blank" rel="noreferrer">
-                            <Botao style="primary" text="Assistir trailer" />
-                        </a>
-                    )}
+                    <article id='trailer'>
+                        <div className='titleDisplay'>
+                            <img src={TrailerIcon} alt="Ícone de play" />
+                            <p>Trailer</p>
+                        </div>
+                        <iframe
+                            width="100%" 
+                            height="315" 
+                            src={'https://www.youtube.com/embed/dQw4w9WgXcQ'} 
+                            title="Trailer do filme"
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                        ></iframe>
+                    </article>
 
-                    {/* LISTAS — evitar [object Object] */}
-                    <div className='infoList'>
+                    {/* Elenco */}
+                    <article id='elenco'>
                         <h3>Atores</h3>
-
                         <div className="atoresGrid">
                             {filme.atores?.length > 0 ? (
                                 filme.atores.map(ator => (
@@ -123,22 +160,35 @@ export default function MoviePage() {
                             ) : (
                                 <p className="msg">Nenhum ator cadastrado.</p>
                             )}
-                        </div>
-
-                        <h3>Diretor</h3>
-                        <p>{filme.diretor?.map(d => d.nome).join(', ')}</p>
-
-                        <h3>Produtoras</h3>
-                        <p>{filme.produtoras?.map(p => p.nome).join(', ')}</p>
-
-                        <h3>Gêneros</h3>
-                        <p>{filme.generos?.map(g => g.nome).join(', ')}</p>
-                    </div>
+                        </div>  
+                    </article>              
                 </div>
+                
+                <div className='infos2'>
+                    {/* Duração */}
+                    <span>{filme.duracao}</span>
 
-                {/* ===================================
-                     A V A L I A Ç Õ E S
-                =================================== */}
+                    {/* Ano */}
+                    <span>{new Date(filme.lancamento).getFullYear()}</span>
+
+                    {/* Média de avaliações */}
+                    <span>IMDB {filme.nota_imdb}</span>
+
+                    {/* Gêneros */}
+                    <h3>Gêneros</h3>
+                    <p>{filme.generos?.map(g => g.nome).join(', ')}</p>
+
+                    {/* Diretor */}
+                    <h3>Diretor</h3>
+                    <p>{filme.diretor?.map(d => d.nome).join(', ')}</p>
+
+                    {/* Produtoras */}
+                    <h3>Produtoras</h3>
+                    <p>{filme.produtoras?.map(p => p.nome).join(', ')}</p>
+                </div>
+            </section>
+
+                
                 <div className="avaliacoesBox">
                     
                     <h2>Avaliações</h2>
@@ -171,7 +221,15 @@ export default function MoviePage() {
                         </div>
                     ))}
                 </div>
-            </div>
+
+            {/* Modal */}
+            <ModalSalvarFilme
+                isOpen={modalSalvarAberto}
+                onRequestClose={() => {
+                    setModalSalvarAberto(false);
+                    }}
+                filme={filmeSelecionado}
+            />       
         </div>
     )
 }

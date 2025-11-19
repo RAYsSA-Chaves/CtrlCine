@@ -1,209 +1,89 @@
-/* ===========================
-        PÁGINA DO FILME
-=========================== */
-
 .filmePage {
-    width: 100%;
-    min-height: 100vh;
-    background: #0e0e0f;
-    color: #fff;
-    padding-bottom: 60px;
+    margin: 10rem 3rem 3rem 3rem;
 }
 
-/* ===========================
-            BANNER
-=========================== */
-.banner {
+.filmeCapa {
+    width: 100%;
+    height: auto;
     position: relative;
-    width: 100%;
-    height: 380px;
-    overflow: hidden;
-    border-bottom: 2px solid #1c1c1d;
 }
 
-.banner img {
+.filmeCapa .capaHorizontal {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    border: solid 1px var(--gray);
+}
+
+.filmeCapa::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    filter: brightness(0.7);
-}
-
-.banner h1 {
-    position: absolute;
-    bottom: 25px;
-    left: 40px;
-    font-size: 42px;
-    font-weight: 700;
-    text-shadow: 0px 4px 20px rgba(0,0,0,0.7);
-}
-
-/* ===========================
-       CONTEÚDO PRINCIPAL
-=========================== */
-.conteudo {
-    display: flex;
-    gap: 30px;
-    width: 90%;
-    margin: 40px auto;
-}
-
-/* ===========================
-          INFO DO FILME
-=========================== */
-.infos {
-    flex: 1;
-}
-
-.infos h1 {
-    font-size: 34px;
-    margin-bottom: 5px;
-}
-
-.detalhes {
-    color: #c4c4c4;
-    font-size: 15px;
-    margin-bottom: 18px;
-}
-
-.detalhes span {
-    margin-right: 8px;
-}
-
-.sinopse {
-    font-size: 16px;
-    line-height: 1.4;
-    margin-bottom: 25px;
-    color: #dcdcdc;
-}
-
-/* ===========================
-        LISTAS DE INFO
-=========================== */
-.infoList {
-    margin-top: 25px;
-}
-
-.infoList h3 {
-    font-size: 18px;
-    margin-bottom: 6px;
-    color: #e2e2e2;
-}
-
-.infoList p {
-    font-size: 15px;
-    margin-bottom: 18px;
-    color: #cfcfcf;
-}
-
-/* ===========================
-        ATORES – CARDS
-=========================== */
-.atoresGrid {
-    display: flex;
-    gap: 16px;
-    overflow-x: auto;
-    padding: 12px 0;
-}
-
-.atorCard {
-    min-width: 120px;
-    background: #181819;
-    border-radius: 14px;
-    padding: 10px;
-    border: 1px solid #2b2b2c;
-    transition: 0.25s;
-}
-
-.atorCard:hover {
-    border-color: #df4c4c;
-    transform: translateY(-2px);
-}
-
-.atorCard img {
-    width: 100%;
-    height: 145px;
-    object-fit: cover;
     border-radius: 12px;
-    margin-bottom: 8px;
+    background: linear-gradient(to bottom, rgba(32, 30, 33, 0.32) 5%, var(--black-bg) 100%);
+    pointer-events: none;
 }
 
-.atorCard p {
-    font-size: 14px;
-    text-align: center;
-    color: #fff;
+.filmeCapa h1 {
+    position: absolute;
+    bottom: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    font-size: 30px;
 }
 
-/* ===========================
-       AVALIAÇÕES (SIDEBAR)
-=========================== */
-.avaliacoesBox {
-    width: 380px;
-    background: #161617;
-    padding: 20px;
-    border: 1px solid #2c2c2d;
-    border-radius: 18px;
-    height: fit-content;
+.infosFilme {
+    margin-top: 6rem;
+    width: 100%;
+    display: flex;
+    gap: 5rem;
+    justify-content: flex-start;
 }
 
-.avaliacoesBox h2 {
-    font-size: 22px;
-    margin-bottom: 15px;
+.infosFilme .infos1, .infosFilme .infos2 {
+    width: 50%;
 }
 
-.msg {
-    font-size: 15px;
-    color: #bbbbbb;
-    margin-bottom: 12px;
+.infosFilme article {
+    min-height: 10rem;
+    margin-bottom: 2rem;
+    border-radius: 6px;
+    width: 100%;
+    object-fit: contain;
+    object-position: top;
+    padding: 2rem;
+    background-repeat: no-repeat;
 }
 
-.avaliacao {
-    background: #1c1c1d;
-    border-radius: 14px;
-    padding: 15px;
-    margin-bottom: 14px;
-    border: 1px solid #2e2e2f;
+#sinopse {
+    background-image: url('../../Assets/Images/sinopse_bg.png');
 }
 
-.userAvaliacao {
-    border-color: #df4c4c;
+#trailer {
+    background-image: url('../../Assets/Images/trailer_bg.png');
 }
 
-.avaliacao h4 {
-    font-size: 15px;
-    font-weight: 600;
+#elenco {
+    background-image: url('../../Assets/Images/elenco_bg.png');
 }
 
-.avaliacao p {
-    margin-top: 5px;
-    font-size: 14px;
-    color: #d3d3d3;
+.titleDisplay {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1.5rem;
 }
 
-/* ===========================
-          RESPONSIVO
-=========================== */
-@media (max-width: 980px) {
-    .conteudo {
-        flex-direction: column;
-    }
-
-    .avaliacoesBox {
-        width: 100%;
-    }
+.infosFilme p {
+    text-align: justify !important;
 }
 
-@media (max-width: 600px) {
-    .banner {
-        height: 260px;
-    }
-
-    .banner h1 {
-        font-size: 30px;
-        bottom: 15px;
-        left: 20px;
-    }
-
-    .infos h1 {
-        font-size: 26px;
-    }
+.titleDisplay p {
+    font-weight: 600 !important;
+    font-size: 16px;
 }
