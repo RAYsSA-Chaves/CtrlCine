@@ -4,6 +4,10 @@
     margin-bottom: 2rem;
 }
 
+.listaFilmesPage .movieCard {
+    height: auto;
+}
+
 /* ------------- */
 
 /* Caminho da página */
@@ -49,6 +53,8 @@
     margin-top: 10rem;
     font-size: 20px !important;
 }
+
+/* ------------- */
 
 /* Responsividade para notebook */
 @media (max-width: 1600px) {

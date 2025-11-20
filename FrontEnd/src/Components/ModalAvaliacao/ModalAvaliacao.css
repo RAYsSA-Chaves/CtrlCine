@@ -1,0 +1,48 @@
+/* Container das estrelas */
+.starSelector {
+    display: flex;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+    margin-top: 0.3rem;
+}
+
+/* Cada estrela é clicável */
+.starClickable {
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.starClickable:hover {
+    transform: scale(1.15);
+}
+
+/* Container geral (estrelas + número) */
+.starSelectorContainer {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Wrapper das estrelas */
+.starSelector {
+    display: flex;
+    gap: 0.4rem;
+}
+
+/* Clique e hover */
+.starClickable {
+    cursor: pointer;
+    transition: transform 0.2s ease, fill 0.2s ease;
+}
+
+.starClickable:hover {
+    transform: scale(1.15);
+}
+
+/* Número da nota */
+.starCount {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: var(--branco);
+}
+

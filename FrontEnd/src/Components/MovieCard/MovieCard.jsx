@@ -1,12 +1,12 @@
 // Card genérico para os filmes
 
 import './MovieCard.css'
-import { Star } from 'lucide-react'
 import { useContext } from 'react';
 import { AuthContext } from '../../Services/AuthContext';
 import SaveIcon from '../../Assets/Images/Icons/flag_icon.svg'
 import TrashIcon from '../../Assets/Images/Icons/trash_icon.svg'
 import { useNavigate } from 'react-router-dom';
+import { renderStars } from '../../Utils/renderStarsFunction'
 
 
 export default function MovieCard({ 
@@ -24,27 +24,6 @@ export default function MovieCard({
 
     // Pega infos do usuário logado
     const  { user } = useContext(AuthContext); 
-
-    // Função para renderizar estrelas completas ou vazias
-    const renderStars = (nota) => {
-        if (!nota) return null;
-
-        const maxStars = 5;
-        const fullStars = nota; 
-        const emptyStars = maxStars - nota;
-
-        const starsArray = [];
-
-        for (let i = 0; i < fullStars; i++) {
-            starsArray.push(<Star key={`full-${i}`} className='star filled' fill='currentColor'/>);
-        }
-
-        for (let i = 0; i < emptyStars; i++) {
-            starsArray.push(<Star key={`empty-${i}`} className='star empty' fill='currentColor'/>);
-        }
-
-        return starsArray;
-    };
 
     return (
         <article className='movieCard' onClick={() => navigate(`/filmes/${id}`)}>

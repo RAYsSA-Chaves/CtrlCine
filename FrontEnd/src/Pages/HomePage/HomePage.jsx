@@ -31,6 +31,7 @@ import SuspenseImg from '../../Assets/Images/GendersCovers/genero_suspense_img.s
 import TerrorImg from '../../Assets/Images/GendersCovers/genero_terror_img.svg'
 import MovieCard from '../../Components/MovieCard/MovieCard';
 import ModalSalvarFilme from '../../Components/ModalSalvar/ModalSalvar';
+import { cardsSettings } from '../../Utils/sliderSettings';
 
 
 export default function HomePage() {
@@ -79,25 +80,6 @@ export default function HomePage() {
         'Fantasia': FantasiaImg,
         'Ficção': FiccaoImg,
         'Animação': AnimacaoImg
-    };
-
-    // Configuração para slider de gêneros e filmes
-    const genderSettings = {
-        dots: false,
-        infinite: true,
-        speed: 800,
-        slidesToShow: 5,  // quantos cards aparecem na tela
-        slidesToScroll: 5,
-        arrows: true,
-        responsive: [
-            {
-                breakpoint: 1400,
-                settings: {
-                    slidesToShow: 4,
-                    slidesToScroll: 4,
-                }
-            }
-        ]
     };
 
     // Filmes em alta
@@ -198,7 +180,7 @@ export default function HomePage() {
             <section>
                 <h1>Gêneros</h1>
                 <div className='generosContainer'>
-                    <Slider {...genderSettings}>
+                    <Slider {...cardsSettings}>
                         {generos.map((genero) => (
                             <GenderCard 
                                 key={genero.id} 
@@ -214,7 +196,7 @@ export default function HomePage() {
             <section>
                 <h1>Em alta</h1>
                 <div className='generosContainer'>
-                    <Slider {...genderSettings}>
+                    <Slider {...cardsSettings}>
                         {topFilmes.map(filme => (
                             <MovieCard 
                                 key={filme.id} 
@@ -236,7 +218,7 @@ export default function HomePage() {
             <section>
                 <h1>Em breve</h1>
                 <div className='generosContainer'>
-                    <Slider {...genderSettings}>
+                    <Slider {...cardsSettings}>
                         {filmesLancamento.map(filme => (
                             <MovieCard
                                 key={filme.id}
