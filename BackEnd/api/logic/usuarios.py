@@ -103,14 +103,13 @@ def cadastrar_usuario(data):
     try:
         # guarda novo usuário no banco
         cursor.execute('''
-            INSERT INTO usuarios (nome, sobrenome, email, senha, foto, tipo_user, data_cadastro)
-            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            INSERT INTO usuarios (nome, sobrenome, email, senha, tipo_user, data_cadastro)
+            VALUES (%s, %s, %s, %s, %s, %s)
         ''', (
             data['nome'],
             data.get('sobrenome', None),
             data['email'],
             senha_hash,
-            data.get('foto', None),
             data.get('tipo_user', 'comum'),
             datetime.date.today()
         ))

@@ -27,7 +27,7 @@ CREATE TABLE usuarios (
     sobrenome VARCHAR(255) NULL,
     email VARCHAR(255) UNIQUE,
     senha VARCHAR(255),
-    foto VARCHAR(255) NULL,
+    foto VARCHAR(255) DEFAULT '/UsersPhotos/default_profile_photo.png',
     tipo_user ENUM('admin', 'comum') DEFAULT 'comum',
     data_cadastro DATE
 );
@@ -173,7 +173,7 @@ VALUES (
     '2025-07-24',
     '1h 55min',
     'O Quarteto Fantástico estreia no MCU, apresentando Reed Richards, Sue Storm, Johnny Storm e Ben Grimm enfrentando uma nova ameaça cósmica.',
-    'https://youtu.be/P273sRlm4tM?si=TdXEG8lEcSl3J_Yp',
+    'P273sRlm4tM',
     4,
     TRUE
 );
@@ -198,7 +198,7 @@ VALUES (
     '2025-12-19',
     '3h 12min',
     'Após a guerra contra a RDA, Jake Sully e Neytiri precisam proteger sua família de uma nova ameaça: o Povo das Cinzas, uma tribo Na`vi violenta e sedenta por poder. A família Sully será forçada a lutar pela sobrevivência e pelo futuro de Pandora.',
-    'https://youtu.be/yXPWsdT43YE?si=lYwg2Y3l4pvrt6vJ',
+    'yXPWsdT43YE',
     FALSE
 );
 
@@ -222,7 +222,7 @@ VALUES (
     '2025-10-16',
     '1h 54min',
     'Sequência do terror psicológico de sucesso com Ethan Hawke retornando como o sádico sequestrador mascarado.',
-    'https://youtu.be/M5Xz19w_lNk?si=V3L0DVEoqt4yDwvA',
+    'M5Xz19w_lNk',
     4,
     TRUE
 );
@@ -247,7 +247,7 @@ VALUES (
     '2025-04-17',
     '2h 17min',
     'Dois irmãos gêmeos tentam deixar suas vidas problemáticas para trás e retornam à sua cidade natal para recomeçar. Lá, eles descobrem que um mal ainda maior está à espreita para recebê-los de volta.',
-    'https://youtu.be/e9kwQahD8YY?si=LBtb23D6opf5Ec_5',
+    'e9kwQahD8YY',
     4,
     TRUE
 );
@@ -271,7 +271,7 @@ VALUES (
     '2022-06-09',
     '2h 14min',
     'Angel, experimentando o amor pela primeira vez e enfrentando demônios que parecem insuperáveis, foge da nova vida que ela acha que não merece. No entanto, durante a busca de Michael pela sua amada, Angel descobre que ela tem o poder de escolher a vida que quer.',
-    'https://youtu.be/PSOQPSLvXYE?si=0VxPMeLgo8eQZ5GR',
+    'PSOQPSLvXYE',
     5,
     FALSE
 );
@@ -298,7 +298,7 @@ VALUES (
     '2025-06-13',
     '2h 5min',
     'Adaptação live-action da famosa animação, mostrando Soluço e Banguela explorando a amizade entre humanos e dragões.',
-    'https://youtu.be/CWTy1ukPoYY?si=mmMCcBdA5pgNR4R6',
+    'CWTy1ukPoYY',
     5,
     TRUE
 );
@@ -311,7 +311,7 @@ INSERT INTO atores (nome, foto) VALUES
 
 INSERT INTO filme_diretor (filme_id, diretor_id) VALUES (6, 6);
 INSERT INTO filme_produtora (filme_id, produtora_id) VALUES (6, 7);
-INSERT INTO filme_ator (filme_id, ator_id) VALUES (6, 5), (6, 10), (6, 11);
+INSERT INTO filme_ator (filme_id, ator_id) VALUES (6, 6), (6, 10), (6, 11);
 INSERT INTO filme_genero (filme_id, genero_id) VALUES (6, 2), (6, 18);
 
 -- FILME 7
@@ -323,7 +323,7 @@ VALUES (
     '2024-11-07',
     '2h 15min',
     'Baseado em uma história real, retrata a história da advogada Eunice Paiva durante a ditadura militar no Brasil, quando seu marido, o ex-deputado Rubens Paiva, é sequestrado e desaparece. Diante da violência do regime, Eunice precisa se reinventar para criar seus cinco filhos e lutar pela verdade sobre o destino do marido, uma busca que se estenderia por décadas. ',
-    'https://youtu.be/w9CHdJF-4vU?si=Osl4nKKuKfn8u0B7',
+    'w9CHdJF-4vU',
     5,
     TRUE
 );
@@ -347,7 +347,7 @@ VALUES (
     '2025-07-10',
     '2h 9min',
     'Reinício do herói da DC, dirigido por James Gunn, mostrando Clark Kent em seus primeiros dias como o Homem de Aço, tentando equilibrar sua herança kryptoniana com sua criação como Clark Kent no Kansas, enquanto enfrenta um mundo que questiona seus ideais de bondade e justiça.',
-    'https://youtu.be/14qzQDMcTqM?si=ZLJWMg7qqytHaMGa',
+    '14qzQDMcTqM',
     3,
     TRUE
 );
@@ -372,7 +372,7 @@ VALUES (
     '2025-06-27',
     '2h 35min',
     'Na década de 1990, Sonny Hayes era o piloto mais promissor da Fórmula 1 até que um acidente na pista quase encerrou sua carreira. Trinta anos depois, o proprietário de uma equipe de Fórmula 1 em dificuldades convence Sonny a voltar a correr e se tornar o melhor do mundo.',
-    'https://youtu.be/ZiDphkXCZsQ?si=SomMKPERagnAThdW',
+    'ZiDphkXCZsQ',
     4,
     TRUE
 );
@@ -396,7 +396,7 @@ VALUES (
     '2025-12-05',
     '1h 44min',
     'Um ano após o primeiro filme, Five Nights at Freddy`s 2 gira em torno de Abby, a irmã de Mike, que foge para se reconectar com os animatrônicos. Essa ação desencadeia eventos aterrorizantes que revelam segredos sombrios sobre a origem da Freddy`s e despertam um horror esquecido, forçando Mike, Abby e a policial Vanessa a tentar sobreviver.',
-    'https://youtu.be/w8oP0T-7USo?si=P8J4A72eTCp9Pv44',
+    'w8oP0T-7USo',
     FALSE
 );
 
@@ -420,14 +420,14 @@ VALUES (
     '2025-12-25',
     '00h 00min',
     'Dois amigos de infância, em meio a uma crise de meia-idade, decidem realizar um sonho antigo: refazer seu filme favorito da juventude, o Anaconda original. A aventura cômica se transforma em uma luta pela sobrevivência quando uma anaconda gigante real aparece, forçando-os a enfrentar não apenas a ameaça da cobra, mas também desastres naturais e criminosos na Amazônia.',
-    'https://youtu.be/o33HZ-Xov98?si=5soMMW7C3qrGHJbZ',
+    'o33HZ-Xov98',
     FALSE
 );
 
 INSERT INTO diretores (nome) VALUES ('Tom Gormican');
 INSERT INTO produtoras (nome) VALUES ('Columbia Pictures');
 INSERT INTO atores (nome, foto) VALUES
-('Jack Black', 'https://static.wikia.nocookie.net/music/images/4/4d/Jack_Black.jpg/revision/latest?cb=20180702021339'),
+('Jack Black', 'https://hips.hearstapps.com/hmg-prod/images/jack-black-gettyimages-1193008127.jpg?crop=1xw:1.0xh;center,top&resize=1200:*'),
 ('Paul Rudd', 'https://m.media-amazon.com/images/M/MV5BMTY4NTEwNDg1MV5BMl5BanBnXkFtZTgwODMwMDA0ODE@._V1_FMjpg_UX1000_.jpg');
 
 INSERT INTO filme_diretor (filme_id, diretor_id) VALUES (11, 11);
@@ -444,7 +444,7 @@ VALUES (
     '2026-04-23',
     '00h 00min',
     'Michael é uma futura cinebiografia musical norte-americana baseada na vida do cantor, compositor e dançarino Michael Jackson.',
-    'https://youtu.be/KDDVHnLB4eE?si=mUkZb0N5JmHXKE_U'
+    'KDDVHnLB4eE'
 );
 
 INSERT INTO diretores (nome) VALUES ('Antoine Fuqua');
@@ -466,7 +466,7 @@ VALUES (
     '2018-04-26',
     '2h 29min',
     'Os Vingadores unem forças para impedir Thanos de reunir as Joias do Infinito e eliminar metade do universo.',
-    'https://youtu.be/t_ULBP6V9bg?si=RuWr0nQcZwPmdM5u',
+    't_ULBP6V9bg',
     5,
     FALSE
 );
@@ -496,7 +496,7 @@ VALUES (
     '2022-03-03',
     '2h 56min',
     'Após dois anos espreitando as ruas como Batman, Bruce Wayne se encontra nas profundezas mais sombrias de Gotham City. Com poucos aliados confiáveis, o vigilante solitário se estabelece como a personificação da vingança para a população.',
-    'https://youtu.be/mqqft2x_Aa4?si=1JitAq34OPGHnV7o',
+    'mqqft2x_Aa4',
     4
 );
 
@@ -519,7 +519,7 @@ VALUES (
     '2021-12-16',
     '2h 28min',
     'Peter Parker tem a sua identidade secreta revelada e pede ajuda ao Doutor Estranho. Quando o feitiço para reverter o evento não sai como esperado, o Homem-Aranha e o seu companheiro dos Vingadores precisam enfrentar inimigos de todo o multiverso.',
-    'https://youtu.be/FDNNHh7TRN0?si=6b_1pMGxFcFaRLTI',
+    'FDNNHh7TRN0I',
     4
 );
 
@@ -541,7 +541,7 @@ VALUES (
     '2017-01-26',
     '2h 19min',
     'A história real de Desmond Doss, um médico de guerra que se recusou a portar armas, mas salvou 75 homens em Okinawa.',
-    'https://youtu.be/KHZG7NnjVxM?si=2LT4wxYPNMnW0PBr',
+    'KHZG7NnjVxM',
     5
 );
 
@@ -564,7 +564,7 @@ VALUES (
     '2014-06-26',
     '1h 30min',
     'Documentário que investiga o impacto ambiental da pecuária e o silêncio das organizações ecológicas sobre o tema.',
-    'https://youtu.be/nV04zyfLyN4?si=4JqEpAgDIXCdRx1l',
+    'nV04zyfLyN4',
     4
 );
 
@@ -585,7 +585,7 @@ VALUES (
     '2017-01-05',
     '1h 53min',
     'Moana, filha do chefe de uma ilha polinésia, parte em uma jornada para salvar seu povo com a ajuda do semideus Maui.',
-    'https://youtu.be/LKFuXETZUsI?si=8pPZUifNecqM75hJ',
+    'LKFuXETZUsI',
     4
 );
 
@@ -609,7 +609,7 @@ VALUES (
     '2013-03-21',
     '1h 38min',
     'Uma família pré-histórica parte em uma aventura depois que sua caverna é destruída, em busca de um novo lar, liderados por um garoto muito imaginativo que lhes ajuda a desbravar um mundo inteiramente novo.',
-    'https://youtu.be/-nPvii8SM3U?si=K7Asl2k-1wEauEGZ',
+    '-nPvii8SM3U',
     4
 );
 
@@ -633,7 +633,7 @@ VALUES (
     '2021-06-13',
     '1h 35min',
     'Luca vive um verão inesquecível na Riviera Italiana, mas esconde o segredo de ser um monstro marinho que assume forma humana na superfície.',
-    'https://youtu.be/mYfJxlgR2jw?si=q8xkDjw7B-8GmgAm',
+    'mYfJxlgR2jw',
     5
 );
 
@@ -657,7 +657,7 @@ VALUES (
     '2026-06-18',
     '00h 00min',
     'Toy Story 5 foca no conflito entre "brinquedo vs. tecnologia", com a turma liderada por Jessie enfrentando uma nova ameaça: um tablet inteligente em forma de sapo chamado Lilypad, que está roubando a atenção de Bonnie. O filme explora os desafios dos brinquedos clássicos em um mundo dominado por dispositivos eletrônicos, buscando encontrar um equilíbrio entre as formas antigas e novas de brincar. ',
-    'https://youtu.be/83ThLwyV1kE?si=3MITTMxoufvG1LU8'
+    '83ThLwyV1kE'
 );
 
 INSERT INTO diretores (nome) VALUES ('Andrew Stanton');

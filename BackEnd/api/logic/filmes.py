@@ -67,7 +67,7 @@ def get_movies(filters):
 
 		# filtro por nota
 		if 'nota' in filters:
-			conds.append('filmes.nota_ctrlcine = %s')
+			conds.append('filmes.nota_imdb = %s')
 			params.append(filters['nota'])
 		
 		# busca por título

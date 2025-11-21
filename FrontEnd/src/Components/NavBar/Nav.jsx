@@ -31,9 +31,9 @@ export default function NavBar() {
                 user.role === 'comum' ? (
                     <ul>
                         <li><Link to='/'>Home</Link></li>
-                        <li><Link to='/'>Catálogo</Link></li>
+                        <li><Link to='/filmes'>Catálogo</Link></li>
                         <li><Link to='/listas'>Minhas Listas</Link></li>
-                        <li><Link to='/'>Solicitar Filme</Link></li>
+                        <li><Link to='/movie_form?mode=create'>Solicitar Filme</Link></li>
                     </ul>
                 ) : user.role === 'admin' ? (
                     <ul>

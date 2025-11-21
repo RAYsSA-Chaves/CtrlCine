@@ -243,7 +243,7 @@ export default function HomePage() {
                         <Botao
                             style = 'primary'
                             text = 'Acesse o catálogo'
-                            to='/'
+                            to='/filmes'
                         />
                 </aside>
             </section>

@@ -18,7 +18,7 @@ export default function ProfileDrop() {
             {/* Cabeçalho */}
             <div className='userHeader' onClick={() => setOpen(!open)}>
                 <div className='user'>
-                    <div className='userPhoto'></div>
+                    <img src={user.foto} alt='Foto do usuário' className='userPhoto' />
                     <span className='userName'>{user.nome}</span>
                 </div>
                 <span className='arrow'>{open ? <ChevronUp/> : <ChevronDown/>}</span>

@@ -1,35 +1,12 @@
-/* Container das estrelas */
+/*  Seletor de estrelas */
 .starSelector {
     display: flex;
     gap: 0.6rem;
-    margin-bottom: 1rem;
-    margin-top: 0.3rem;
 }
+
+/* ------------- */
 
 /* Cada estrela é clicável */
-.starClickable {
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.starClickable:hover {
-    transform: scale(1.15);
-}
-
-/* Container geral (estrelas + número) */
-.starSelectorContainer {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-/* Wrapper das estrelas */
-.starSelector {
-    display: flex;
-    gap: 0.4rem;
-}
-
-/* Clique e hover */
 .starClickable {
     cursor: pointer;
     transition: transform 0.2s ease, fill 0.2s ease;
@@ -39,10 +16,59 @@
     transform: scale(1.15);
 }
 
-/* Número da nota */
-.starCount {
-    font-size: 1.4rem;
-    font-weight: bold;
-    color: var(--branco);
+/* ------------- */
+
+/* Container geral (estrelas + número) */
+.starSelectorContainer {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
+/* ------------- */
+
+/* Número da nota */
+.starCount {
+    font-size: 18px;
+}
+
+/* ------------- */
+
+/* Label + seletor */
+.ratingSelector {
+    display: flex;
+    align-items: center;
+    background-color: var(--black-bg);
+    border-radius: 8px;
+    border: solid 1px var(--gray);
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.ratingSelector p {
+    margin-right: 1rem;
+    font-weight: bold;
+}
+
+/* ------------- */
+
+/* Container da resenha */
+.resenhaField {
+    background-color: var(--black-bg);
+    border-radius: 8px;
+    border: solid 1px var(--gray);
+    padding: 1rem;
+}
+
+.resenhaField p {
+    margin-bottom: 1rem;
+}
+
+textarea {
+    background-color: transparent;
+    border: none;
+    width: 100%;
+    height: 5rem;
+    caret-color: #fff;
+    color: white;
+}

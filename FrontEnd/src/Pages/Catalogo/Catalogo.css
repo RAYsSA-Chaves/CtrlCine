@@ -1,0 +1,220 @@
+.catalogoPage {
+    flex: 1;
+    margin: 12rem 3rem 3rem 3rem;
+}
+
+/* ---------------- */
+
+/* Barra de pesquisa */
+.searchBar {
+    width: 100%;
+    height: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: min(1rem);
+}
+
+.searchBar input:hover, .searchBar input:focus {
+    background-color: var(--dark-black-purple);
+}
+
+.searchBar input::placeholder {
+    color: var(--light-white);
+}
+
+.searchBar input:focus {
+    border: solid 1px var(--gray)
+}
+
+.searchBar input {
+    background-color: var(--black-purple);
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 8px;
+    outline: none;
+    transition: background-color 0.3s ease;
+    color: #fff;
+    padding: 1rem;
+}
+
+.searchBar .primaryBtn {
+    height: 100%;
+}
+
+.searchBar .primaryBtn img {
+    margin: 0;
+    width: 22px;
+}
+
+/* ---------------- */
+
+.catalogoMainContent {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: min(2rem);
+    margin: 3rem 0;
+}
+
+.catalogoMainContent .divider {
+    background: linear-gradient(to right, var(--black-purple), var(--red), var(--black-purple));
+}
+
+/* ---------------- */
+
+/* Filtro */
+.filtro {
+    background-image: url('../../Assets/Images/filter_bg.png');
+    width: 35%;
+    object-fit: cover;
+    object-position: center;
+    padding: 2rem;
+    background-repeat: no-repeat;
+    border-radius: 12px;
+    height: auto;
+}
+
+.filtro h1 {
+    font-size: 26px;
+}
+
+/* gêneros */
+.filtroGrupo {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+}
+
+.filtroGrupo h2 {
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.generosBox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.generoBtn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: transparent;
+    border: solid 2px #555;
+    padding: 4px 8px;
+    border-radius: 8px;
+    color: var(--light-white);
+    cursor: pointer;
+}
+
+.generoBtn:hover, .generoBtn.ativo {
+    border-color: #fff;
+    color: #fff;
+}
+
+/* notas */
+.notasBox {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.notaLabel {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    width: fit-content;
+}
+
+input[type="radio"] {
+    accent-color: #ff0000;
+    width: 14px; 
+    height: 14px;
+}
+
+.estrelas {
+    display: flex;
+    gap: 2px;
+}
+
+/* pesquisas */
+.searchBar2 {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    align-items: center;
+}
+
+.searchBar2 > *:not(:first-child) {
+    margin-left: -10px;
+}
+
+.searchBar2 input {
+    background-color: #5555553f;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 8px 0 0 8px;
+    outline: none;
+    transition: background-color 0.3s ease;
+    color: #fff;
+    padding: 1rem;
+}
+
+.searchBar2 input:hover, .searchBar2 input:focus {
+    background-color: var(--dark-black-purple);
+}
+
+.searchBar2 input::placeholder {
+    color: var(--light-white);
+}
+
+.searchBar2 .primaryBtn {
+    height: 100%;
+}
+
+.searchBar2 .primaryBtn img {
+    margin: 0;
+    width: 22px;
+}
+
+/* botão limpar */
+.filtro .terciaryBtn {
+    margin-top: 4rem;
+}
+
+
+
+
+/* Container dos filmes */
+.catalogoFilmes {
+    flex: 1; /* ocupa espaço restante ao lado do filtro */
+    padding:  0 1rem 1rem 1rem 1rem;
+}
+
+/* Mensagem quando não há filmes */
+.catalogoFilmes .mensagem {
+    font-size: 1.2rem;
+    text-align: center;
+    color: var(--red);
+    margin-bottom: 1rem;
+}
+
+/* Grid de filmes */
+.filmesGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 colunas iguais */
+    gap: 20px; /* espaço entre cards */
+    row-gap: 40px; 
+}
+
+.filmesGrid .movieCard {
+    height: 23rem;
+}

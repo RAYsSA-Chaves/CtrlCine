@@ -11,8 +11,8 @@ import Botao from "../../Components/Botao/Botao";
 import { Star } from "lucide-react";
 import api from "../../Services/Api";
 
-Modal.setAppElement('#root');
 
+Modal.setAppElement('#root');
 export default function ModalAvaliacao({ isOpen, onRequestClose, filme, user, recarregar }) {
 
     // nota escolhida
@@ -25,9 +25,7 @@ export default function ModalAvaliacao({ isOpen, onRequestClose, filme, user, re
     const [loadingOpen, setLoadingOpen] = useState(false);
     const [successOpen, setSuccessOpen] = useState(false);
 
-    // ==========================
-    // SELETOR MANUAL DE ESTRELAS
-    // ==========================
+    // função do seletor de estrelas
     function StarSelector({ value, onChange }) {
         return (
             <div className="starSelectorContainer">
@@ -35,7 +33,7 @@ export default function ModalAvaliacao({ isOpen, onRequestClose, filme, user, re
                     {[1, 2, 3, 4, 5].map((n) => (
                         <Star
                             key={n}
-                            size={40}
+                            size={30}
                             stroke="none"
                             fill={n <= value ? "var(--red)" : "var(--gray)"}
                             className="starClickable"
@@ -43,12 +41,12 @@ export default function ModalAvaliacao({ isOpen, onRequestClose, filme, user, re
                         />
                     ))}
                 </div>
-
                 <span className="starCount">{value}</span>
             </div>
         );
     }
 
+    // envio da avaliação para o banco
     async function enviarAvaliacao() {
         try {
             setLoadingOpen(true);
@@ -86,29 +84,35 @@ export default function ModalAvaliacao({ isOpen, onRequestClose, filme, user, re
                 className="modalSalvar"
                 overlayClassName="modalOverlay"
             >
-                {/* HEADER */}
+                {/* Cabeçalho padrão */}
                 <header className='headerModal'>
                     <img src={Logo} alt='Logo' className='logo' />
-
-                    <button className="closeBtn" onClick={onRequestClose}>
-                        <img src={XIcon} alt="Fechar" />
-                    </button>
+                    <Botao
+                        style='secondary'
+                        icon={XIcon}
+                        onClick={onRequestClose}
+                    />
                 </header>
 
+                {/* Conteúdo do modal */}
                 <section className="modalContent">
                     <h1>Avalie o filme!</h1>
 
                     <p className="textoInfo">
-                        Registre suas impressões de <strong>{filme?.titulo}</strong>.
+                        Registre as suas impressões de "<strong>{filme?.titulo}</strong>".
                     </p>
 
-                    <div className="formBox">
-                        <label className="labelAval">Nota:</label>
-
+                    {/* Seletor de estrelas */}
+                    <div className='ratingSelector'>
+                        <p className="labelAval">Nota:</p>
                         <StarSelector value={nota} onChange={setNota} />
+                    </div>
 
-                        <label className="labelAval">Resenha (opcional):</label>
+                    {/* Campo de resenha */}
+                    <div className='resenhaField'>
+                        <p className="labelAval">Resenha (opcional):</p>
                         <textarea
+                            autoFocus 
                             className="textareaAval"
                             value={resenha}
                             onChange={(e) => setResenha(e.target.value)}
@@ -116,9 +120,13 @@ export default function ModalAvaliacao({ isOpen, onRequestClose, filme, user, re
                     </div>
                 </section>
 
-                {/* FOOTER */}
+                {/* footer padrão */}
                 <footer className='footerBtns'>
-                    <Botao style='secondary' text='Cancelar' onClick={onRequestClose} />
+                    <Botao 
+                        style='secondary' 
+                        text='Cancelar' 
+                        onClick={onRequestClose} 
+                    />
 
                     <Botao
                         style='primary'
@@ -129,6 +137,7 @@ export default function ModalAvaliacao({ isOpen, onRequestClose, filme, user, re
                 </footer>
             </Modal>
 
+            {/* Modais auxiliares */}
             <LoadingModal isOpen={loadingOpen} />
             <SuccessModal isOpen={successOpen} message="Avaliação salva!" />
         </>

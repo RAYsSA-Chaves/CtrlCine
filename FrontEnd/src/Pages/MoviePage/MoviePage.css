@@ -2,6 +2,9 @@
     margin: 10rem 3rem 3rem 3rem;
 }
 
+/* ---------------- */
+
+/* Banner do filme */
 .filmeCapa {
     width: 100%;
     height: auto;
@@ -10,11 +13,14 @@
 
 .filmeCapa .displayBtns {
     bottom: 0;
+    z-index: 100;
 }
 
 .filmeCapa .capaHorizontal {
     width: 100%;
     height: auto;
+    max-height: 850px;
+    object-fit: cover;
     border-radius: 12px;
     border: solid 1px var(--gray);
 }
@@ -28,7 +34,7 @@
     width: 100%;
     height: 100%;
     border-radius: 12px;
-    background: linear-gradient(to bottom, rgba(32, 30, 33, 0.32) 5%, var(--black-bg) 100%);
+    background: linear-gradient(to bottom, rgba(32, 30, 33, 0.32) 20%, var(--black-bg) 100%);
     pointer-events: none;
 }
 
@@ -41,8 +47,11 @@
     font-size: 30px;
 }
 
+/* ---------------- */
+
+/* Cards de informações do filme */
 .infosFilme {
-    margin: 6rem 0;
+    margin: 6rem 0 4rem 0;
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -56,6 +65,11 @@
     width: 32%;
 }
 
+.infosFilme p {
+    text-align: justify !important;
+    line-height: 1.5rem;
+}
+
 .infosFilme article {
     min-height: 9rem;
     margin-bottom: 2rem;
@@ -67,6 +81,20 @@
     background-repeat: no-repeat;
 }
 
+/* títulos com ícone */
+.titleDisplay {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1.5rem;
+}
+
+.titleDisplay p {
+    font-weight: 600 !important;
+    font-size: 18px;
+}
+
+/* bg dos cards */
 #sinopse {
     background-image: url('../../Assets/Images/sinopse_bg.png');
 }
@@ -79,23 +107,31 @@
     background-image: url('../../Assets/Images/elenco_bg.png');
 }
 
-.titleDisplay {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 1.5rem;
+#duracao {
+    background-image: url('../../Assets/Images/duracao_bg.png');
 }
 
-.infosFilme p {
-    text-align: justify !important;
-    line-height: 1.5rem;
+#ano {
+    background-image: url('../../Assets/Images/ano_bg.png');
 }
 
-.titleDisplay p {
-    font-weight: 600 !important;
-    font-size: 18px;
+#avaliacoes {
+    background-image: url('../../Assets/Images/nota_bg.png');
 }
 
+#genero {
+    background-image: url('../../Assets/Images/generos_bg.png');
+}
+
+#diretor {
+    background-image: url('../../Assets/Images/diretor_bg.png');
+}
+
+#produtora {
+    background-image: url('../../Assets/Images/produtoras_bg.png');
+}
+
+/* trailer */
 .trailerIframe {
     width: 100%;
     height: 450px;
@@ -104,13 +140,19 @@
     border: none;
 }
 
+/* carrossel de atores */
 .atorCard {
     width: fit-content !important;
     max-height: 20rem;
     background-color: var(--dark-black-purple);
     border-radius: 8px !important;
     padding: 1rem !important;
-    margin-bottom: 0 !important;
+    margin: 1rem 0;
+    transition: transform 0.25s ease;
+}
+
+.atorCard:hover {
+    transform: scale(1.03); 
 }
 
 .atoresGrid .slick-track {
@@ -130,18 +172,7 @@
     height: 2rem;
 }
 
-#duracao {
-    background-image: url('../../Assets/Images/duracao_bg.png');
-}
-
-#ano {
-    background-image: url('../../Assets/Images/ano_bg.png');
-}
-
-#avaliacoes {
-    background-image: url('../../Assets/Images/nota_bg.png');
-}
-
+/* chip labels */
 .labelItem {
     padding: 0.5rem 0.8rem;
     border-radius: 8px;
@@ -154,21 +185,107 @@
     gap: 1rem;
 }
 
-#genero {
-    background-image: url('../../Assets/Images/generos_bg.png');
+/* médias das avaliações */
+.imdb {
+    margin: 1rem 0 2rem 0;
 }
 
-#diretor {
-    background-image: url('../../Assets/Images/diretor_bg.png');
+.ctrlcine {
+    margin-top: 1rem;
 }
 
-#produtora {
-    background-image: url('../../Assets/Images/produtoras_bg.png');
+.ctrlcineSection {
+    margin-top: 2rem;
 }
 
+.ratingMedia {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+/* linha divisória */
+#avaliacoes .divider {
+    background: linear-gradient(to right, var(--black-purple), var(--red), var(--black-purple));
+}
+
+/* ---------------- */
+
+/* Seção de avaliações */
 .avaliacoesHeader {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 3rem;
+}
+
+.avaliacoesHeader p {
+    font-size: 20px;
+    font-weight: 800 !important;
+}
+
+.starsBox {
+    display: flex;
+    align-items: center;
+    gap: 2px
+}
+
+.userAvaliacao {
+    background-image: url('../../Assets/Images/nota_bg.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center -50px;
+}
+
+.avaliacao {
+    background-color: var(--black-purple);
+    width: 100%;
+    padding: 2rem;
+    border-radius: 12px;
+    border: solid 1px var(--gray);
+    margin: 2rem 0;
+}
+
+.msg {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.userAvaliacao h2 {
+    margin-bottom: 2rem;
+}
+
+.userInfo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.userInfo img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center; 
+}
+
+.avalHeader .userRating {
+    display: flex;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: 50px;
+    background-color: var(--dark-black-purple);
+    width: fit-content;
+}
+
+.userRating .starsBox svg {
+    width: 18px;
+    height: 18px;
+}
+
+.avalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
 }

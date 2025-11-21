@@ -11,6 +11,8 @@ import Cadastro from '../Pages/Cadastro/Cadastro';
 import ListasPage from '../Pages/ListasPage/ListasPage.jsx'
 import ListaEspecificaPage from '../Pages/ListaEspecifica/ListaEspecifica.jsx';
 import MoviePage from '../Pages/MoviePage/MoviePage.jsx';
+import Catalogo from '../Pages/Catalogo/Catalogo.jsx';
+import MovieForm from '../Pages/MovieForm/MovieForm.jsx';
 
 
 export default function Router() {
@@ -68,6 +70,24 @@ export default function Router() {
                     element={
                         <ProtectedRoute>
                             <MoviePage />
+                        </ProtectedRoute>
+                    }
+                />}
+
+                {<Route
+                    path='/filmes'
+                    element={
+                        <ProtectedRoute>
+                            <Catalogo />
+                        </ProtectedRoute>
+                    }
+                />}
+
+                {<Route
+                    path='/movie_form'
+                    element={
+                        <ProtectedRoute>
+                            <MovieForm />
                         </ProtectedRoute>
                     }
                 />}

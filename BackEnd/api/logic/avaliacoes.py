@@ -46,7 +46,7 @@ def listar_avaliacoes_filme(filme_id):
 	try:
 		# pega todas as avaliações no banco
 		cursor.execute('''
-			SELECT avaliacoes_usuarios.id, usuarios.nome, avaliacoes_usuarios.nota, avaliacoes_usuarios.resenha
+			SELECT avaliacoes_usuarios.id, usuarios.nome, usuarios.foto, avaliacoes_usuarios.nota, avaliacoes_usuarios.resenha
 			FROM avaliacoes_usuarios
 			JOIN usuarios ON avaliacoes_usuarios.usuario_id = usuarios.id
 			WHERE filme_id = %s
@@ -60,8 +60,9 @@ def listar_avaliacoes_filme(filme_id):
 			avaliacoes.append({
 				'id': row[0],
 				'usuario_nome': row[1],
-				'nota': row[2],
-				'resenha': row[3]
+				'usuario_foto': row[2],
+				'nota': row[3],
+				'resenha': row[4]
 			})
 
 		# resposta

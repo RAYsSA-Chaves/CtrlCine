@@ -41,6 +41,10 @@
     color: #000;
 }
 
+.terciaryBtn:active {
+    background-color: #d2d2d2;
+}
+
 /* ---------------- */
 
 /* Ícone do botão */

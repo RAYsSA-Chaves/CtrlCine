@@ -24,22 +24,26 @@ import ModalAvaliacao from '../../Components/ModalAvaliacao/ModalAvaliacao'
 
 
 export default function MoviePage() {
-    const { id } = useParams()
+    const { id } = useParams()  // id do filme passado na url
 
     const [filme, setFilme] = useState(null)
     const [avaliacoes, setAvaliacoes] = useState([])
     const [loading, setLoading] = useState(true)
     const [erro, setErro] = useState('')
 
-    const { user } = useContext(AuthContext)   // usuário logado
+    const { user } = useContext(AuthContext)  // usuário logado
 
-    // Estados para o modal
+    // Estados para o modal de salvar filme em listas
     const [modalSalvarAberto, setModalSalvarAberto] = useState(false);
     const [filmeSelecionado, setFilmeSelecionado] = useState(null);
 
     // Modal de avaliação
     const [modalAvaliarAberto, setModalAvaliarAberto] = useState(false);
 
+    // Verificar se filme não lançou ainda
+    const filmeJaLancou = filme ? new Date(filme.lancamento) <= new Date() : false;
+
+    // Configurações do carrossel de atores
     const settings = {
         dots: false,
         infinite: true,
@@ -49,13 +53,8 @@ export default function MoviePage() {
         arrows: true,
     };
 
-    let mediaCtrlCine = 0;
-
-    // ============================
-    //     BUSCA FILME
-    // ============================
+    // Busca o filme passado na url
     function fetchFilme() {
-        // IMPORTANTE: retornar a Promise
         return api.get(`/filmes/${id}`)
             .then(res => {
                 if (res.data.Erro) setErro(res.data.Erro)
@@ -69,11 +68,8 @@ export default function MoviePage() {
             })
     }
 
-    // ============================
-    //     BUSCA AVALIAÇÕES
-    // ============================
+    // Busca avaliações do filme
     function fetchAvaliacoes() {
-        // IMPORTANTE: retornar a Promise
         return api.get(`/avaliacoes/filme/${id}`)
             .then(res => {
                 if (Array.isArray(res.data)) setAvaliacoes(res.data)
@@ -82,13 +78,10 @@ export default function MoviePage() {
             .catch(() => setAvaliacoes([]))
     }
 
-    // ============================
-    //   CHAMAR AO CARREGAR A PÁGINA
-    // ============================
+    // Chama as funções ao carregar a página
     useEffect(() => {
         setLoading(true)
 
-        // Promise.all só funciona se as funções retornarem algo
         Promise.all([
             fetchFilme(),
             fetchAvaliacoes()
@@ -96,25 +89,21 @@ export default function MoviePage() {
             .finally(() => setLoading(false))
     }, [id])
 
-    // ============================
-    //         ESTADOS
-    // ============================
+    // mostrar o loading
     if (loading) return <LoadingModal isOpen={true} />
 
+    // mostrar erro
     if (erro) {
-        return (
-            <div className="erroFilme">
-                <h2>{erro}</h2>
-            </div>
-        )
+        console.log(erro)
     }
 
-    // ============================
-    //   AVALIAÇÃO DO USUÁRIO
-    // ============================
+    // pegando a avaçiação do usuário logado
     const avaliacaoUser = avaliacoes.find(a => a.usuario_nome === user?.nome)
+    // avaliações de outros usuários
     const outrasAvaliacoes = avaliacoes.filter(a => a.usuario_nome !== user?.nome)
 
+    // Calcular média de notas na plataforma
+    let mediaCtrlCine = 0;
     if (avaliacoes.length > 0) {
         let soma = 0;
 
@@ -123,7 +112,7 @@ export default function MoviePage() {
         }
 
         mediaCtrlCine = soma / avaliacoes.length;
-        mediaCtrlCine = Math.round(mediaCtrlCine);
+        mediaCtrlCine = Math.round(mediaCtrlCine);  // somente notas cheias de 1 a 5
     }
 
     return (
@@ -138,6 +127,7 @@ export default function MoviePage() {
                         <Botao 
                             style='primary'
                             text='Editar'
+                            to={`/movie_form?mode=edit&id=${filme.id}`}
                         />
                         <Botao 
                             style='secondary'
@@ -151,7 +141,7 @@ export default function MoviePage() {
                 </div>
             </article>
 
-            {/* Informações */}
+            {/* Informações do filme */}
             <section className='infosFilme'>
                 <div className='infos1'>
                     {/* Sinopse */}
@@ -229,17 +219,38 @@ export default function MoviePage() {
                         </div>
                         <section>
                             <p>IMDb</p>
-                            <div className="starsBox">
-                                {renderStars(filme.nota_imdb)}
+                            <div className='ratingMedia imdb'>
+                                {filmeJaLancou && (
+                                    <div className="starsBox">
+                                    {renderStars(filme.nota_imdb)}
+                                </div>
+                                )}
+                                {!filmeJaLancou ? (
+                                    <p>Aguardando lançamento</p>
+                                ) : (
+                                    <p>{filme.nota_imdb}</p>
+                                )}
                             </div>
-                            <p>{filme.nota_imdb}</p>
                         </section>
-                         <section>
+
+                        <div className='divider'></div>
+
+                        <section className='ctrlcineSection'>
                             <p>CtrlCine</p>
-                            <div className="starsBox">
-                                {renderStars(filme.mediaCtrlCine)}
+                            <div className='ratingMedia ctrlcine'>
+                                {filmeJaLancou && mediaCtrlCine > 0 && (
+                                    <div className="starsBox">
+                                        {renderStars(mediaCtrlCine)}
+                                    </div>
+                                )}
+                                {!filmeJaLancou ? (
+                                    <p>Aguardando lançamento</p>
+                                ) : mediaCtrlCine === 0 ? (
+                                    <p>-</p>
+                                ) : (
+                                    <p>{mediaCtrlCine}</p>
+                                )}
                             </div>
-                            <p>{mediaCtrlCine}</p>
                         </section>
                     </article>
 
@@ -291,43 +302,76 @@ export default function MoviePage() {
             {/* Avalições */}
             <section className="avaliacoesSecao">
                 <div className='avaliacoesHeader'>
-                    <h1>Avaliações</h1>
-                    <Botao 
-                        style='primary'
-                        text='Avaliar'
-                        onClick={() => setModalAvaliarAberto(true)}
-                    />
+                    <p>Avaliações</p>
+                    {/* Botão avaliar, caso o usuário ainda não tenha avaliado o filme */}
+                    { filmeJaLancou && !avaliacaoUser && (
+                        <Botao 
+                            style='primary'
+                            text='Avaliar'
+                            onClick={() => setModalAvaliarAberto(true)}
+                        />
+                    )}
                 </div>
-                
 
-                    {/* Nenhuma avaliação */}
-                    {avaliacoes.length === 0 && (
-                        <p className='msg'>Nenhuma avaliação ainda. Seja o primeiro!</p>
-                    )}
+                {/* Filme ainda não lançado */}
+                {!filmeJaLancou && (
+                    <p className='msg'>Este filme ainda não foi lançado. As avaliações serão liberadas após a estreia.</p>
+                )}
 
-                    {/* Usuário ainda não avaliou */}
-                    {avaliacoes.length > 0 && !avaliacaoUser && (
-                        <p className='msg'>Você ainda não avaliou este filme.</p>
-                    )}
+                {/* Nenhuma avaliação */}
+                {filmeJaLancou && avaliacoes.length === 0 && (
+                    <p className='msg'>Nenhuma avaliação ainda. Seja o primeiro!</p>
+                )}
 
-                    {/* Avaliação do usuário */}
-                    {avaliacaoUser && (
-                        <div className="avaliacao userAvaliacao">
-                            <h4>Sua avaliação</h4>
-                            <p><strong>Nota:</strong> {avaliacaoUser.nota}/5</p>
-                            <p>{avaliacaoUser.resenha}</p>
+                {/* Usuário ainda não avaliou */}
+                {filmeJaLancou && avaliacoes.length > 0 && !avaliacaoUser && (
+                    <p className='msg'>Você ainda não avaliou este filme!</p>
+                )}
+
+                {/* Avaliação do usuário */}
+                {avaliacaoUser && (
+                    <div className="avaliacao userAvaliacao">
+                        <h2>Sua avaliação</h2>
+
+                        {/* Cabeçalho com nome, foto e estrelas */}
+                        <div className='avalHeader'>
+                            <div className="userInfo">
+                                <img src={avaliacaoUser.usuario_foto} alt="Sua foto de perfil" />
+                                <p>{avaliacaoUser.usuario_nome}</p>
+                            </div>
+                            <div className="userRating">
+                                <div className="starsBox">
+                                    {renderStars(avaliacaoUser.nota)}
+                                </div>
+                                <p>{avaliacaoUser.nota}</p>
+                            </div>
                         </div>
-                    )}
+                        {/* Resenha */}
+                        <p>{avaliacaoUser.resenha}</p>
+                    </div>
+                )}
 
-                    {/* Outras avaliações */}
-                    {outrasAvaliacoes.map(a => (
-                        <div key={a.id} className="avaliacao">
-                            <h4>{a.usuario_nome}</h4>
-                            <p><strong>Nota:</strong> {a.nota}/5</p>
-                            <p>{a.resenha}</p>
+                {/* Outras avaliações */}
+                {outrasAvaliacoes.map(a => (
+                    <div key={a.id} className="avaliacao">
+                        {/* Cabeçalho com nome, foto e estrelas */}
+                        <div className='avalHeader'>
+                            <div className="userInfo">
+                                <img src={a.usuario_foto} alt="Foto do usuário" />
+                                <p>{a.usuario_nome}</p>
+                            </div>
+                            <div className="userRating">
+                                <div className="starsBox">
+                                    {renderStars(a.nota)}
+                                </div>
+                                <p>{a.nota}</p>
+                            </div>
                         </div>
-                    ))}
-                </section>
+                        {/* Resenha */}
+                        <p>{a.resenha}</p>
+                    </div>
+                ))}
+            </section>
 
             {/* Modal avaliar */}
             <ModalAvaliacao
@@ -335,10 +379,10 @@ export default function MoviePage() {
                 onRequestClose={() => setModalAvaliarAberto(false)}
                 filme={filme}
                 user={user}
-                recarregar={fetchAvaliacoes}   // importantíssimo: recarrega a lista após salvar
+                recarregar={fetchAvaliacoes}  // recarrega a lista após salvar
             />
 
-            {/* Modal reutilizável */}
+            {/* Modal salvar filme em lita */}
             <ModalSalvarFilme
                 isOpen={modalSalvarAberto}
                 onRequestClose={() => {

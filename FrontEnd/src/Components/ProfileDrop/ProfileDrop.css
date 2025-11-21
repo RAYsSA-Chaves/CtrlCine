@@ -26,10 +26,11 @@
 }
 
 .userPhoto {
-    width: 35px;
-    height: 35px;
-    background: #ff6536;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
+    object-fit: cover;
+    object-position: center; 
 }
 
 .arrow {

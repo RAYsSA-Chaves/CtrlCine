@@ -10,7 +10,7 @@
     width: 17rem;
     cursor: pointer;
     height: 25rem;
-    position: relative;;
+    position: relative;
 }
 
 .movieCard:hover {
@@ -51,7 +51,7 @@
 /* estrelas */
 .movieStars {
     position: absolute;
-    bottom: 20px;
+    bottom: 25px;
     display: flex;
     gap: 2px;
     align-items: center;
@@ -61,7 +61,12 @@
 }
 
 .movieStars svg {
-    width: 16px;
+    width: 20px !important;
+    height: auto;
+}
+
+.starsRow svg {
+    width: 22px !important;
     height: auto;
 }
 
@@ -74,12 +79,14 @@
 }
 
 .userRating {
-    position: absolute;
-    bottom: 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: 6px;
+    width: 100%;
+}
+
+.userRating p {
+    font-size: 16px !important;
 }
 
 .starsRow {
@@ -93,8 +100,8 @@
     margin-right: 4px;
 }
 
-#lancamento span, p {
-    font-size: 14px;
+#lancamento span, #lancamento p {
+    font-size: 14px !important;
 }
 
 /* ---------------- */

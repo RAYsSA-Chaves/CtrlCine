@@ -6,9 +6,9 @@ import { AuthContext } from '../Services/AuthContext';
 
 
 export default function ProtectedRoute({ children }) {
-    const { user, loading } = useContext(AuthContext);
+    const { user, authLoading  } = useContext(AuthContext);
 
-    if (loading) {
+    if (authLoading ) {
         return <p>Carregando...</p>;
     }
 
