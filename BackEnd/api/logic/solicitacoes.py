@@ -9,7 +9,12 @@ def listar_solicitacoes():
     cursor = conn.cursor()
 
     try:
-        cursor.execute('SELECT * FROM solicitacoes')
+        # pega nome e foto do usuário
+        cursor.execute('''
+            SELECT s.*, u.nome, u.foto
+            FROM solicitacoes s
+            JOIN usuarios u ON s.usuario_id = u.id
+        ''')
         rows = cursor.fetchall()
 
         solicitacoes = []
@@ -23,7 +28,9 @@ def listar_solicitacoes():
                 'filme_id': row[2] if row[2] else None,
                 'filme': filme_obj,
                 'tipo': row[4],
-                'aceito': row[5]
+                'aceito': row[5],
+                'usuario_nome': row[6],
+                'usuario_foto': row[7]
             })
         response = solicitacoes
 
