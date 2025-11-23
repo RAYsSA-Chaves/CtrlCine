@@ -133,7 +133,7 @@
     width: fit-content;
 }
 
-input[type="radio"] {
+input[type='radio'] {
     accent-color: #ff0000;
     width: 14px; 
     height: 14px;
@@ -190,24 +190,14 @@ input[type="radio"] {
     margin-top: 4rem;
 }
 
-
-
+/* ---------------- */
 
 /* Container dos filmes */
 .catalogoFilmes {
-    flex: 1; /* ocupa espaço restante ao lado do filtro */
+    flex: 1;
     padding:  0 1rem 1rem 1rem 1rem;
 }
 
-/* Mensagem quando não há filmes */
-.catalogoFilmes .mensagem {
-    font-size: 1.2rem;
-    text-align: center;
-    color: var(--red);
-    margin-bottom: 1rem;
-}
-
-/* Grid de filmes */
 .filmesGrid {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* 3 colunas iguais */
@@ -217,4 +207,14 @@ input[type="radio"] {
 
 .filmesGrid .movieCard {
     height: 23rem;
+}
+
+/* ---------------- */
+
+/* Mensagem quando não há filmes */
+.catalogoFilmes .mensagem {
+    font-size: 1.2rem;
+    text-align: center;
+    color: var(--light-white);
+    margin-bottom: 1rem;
 }

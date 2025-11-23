@@ -147,7 +147,7 @@
     background-color: var(--dark-black-purple);
     border-radius: 8px !important;
     padding: 1rem !important;
-    margin: 1rem 0;
+    margin: 1rem 0 0 0.5rem;
     transition: transform 0.25s ease;
 }
 
@@ -234,7 +234,7 @@
     background-image: url('../../Assets/Images/nota_bg.png');
     background-repeat: no-repeat;
     background-size: cover;
-    background-position: center -50px;
+    background-position: center -100px;
 }
 
 .avaliacao {

@@ -5,9 +5,31 @@ import { useSearchParams, useLocation, useNavigate } from "react-router-dom";
 import api from "../../Services/Api";
 import Input from "../../Components/Input/Input";
 import { AuthContext } from "../../Services/AuthContext";
+import BackArrow from '../../Assets/Images/Icons/back_arrow_icon.svg'
+import Botao from "../../Components/Botao/Botao";
+import SuccessModal from "../../Components/SuccessModal/SuccessModal";
+import Logo from '../../Assets/Images/Logo/Logo.svg'
+import XIcon from '../../Assets/Images/Icons/x_icon.svg'
+import Modal from 'react-modal';
+import LoadingModal from '../../Components/LoadingModal/LoadingModal'
+
 
 export default function MovieForm() {
     const { user } = useContext(AuthContext);
+
+    // estados para o modal de sucesso
+    const [successOpen, setSuccessOpen] = useState(false);
+    const [successMessage, setSuccessMessage] = useState("");
+
+    // estados dos modais de criar ator, diretor, produtora
+    const [modalOutro, setModalOutro] = useState(null); 
+    const [novoNome, setNovoNome] = useState("");
+    const [novaFoto, setNovaFoto] = useState(""); // só para atores
+
+    // estados internos dos modais
+    const [loadingOutro, setLoadingOutro] = useState(false);
+    const [successOutro, setSuccessOutro] = useState(false);
+    const [successOutroMsg, setSuccessOutroMsg] = useState("");
 
     const [searchParams] = useSearchParams();
     const location = useLocation();
@@ -42,7 +64,36 @@ export default function MovieForm() {
 
     const [openDrop, setOpenDrop] = useState(null);
 
-    const [loading, setLoading] = useState(false);
+    // controla se o input está focado (para flutuar label e mostrar placeholder)
+    const [focused, setFocused] = useState(false);
+
+    // estados para buscas para os dropdowns
+    const [buscaAtores, setBuscaAtores] = useState("");
+    const [buscaProdutoras, setBuscaProdutoras] = useState("");
+    const [buscaDiretores, setBuscaDiretores] = useState("");
+
+    const atoresFiltrados = atoresLista.filter(a =>
+    a.nome.toLowerCase().includes(buscaAtores.toLowerCase())
+    );
+
+    const produtorasFiltradas = produtorasLista.filter(p =>
+        p.nome.toLowerCase().includes(buscaProdutoras.toLowerCase())
+    );
+
+    const diretoresFiltrados = diretoresLista.filter(d =>
+        d.nome.toLowerCase().includes(buscaDiretores.toLowerCase())
+    );
+
+
+    // quando o input ganha foco → label sobe e placeholder aparece
+    function handleFocus () {
+        setFocused(true);
+    }
+
+    // quando perde foco → label só volta se não tiver valor digitado
+    function handleBlur () {
+        if (!sinopse) setFocused(false);
+    };
 
     async function carregarListas() {
         try {
@@ -148,8 +199,53 @@ export default function MovieForm() {
         setOpenDrop(null);
     }
 
+    // abrir modal de sucesso
+    function mostrarSucesso(msg) {
+        setSuccessMessage(msg);
+        setSuccessOpen(true);
+
+        // fecha e volta depois de 1.8s (ou o tempo que quiser)
+        setTimeout(() => {
+            setSuccessOpen(false);
+            navigate(-1);
+        }, 1800)
+    }
+
+
+    // validações do form
+    function validarFormulario() {
+        // 1. campos simples
+        if (!titulo.trim()) return "O título é obrigatório.";
+        if (!capaHorizontal.trim()) return "A capa horizontal é obrigatória.";
+        if (!capaVertical.trim()) return "A capa vertical é obrigatória.";
+        if (!trailer.trim()) return "O trailer é obrigatório.";
+        if (!lancamento.trim()) return "A data de lançamento é obrigatória.";
+        if (!duracao.trim()) return "A duração é obrigatória.";
+        if (!sinopse.trim()) return "A sinopse é obrigatória.";
+
+        // 2. duração → 1h | 1min | 1h 30min
+        const regexDuracao = /^(\d+h|\d+min|\d+h \d+min)$/;
+        if (!regexDuracao.test(duracao.trim())) {
+            return "A duração deve ser preenchida assim: 1h, 30min ou 1h 30min.";
+        }
+
+        // 3. campos de seleção
+        if (generosSelecionados.length === 0) return "Selecione pelo menos um gênero.";
+        if (!diretorSelecionado) return "Selecione um diretor.";
+        if (produtorasSelecionadas.length === 0) return "Selecione pelo menos uma produtora.";
+        if (atoresSelecionados.length === 0) return "Selecione pelo menos um ator.";
+
+        return null; // tudo certo
+    }
+
     async function handleSubmit(e) {
         e.preventDefault();
+
+        const erro = validarFormulario();
+        if (erro) {
+            alert(erro);
+            return;
+        }
 
         const filmePayload = {
             titulo,
@@ -166,25 +262,27 @@ export default function MovieForm() {
         };
 
         try {
-            setLoading(true);
 
+            console.log("role:", user?.role);
+            console.log("mode:", mode);
+            console.log("movieId:", movieId);
             // ---------- ADMIN ----------
             if (user?.role === "admin") {
                 if (mode === "create") {
                     const res = await api.post("/filmes", filmePayload);
-                    alert("Filme criado!");
+                    mostrarSucesso("Filme criado com sucesso!");
                     return navigate(-1);
                 }
 
                 if (mode === "edit" && movieId) {
                     const res = await api.put(`/filmes/${movieId}`, filmePayload);
-                    alert("Filme atualizado!");
+                    mostrarSucesso("Filme atualizado!");
                     return navigate(-1);
                 }
 
                 if (mode === "solicitacao" && idSolicitacao) {
                     const res = await api.post("/filmes", { ...filmePayload, id_solicitacao: idSolicitacao });
-                    alert("Solicitação aceita e filme criado!");
+                    mostrarSucesso("Solicitação aceita e filme criado!");
                     return navigate(-1);
                 }
             }
@@ -198,7 +296,7 @@ export default function MovieForm() {
                     filme_id: null
                 };
                 const res = await api.post("/solicitacoes", body);
-                alert("Solicitação enviada!");
+                mostrarSucesso("Solicitação enviada!");
                 return navigate(-1);
             }
 
@@ -211,7 +309,7 @@ export default function MovieForm() {
                     filme_id: Number(movieId)
                 };
                 const res = await api.post("/solicitacoes", body);
-                alert("Solicitação de edição enviada!");
+                mostrarSucesso("Solicitação de edição enviada!");
                 return navigate(-1);
             }
 
@@ -220,102 +318,129 @@ export default function MovieForm() {
         } catch (err) {
             console.error("Erro ao enviar form:", err.response?.data || err);
             alert("Erro ao enviar.");
+        }
+    }
+
+    // abrir modal de criar ator/diretor/produtora
+    function abrirModalOutro(tipo) {
+        setModalOutro(tipo);
+        setNovoNome("");
+        setNovaFoto("");
+    }
+
+    // fechar modal de criar ator/diretor/produtora
+    function fecharModalOutro() {
+        setModalOutro(null);
+    }
+
+    // envio de novo item
+    async function salvarOutro(e) {
+        e.preventDefault();
+
+        if (!novoNome.trim()) {
+            alert("Digite um nome válido.");
+            return;
+        }
+
+        try {
+            setLoadingOutro(true);
+
+            let res;
+            if (modalOutro === "ator") {
+                res = await api.post("/atores", {
+                    nome: novoNome,
+                    foto: novaFoto || null
+                });
+            }
+            if (modalOutro === "diretor") {
+                res = await api.post("/diretores", { nome: novoNome });
+            }
+            if (modalOutro === "produtora") {
+                res = await api.post("/produtoras", { nome: novoNome });
+            }
+
+            const novo = res.data;
+
+            // adiciona na lista correspondente
+            if (modalOutro === "ator") {
+                setAtoresLista(prev => [...prev, novo]);
+                setAtoresSelecionados(prev => [...prev, novo]);
+            }
+            if (modalOutro === "diretor") {
+                setDiretoresLista(prev => [...prev, novo]);
+                setDiretorSelecionado(novo);
+            }
+            if (modalOutro === "produtora") {
+                setProdutorasLista(prev => [...prev, novo]);
+                setProdutorasSelecionadas(prev => [...prev, novo]);
+            }
+
+            setSuccessOutroMsg("Novo item criado com sucesso!");
+            setSuccessOutro(true);
+
+            setTimeout(() => {
+                setSuccessOutro(false);
+                fecharModalOutro();
+            }, 1500);
+
+        } catch (err) {
+            console.error(err);
+            alert("Erro ao criar novo item.");
         } finally {
-            setLoading(false);
+            setLoadingOutro(false);
         }
     }
 
     return (
-        <div className="cadastro-filme-container">
-            <h1 className="titulo-form">
-                {mode === "create" && "Cadastrar Filme"}
-                {mode === "edit" && "Editar Filme"}
-                {mode === "solicitar" && "Solicitar Novo Filme"}
-                {mode === "editarSolicitacao" && "Editar Solicitação"}
-                {mode === "solicitacao" && "Revisar Solicitação"}
+        <div className="formularioFilmeContainer">
+            <Botao 
+                style = 'primary'
+                text = 'Voltar'
+                icon={BackArrow}
+                to={-1}
+            />
+
+            <h1 className="tituloForm">
+                {(mode === "create") && "Cadastre um novo filme!"}
+                {(mode === "edit") && "Edite o filme!"}
+                {mode === "solicitacao" && "Revise a solicitação do usuário!"}
             </h1>
+
+            <p className="subtituloForm">
+                {(mode === "create" && user?.role === "comum") && "Preencha as informações do filme que deseja ver no CtrlCine e envie sua solicitação ao administrador."}
+                {(mode === "edit" && user?.role === "comum") && "Edite as informações do filme como deseja ver no CtrlCine e envie sua solicitação ao administrador."}
+            </p>
 
             <form className="form-filme" onSubmit={handleSubmit}>
                 <Input label="Título" name="titulo" value={titulo} onChange={(e) => setTitulo(e.target.value)} />
 
-                <div className="inputContainer">
-                    <label className="floatingLabel active">Lançamento</label>
-                    <input type="date" className="inputField active" value={lancamento} onChange={(e) => setLancamento(e.target.value)} />
-                </div>
-
-                <Input label="Capa Horizontal (URL)" name="capa_horizontal" value={capaHorizontal} onChange={(e) => setCapaHorizontal(e.target.value)} />
-                <div className="preview-img">
-                    {capaHorizontal ? <img src={capaHorizontal} alt="Capa horizontal" /> : <div className="placeholder">Prévia da capa horizontal</div>}
-                </div>
-
-                <Input label="Capa Vertical (URL)" name="capa_vertical" value={capaVertical} onChange={(e) => setCapaVertical(e.target.value)} />
-                <div className="preview-img">
-                    {capaVertical ? <img src={capaVertical} alt="Capa vertical" /> : <div className="placeholder">Prévia da capa vertical</div>}
-                </div>
-
-                <Input label="Trailer (URL YouTube)" name="trailer" value={trailer} onChange={(e) => setTrailer(e.target.value)} />
-                {trailer && trailer.includes("youtube") && (
-                    <div className="trailer-preview">
-                        <iframe title="Trailer preview" src={trailer.replace("watch?v=", "embed/")} frameBorder="0" allowFullScreen />
-                    </div>
-                )}
-
-                <Input label="Duração" name="duracao" value={duracao} onChange={(e) => setDuracao(e.target.value)} />
-
-                <div className="inputContainer">
-                    <label className={`floatingLabel ${sinopse ? "active" : ""}`} htmlFor="sinopse">Sinopse</label>
-                    <textarea id="sinopse" className={`inputField ${sinopse ? "active" : ""}`} value={sinopse} onChange={(e) => setSinopse(e.target.value)} placeholder="Digite a sinopse" rows={6} />
-                </div>
-
-                <div className="select-box">
-                    <label>Atores</label>
-                    <div className="select-trigger" onClick={() => toggleDrop("atores")}>
-                        {atoresSelecionados.length > 0 ? atoresSelecionados.map(a => a.nome).join(", ") : "Selecione atores"}
-                    </div>
-                    {openDrop === "atores" && (
-                        <div className="dropdown">
-                            {atoresLista.map(a => (
-                                <div key={a.id} className={`drop-item ${atoresSelecionados.some(s => s.id === a.id) ? "selected" : ""}`} onClick={() => toggleAtor(a)}>
-                                    {a.nome}
-                                </div>
-                            ))}
-                            <div className="drop-item outro">Outro +</div>
+                <div className="formInputsDisplay">
+                    <div className="inputBox1">
+                        <div className="previewImg">
+                            {capaHorizontal ? <img src={capaHorizontal} alt="Capa horizontal" className="capaHorizontal" /> : <div className="placeholder">Prévia da capa horizontal</div>}
                         </div>
-                    )}
+                        <Input label="Capa Horizontal (URL)" name="capa_horizontal" value={capaHorizontal} onChange={(e) => setCapaHorizontal(e.target.value)} />
+                    </div>
+
+                    <div className="inputBox2">
+                        <div className="previewImg">
+                            {capaVertical ? <img src={capaVertical} alt="Capa vertical" /> : <div className="placeholder">Prévia da capa vertical</div>}
+                        </div>
+                        <Input label="Capa Vertical (URL)" name="capa_vertical" value={capaVertical} onChange={(e) => setCapaVertical(e.target.value)} />
+                    </div>
                 </div>
 
-                <div className="select-box">
-                    <label>Diretor</label>
-                    <div className="select-trigger" onClick={() => toggleDrop("diretor")}>
-                        {diretorSelecionado ? diretorSelecionado.nome : "Selecione o diretor"}
-                    </div>
-                    {openDrop === "diretor" && (
-                        <div className="dropdown">
-                            {diretoresLista.map(d => (
-                                <div key={d.id} className={`drop-item ${diretorSelecionado?.id === d.id ? "selected" : ""}`} onClick={() => escolherDiretor(d)}>
-                                    {d.nome}
-                                </div>
-                            ))}
-                            <div className="drop-item outro">Outro +</div>
+                <div className="formInputsDisplay">
+                    <div className="inputBox1">
+                        <div className="inputContainer">
+                            <label className="floatingLabel active">Lançamento</label>
+                            <input type="date" className="inputField active" value={lancamento} onChange={(e) => setLancamento(e.target.value)} name="lancamento" required/>
                         </div>
-                    )}
-                </div>
+                    </div>
 
-                <div className="select-box">
-                    <label>Produtoras</label>
-                    <div className="select-trigger" onClick={() => toggleDrop("produtoras")}>
-                        {produtorasSelecionadas.length > 0 ? produtorasSelecionadas.map(p => p.nome).join(", ") : "Selecione produtoras"}
+                    <div className="inputBox2">
+                        <Input label="Duração" placeholder="Ex: 00h, 00min, 00h 00min" name="duracao" value={duracao} onChange={(e) => setDuracao(e.target.value)} />
                     </div>
-                    {openDrop === "produtoras" && (
-                        <div className="dropdown">
-                            {produtorasLista.map(p => (
-                                <div key={p.id} className={`drop-item ${produtorasSelecionadas.some(s => s.id === p.id) ? "selected" : ""}`} onClick={() => toggleProdutora(p)}>
-                                    {p.nome}
-                                </div>
-                            ))}
-                            <div className="drop-item outro">Outro +</div>
-                        </div>
-                    )}
                 </div>
 
                 <div className="select-box">
@@ -329,11 +454,203 @@ export default function MovieForm() {
                     </div>
                 </div>
 
+                <div className="inputContainer">
+                    <label className={`floatingLabel ${sinopse || focused ? "active" : ""}`} htmlFor="sinopse">Sinopse</label>
+                    <textarea id="sinopse" className={`inputField ${sinopse || focused ? "active" : ""}`} value={sinopse} onChange={(e) => setSinopse(e.target.value)} onFocus={handleFocus} onBlur={handleBlur} />
+                </div>
+            
+                <Input label="Trailer" placeholder="ID do trailer no youtube" name="trailer" value={trailer} onChange={(e) => setTrailer(e.target.value)} />
+
+                <div className="formInputsDisplay">
+                    <div className="inputBox1">
+                        <div className="select-box">
+                            <label>Diretor</label>
+                            <div className="select-trigger" onClick={() => toggleDrop("diretor")}>
+                                {diretorSelecionado ? diretorSelecionado.nome : "Selecione o diretor"}
+                            </div>
+                            {openDrop === "diretor" && (
+                                <div className="dropdown">
+                                    
+                                    <input 
+                                        type="text"
+                                        className="searchDrop"
+                                        placeholder="Buscar..."
+                                        value={buscaDiretores}
+                                        onChange={(e) => setBuscaDiretores(e.target.value)}
+                                    />
+
+                                    {diretoresFiltrados.map(d => (
+                                        <div 
+                                            key={d.id} 
+                                            className={`drop-item ${diretorSelecionado?.id === d.id ? "selected" : ""}`}
+                                            onClick={() => {
+                                                escolherDiretor(d);
+                                                setBuscaDiretores("");
+                                            }}
+                                        >
+                                            {d.nome}
+                                        </div>
+                                    ))}
+
+                                    <div className="drop-item outro" onClick={() => abrirModalOutro("diretor")}>Outro +</div>
+                                </div>
+                            )}
+
+                        </div>
+                    </div>
+
+                    <div className="inputBox2">
+                        <div className="select-box">
+                            <label>Produtoras</label>
+                            <div className="select-trigger" onClick={() => toggleDrop("produtoras")}>
+                                Selecione produtoras
+                            </div>
+                            {openDrop === "produtoras" && (
+                                <div className="dropdown">
+
+                                    <input 
+                                        type="text"
+                                        className="searchDrop"
+                                        placeholder="Buscar..."
+                                        value={buscaProdutoras}
+                                        onChange={(e) => setBuscaProdutoras(e.target.value)}
+                                    />
+
+                                    {produtorasFiltradas.map(p => (
+                                        <label key={p.id} className="drop-item checkbox-item">
+                                            <input
+                                                type="checkbox"
+                                                checked={produtorasSelecionadas.some(s => s.id === p.id)}
+                                                onChange={() => toggleProdutora(p)}
+                                            />
+                                            <span>{p.nome}</span>
+                                        </label>
+                                    ))}
+
+                                    <div className="drop-item outro" onClick={() => abrirModalOutro("produtora")}>Outro +</div>
+                                </div>
+                            )}
+                        </div>
+                        <div className="chips-container">
+                            {produtorasSelecionadas.map(p => (
+                                <span key={p.id} className="chip ativo" onClick={() => toggleProdutora(p)}>
+                                    {p.nome} ✕
+                                </span>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+
+                <div className="select-box">
+                    <label>Atores</label>
+                    <div className="select-trigger" onClick={() => toggleDrop("atores")}>
+                        Selecione atores
+                    </div>
+                    {openDrop === "atores" && (
+                        <div className="dropdown">
+
+                            <input 
+                                type="text"
+                                className="searchDrop"
+                                placeholder="Buscar..."
+                                value={buscaAtores}
+                                onChange={(e) => setBuscaAtores(e.target.value)}
+                            />
+
+                            {atoresFiltrados.map(a => (
+                                <label key={a.id} className="drop-item checkbox-item">
+                                    <input
+                                        type="checkbox"
+                                        checked={atoresSelecionados.some(s => s.id === a.id)}
+                                        onChange={() => toggleAtor(a)}
+                                    />
+                                    <span>{a.nome}</span>
+                                </label>
+                            ))}
+
+                            <div className="drop-item outro" onClick={() => abrirModalOutro("ator")}>Outro +</div>
+                        </div>
+                    )}
+                </div>
+                <div className="chips-container">
+                    {atoresSelecionados.map(a => (
+                        <span key={a.id} className="chip ativo" onClick={() => toggleAtor(a)}>
+                            {a.nome} ✕
+                        </span>
+                    ))}
+                </div>
+
                 <div className="botoes">
                     <button type="button" onClick={() => navigate(-1)} className="cancelar">Cancelar</button>
                     <button type="submit" className="confirmar">Confirmar</button>
                 </div>
             </form>
+
+            <Modal
+                isOpen={!!modalOutro}
+                onRequestClose={fecharModalOutro}
+                className="modalSalvar"
+                overlayClassName="modalOverlay"
+            >
+
+                <button className="fecharModal" onClick={fecharModalOutro}>
+                    <img src={XIcon} alt="Fechar" />
+                </button>
+
+                <div className="modalSalvarHeader">
+                    <img src={Logo} alt="Logo" className="logoModal" />
+                    <h2 className="tituloModal">
+                        Adicionar {modalOutro === "ator" && "Ator"}
+                        {modalOutro === "diretor" && "Diretor"}
+                        {modalOutro === "produtora" && "Produtora"}
+                    </h2>
+                </div>
+
+                <form onSubmit={salvarOutro} className="modalSalvarConteudo">
+                    
+                    <label>Nome</label>
+                    <input
+                        type="text"
+                        value={novoNome}
+                        onChange={(e) => setNovoNome(e.target.value)}
+                        className="inputModalSalvar"
+                        required
+                    />
+
+                    {modalOutro === "ator" && (
+                        <>
+                            <label>Foto (URL)</label>
+                            <input
+                                type="text"
+                                value={novaFoto}
+                                onChange={(e) => setNovaFoto(e.target.value)}
+                                className="inputModalSalvar"
+                            />
+                        </>
+                    )}
+
+                    <div className="botoesModalSalvar">
+                        <button type="button" className="botaoCancelarModal" onClick={fecharModalOutro}>
+                            Cancelar
+                        </button>
+
+                        <button type="submit" className="botaoConfirmarModal">
+                            Adicionar
+                        </button>
+                    </div>
+                </form>
+
+            </Modal>
+
+            {/* modais de loading e sucesso para modal de criar novo item */}
+            <LoadingModal isOpen={loadingOutro} />
+            <SuccessModal isOpen={successOutro} message={successOutroMsg} />
+
+            {/* modal de sucesso */}
+            <SuccessModal 
+                isOpen={successOpen}
+                message={successMessage}
+            />
         </div>
     );
 }

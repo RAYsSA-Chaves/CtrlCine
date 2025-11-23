@@ -1,7 +1,100 @@
-.cadastro-filme-container {
-    width: 100%;
-    padding: 2rem;
+.formularioFilmeContainer {
+    margin: 5rem;
 }
+
+.tituloForm {
+    font-size: 30px !important;
+    margin: 3rem 0 1rem 0;
+}
+
+.subtituloForm {
+    margin-bottom: 5rem;
+}
+
+.formInputsDisplay {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.formInputsDisplay .inputBox1 {
+    width: 50%;
+}
+
+.formInputsDisplay .inputBox2 {
+    width: 45%;
+}
+
+.previewImg {
+    border: solid 1px var(--gray);
+    border-radius: 12px;
+    width: 300px;
+    height: 380px;
+}
+
+.previewImg img {
+    height: 380px;
+    width: 300px;
+    border-radius: 12px;
+}
+
+.previewImg .capaHorizontal {
+    width: 675px;
+}
+
+.inputBox1 .previewImg {
+    width: 675px;
+}
+
+.formularioFilmeContainer .inputField {
+    padding-left: 20px;
+}
+
+.formularioFilmeContainer .floatingLabel {
+    left: 20px !important;
+}
+
+.inputContainer #sinopse {
+    background-color: var(--gray);
+    background-image: none;
+    height: 5rem;
+}
+
+.inputContainer #sinopse.active {
+    background-color: transparent;
+}
+
+
+
+
+
+.searchDrop {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--dark-black-purple);
+    border-radius: 6px;
+    margin-bottom: 8px;
+    background-color: var(--dark-black-purple);
+    color: white;
+}
+
+.searchDrop::placeholder {
+    color: #b9b9b9;
+}
+
+
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.checkbox-item input {
+    width: 16px;
+    height: 16px;
+}
+
 
 .select-box {
     position: relative;

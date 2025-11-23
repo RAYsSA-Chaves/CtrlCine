@@ -73,7 +73,7 @@ main {
 .loginBanner {
     background-image: url('../../Assets/Images/banner1.svg');
     background-size: cover;
-    background-position: center;
+    background-position: top;
     background-repeat: no-repeat;
     display: flex;
     align-items: center;
@@ -86,6 +86,7 @@ main {
 
 .loginBanner h2 {
     margin: 0;
+    font-size: 28px !important;
 }
 
 /* ------------- */

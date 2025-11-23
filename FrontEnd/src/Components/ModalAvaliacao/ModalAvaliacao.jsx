@@ -1,15 +1,15 @@
 // Modal para avaliar um filme
 
 import './ModalAvaliacao.css'
-import { useState } from "react";
-import Modal from "react-modal";
-import XIcon from "../../Assets/Images/Icons/x_icon.svg";
-import Logo from "../../Assets/Images/Logo/Logo.svg";
-import LoadingModal from "../../Components/LoadingModal/LoadingModal";
-import SuccessModal from "../../Components/SuccessModal/SuccessModal";
-import Botao from "../../Components/Botao/Botao";
-import { Star } from "lucide-react";
-import api from "../../Services/Api";
+import { useState } from 'react';
+import Modal from 'react-modal';
+import XIcon from '../../Assets/Images/Icons/x_icon.svg';
+import Logo from '../../Assets/Images/Logo/Logo.svg';
+import LoadingModal from '../../Components/LoadingModal/LoadingModal';
+import SuccessModal from '../../Components/SuccessModal/SuccessModal';
+import Botao from '../../Components/Botao/Botao';
+import { Star } from 'lucide-react';
+import api from '../../Services/Api';
 
 
 Modal.setAppElement('#root');
@@ -19,7 +19,7 @@ export default function ModalAvaliacao({ isOpen, onRequestClose, filme, user, re
     const [nota, setNota] = useState(0);
 
     // resenha digitada
-    const [resenha, setResenha] = useState("");
+    const [resenha, setResenha] = useState('');
 
     // modais auxiliares
     const [loadingOpen, setLoadingOpen] = useState(false);
@@ -28,20 +28,20 @@ export default function ModalAvaliacao({ isOpen, onRequestClose, filme, user, re
     // função do seletor de estrelas
     function StarSelector({ value, onChange }) {
         return (
-            <div className="starSelectorContainer">
-                <div className="starSelector">
+            <div className='starSelectorContainer'>
+                <div className='starSelector'>
                     {[1, 2, 3, 4, 5].map((n) => (
                         <Star
                             key={n}
                             size={30}
-                            stroke="none"
-                            fill={n <= value ? "var(--red)" : "var(--gray)"}
-                            className="starClickable"
+                            stroke='none'
+                            fill={n <= value ? 'var(--red)' : 'var(--gray)'}
+                            className='starClickable'
                             onClick={() => onChange(n)}
                         />
                     ))}
                 </div>
-                <span className="starCount">{value}</span>
+                <span className='starCount'>{value}</span>
             </div>
         );
     }
@@ -55,10 +55,10 @@ export default function ModalAvaliacao({ isOpen, onRequestClose, filme, user, re
                 usuario_id: user.id,
                 filme_id: filme.id,
                 nota,
-                resenha: resenha.trim() === "" ? null : resenha
+                resenha: resenha.trim() === '' ? null : resenha
             };
 
-            await api.post("/avaliacoes", body);
+            await api.post('/avaliacoes', body);
 
             setLoadingOpen(false);
             setSuccessOpen(true);
@@ -72,7 +72,7 @@ export default function ModalAvaliacao({ isOpen, onRequestClose, filme, user, re
         } catch (err) {
             console.error(err);
             setLoadingOpen(false);
-            alert("Erro ao avaliar o filme.");
+            alert('Erro ao avaliar o filme.');
         }
     }
 
@@ -81,8 +81,8 @@ export default function ModalAvaliacao({ isOpen, onRequestClose, filme, user, re
             <Modal
                 isOpen={isOpen}
                 onRequestClose={onRequestClose}
-                className="modalSalvar"
-                overlayClassName="modalOverlay"
+                className='modalSalvar'
+                overlayClassName='modalOverlay'
             >
                 {/* Cabeçalho padrão */}
                 <header className='headerModal'>
@@ -95,32 +95,32 @@ export default function ModalAvaliacao({ isOpen, onRequestClose, filme, user, re
                 </header>
 
                 {/* Conteúdo do modal */}
-                <section className="modalContent">
+                <section className='modalContent'>
                     <h1>Avalie o filme!</h1>
 
-                    <p className="textoInfo">
-                        Registre as suas impressões de "<strong>{filme?.titulo}</strong>".
+                    <p className='textoInfo'>
+                        Registre as suas impressões de '<strong>{filme?.titulo}</strong>'.
                     </p>
 
                     {/* Seletor de estrelas */}
                     <div className='ratingSelector'>
-                        <p className="labelAval">Nota:</p>
+                        <p className='labelAval'>Nota:</p>
                         <StarSelector value={nota} onChange={setNota} />
                     </div>
 
                     {/* Campo de resenha */}
                     <div className='resenhaField'>
-                        <p className="labelAval">Resenha (opcional):</p>
+                        <p className='labelAval'>Resenha (opcional):</p>
                         <textarea
                             autoFocus 
-                            className="textareaAval"
+                            className='textareaAval'
                             value={resenha}
                             onChange={(e) => setResenha(e.target.value)}
                         />
                     </div>
                 </section>
 
-                {/* footer padrão */}
+                {/* Footer padrão */}
                 <footer className='footerBtns'>
                     <Botao 
                         style='secondary' 
@@ -139,7 +139,7 @@ export default function ModalAvaliacao({ isOpen, onRequestClose, filme, user, re
 
             {/* Modais auxiliares */}
             <LoadingModal isOpen={loadingOpen} />
-            <SuccessModal isOpen={successOpen} message="Avaliação salva!" />
+            <SuccessModal isOpen={successOpen} message='Avaliação salva!' />
         </>
     );
 }

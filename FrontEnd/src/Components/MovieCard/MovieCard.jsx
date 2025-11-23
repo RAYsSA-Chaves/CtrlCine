@@ -44,15 +44,15 @@ export default function MovieCard({
                 ) }
 
                 {/* Botão deletar */}
-                {btnDeletar && (
+                {user.role === 'admin' && btnDeletar && (
                     <button
-                        className="deleteBtn"
+                        className='deleteBtn'
                         onClick={(e) => {
                             e.stopPropagation();
                             btnDeletar();
                         }}
                     >
-                        <img src={TrashIcon} alt="Ícone de lixeira" />
+                        <img src={TrashIcon} alt='Ícone de lixeira' />
                     </button>
                 )}
             </div>
@@ -71,9 +71,9 @@ export default function MovieCard({
                 )}
 
                 {minhaNota !== null && (
-                    <div className="userRating">
+                    <div className='userRating'>
                         <p>Minha nota:</p>
-                        <div className="starsRow">
+                        <div className='starsRow'>
                             {renderStars(minhaNota)}
                         </div>
                     </div>

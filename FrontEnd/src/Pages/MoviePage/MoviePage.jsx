@@ -26,24 +26,28 @@ import ModalAvaliacao from '../../Components/ModalAvaliacao/ModalAvaliacao'
 export default function MoviePage() {
     const { id } = useParams()  // id do filme passado na url
 
+    const { user } = useContext(AuthContext)  // usuário logado
+
+    // guardar as infos do filme
     const [filme, setFilme] = useState(null)
+
+    // guardar avaliações do filme
     const [avaliacoes, setAvaliacoes] = useState([])
+
     const [loading, setLoading] = useState(true)
     const [erro, setErro] = useState('')
 
-    const { user } = useContext(AuthContext)  // usuário logado
-
-    // Estados para o modal de salvar filme em listas
+    // estados para o modal de salvar filme em listas
     const [modalSalvarAberto, setModalSalvarAberto] = useState(false);
     const [filmeSelecionado, setFilmeSelecionado] = useState(null);
 
-    // Modal de avaliação
+    // modal de avaliação
     const [modalAvaliarAberto, setModalAvaliarAberto] = useState(false);
 
-    // Verificar se filme não lançou ainda
+    // verificar se filme não lançou ainda
     const filmeJaLancou = filme ? new Date(filme.lancamento) <= new Date() : false;
 
-    // Configurações do carrossel de atores
+    // configurações do carrossel de atores
     const settings = {
         dots: false,
         infinite: true,
@@ -53,7 +57,7 @@ export default function MoviePage() {
         arrows: true,
     };
 
-    // Busca o filme passado na url
+    // busca o filme passado na url
     function fetchFilme() {
         return api.get(`/filmes/${id}`)
             .then(res => {
@@ -68,7 +72,7 @@ export default function MoviePage() {
             })
     }
 
-    // Busca avaliações do filme
+    // busca avaliações do filme
     function fetchAvaliacoes() {
         return api.get(`/avaliacoes/filme/${id}`)
             .then(res => {
@@ -78,7 +82,7 @@ export default function MoviePage() {
             .catch(() => setAvaliacoes([]))
     }
 
-    // Chama as funções ao carregar a página
+    // chama as funções ao carregar a página
     useEffect(() => {
         setLoading(true)
 
@@ -97,12 +101,13 @@ export default function MoviePage() {
         console.log(erro)
     }
 
-    // pegando a avaçiação do usuário logado
+    // pegando a avaliação do usuário logado
     const avaliacaoUser = avaliacoes.find(a => a.usuario_nome === user?.nome)
+
     // avaliações de outros usuários
     const outrasAvaliacoes = avaliacoes.filter(a => a.usuario_nome !== user?.nome)
 
-    // Calcular média de notas na plataforma
+    // calcular média de notas na plataforma
     let mediaCtrlCine = 0;
     if (avaliacoes.length > 0) {
         let soma = 0;
@@ -116,7 +121,7 @@ export default function MoviePage() {
     }
 
     return (
-        <div className="filmePage">
+        <div className='filmePage'>
 
             {/* Banner */}
             <article className='filmeCapa'>
@@ -147,7 +152,7 @@ export default function MoviePage() {
                     {/* Sinopse */}
                     <article id='sinopse'>
                         <div className='titleDisplay'>
-                            <img src={SinopseIcon} alt="Ícone de texto" />
+                            <img src={SinopseIcon} alt='Ícone de texto' />
                             <p>Sinopse</p>
                         </div>
                         <p className='sinopse'>{filme.sinopse}</p>
@@ -156,14 +161,14 @@ export default function MoviePage() {
                     {/* Trailer */}
                     <article id='trailer'>
                         <div className='titleDisplay'>
-                            <img src={TrailerIcon} alt="Ícone de play" />
+                            <img src={TrailerIcon} alt='Ícone de play' />
                             <p>Trailer</p>
                         </div>
                         <iframe
-                            className="trailerIframe"
+                            className='trailerIframe'
                             src={`https://www.youtube.com/embed/${filme.trailer}?modestbranding=1&cc_load_policy=1&cc_lang_pref=pt&rel=0`}
-                            title="Trailer do filme"
-                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+                            title='Trailer do filme'
+                            allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen'
                             allowFullScreen
                         ></iframe>
                     </article>
@@ -171,21 +176,21 @@ export default function MoviePage() {
                     {/* Elenco */}
                     <article id='elenco'>
                         <div className='titleDisplay'>
-                            <img src={ElencoIcon} alt="Ícone de play" />
+                            <img src={ElencoIcon} alt='Ícone de play' />
                             <p>Elenco</p>
                         </div>
-                        <div className="atoresGrid">
+                        <div className='atoresGrid'>
                             <Slider {...settings}>
                                 {filme.atores?.length > 0 ? (
                                     filme.atores.map(ator => (
                                         
-                                        <article className="atorCard" key={ator.id}>
+                                        <article className='atorCard' key={ator.id}>
                                             <img src={ator.foto} alt={ator.nome} />
                                             <p>{ator.nome}</p>
                                         </article>
                                     ))
                                 ) : (
-                                    <p className="msg">Nenhum ator cadastrado.</p>
+                                    <p className='msg'>Nenhum ator cadastrado.</p>
                                 )}
                             </Slider>
                         </div>  
@@ -196,7 +201,7 @@ export default function MoviePage() {
                     {/* Duração */}
                     <article id='duracao'>
                         <div className='titleDisplay'>
-                            <img src={DuracaoIcon} alt="Ícone de play" />
+                            <img src={DuracaoIcon} alt='Ícone de play' />
                             <p>Duração</p>
                         </div>
                         <p>{filme.duracao}</p>
@@ -205,7 +210,7 @@ export default function MoviePage() {
                     {/* Ano */}
                     <article id='ano'>
                         <div className='titleDisplay'>
-                            <img src={AnoIcon} alt="Ícone de play" />
+                            <img src={AnoIcon} alt='Ícone de play' />
                             <p>Ano</p>
                         </div>
                         <p>{new Date(filme.lancamento).getFullYear()}</p>
@@ -221,7 +226,7 @@ export default function MoviePage() {
                             <p>IMDb</p>
                             <div className='ratingMedia imdb'>
                                 {filmeJaLancou && (
-                                    <div className="starsBox">
+                                    <div className='starsBox'>
                                     {renderStars(filme.nota_imdb)}
                                 </div>
                                 )}
@@ -239,7 +244,7 @@ export default function MoviePage() {
                             <p>CtrlCine</p>
                             <div className='ratingMedia ctrlcine'>
                                 {filmeJaLancou && mediaCtrlCine > 0 && (
-                                    <div className="starsBox">
+                                    <div className='starsBox'>
                                         {renderStars(mediaCtrlCine)}
                                     </div>
                                 )}
@@ -257,13 +262,13 @@ export default function MoviePage() {
                     {/* Gêneros */}
                     <article id='genero'>
                         <div className='titleDisplay'>
-                            <img src={GeneroIcon} alt="Ícone de play" />
+                            <img src={GeneroIcon} alt='Ícone de play' />
                             <p>Gênero</p>
                         </div>
                         <div className='labels'>
                             {filme.generos.map(function(genero) {
                                 return (
-                                    <p key={genero.id} className="labelItem">
+                                    <p key={genero.id} className='labelItem'>
                                         {genero.nome}
                                     </p>
                                 )
@@ -274,7 +279,7 @@ export default function MoviePage() {
                     {/* Diretor */}
                     <article id='diretor'>
                         <div className='titleDisplay'>
-                            <img src={DiretorIcon} alt="Ícone de texto" />
+                            <img src={DiretorIcon} alt='Ícone de texto' />
                             <p>Diretor</p>
                         </div>
                         <p>{filme.diretor?.map(d => d.nome).join(', ')}</p>
@@ -283,13 +288,13 @@ export default function MoviePage() {
                     {/* Produtoras */}
                     <article id='produtora'>
                         <div className='titleDisplay'>
-                            <img src={ProdutoraIcon} alt="Ícone de play" />
+                            <img src={ProdutoraIcon} alt='Ícone de play' />
                             <p>Produtoras</p>
                         </div>
                         <div className='labels'>
                             {filme.produtoras.map(function(produtora) {
                                 return (
-                                    <p key={produtora.id} className="labelItem">
+                                    <p key={produtora.id} className='labelItem'>
                                         {produtora.nome}
                                     </p>
                                 )
@@ -300,7 +305,7 @@ export default function MoviePage() {
             </section>
 
             {/* Avalições */}
-            <section className="avaliacoesSecao">
+            <section className='avaliacoesSecao'>
                 <div className='avaliacoesHeader'>
                     <p>Avaliações</p>
                     {/* Botão avaliar, caso o usuário ainda não tenha avaliado o filme */}
@@ -330,17 +335,17 @@ export default function MoviePage() {
 
                 {/* Avaliação do usuário */}
                 {avaliacaoUser && (
-                    <div className="avaliacao userAvaliacao">
+                    <div className='avaliacao userAvaliacao'>
                         <h2>Sua avaliação</h2>
 
                         {/* Cabeçalho com nome, foto e estrelas */}
                         <div className='avalHeader'>
-                            <div className="userInfo">
-                                <img src={avaliacaoUser.usuario_foto} alt="Sua foto de perfil" />
+                            <div className='userInfo'>
+                                <img src={avaliacaoUser.usuario_foto} alt='Sua foto de perfil' />
                                 <p>{avaliacaoUser.usuario_nome}</p>
                             </div>
-                            <div className="userRating">
-                                <div className="starsBox">
+                            <div className='userRating'>
+                                <div className='starsBox'>
                                     {renderStars(avaliacaoUser.nota)}
                                 </div>
                                 <p>{avaliacaoUser.nota}</p>
@@ -353,15 +358,15 @@ export default function MoviePage() {
 
                 {/* Outras avaliações */}
                 {outrasAvaliacoes.map(a => (
-                    <div key={a.id} className="avaliacao">
+                    <div key={a.id} className='avaliacao'>
                         {/* Cabeçalho com nome, foto e estrelas */}
                         <div className='avalHeader'>
-                            <div className="userInfo">
-                                <img src={a.usuario_foto} alt="Foto do usuário" />
+                            <div className='userInfo'>
+                                <img src={a.usuario_foto} alt='Foto do usuário' />
                                 <p>{a.usuario_nome}</p>
                             </div>
-                            <div className="userRating">
-                                <div className="starsBox">
+                            <div className='userRating'>
+                                <div className='starsBox'>
                                     {renderStars(a.nota)}
                                 </div>
                                 <p>{a.nota}</p>
@@ -382,7 +387,7 @@ export default function MoviePage() {
                 recarregar={fetchAvaliacoes}  // recarrega a lista após salvar
             />
 
-            {/* Modal salvar filme em lita */}
+            {/* Modal salvar filme em lista */}
             <ModalSalvarFilme
                 isOpen={modalSalvarAberto}
                 onRequestClose={() => {

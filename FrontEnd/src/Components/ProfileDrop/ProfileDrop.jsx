@@ -18,7 +18,9 @@ export default function ProfileDrop() {
             {/* Cabeçalho */}
             <div className='userHeader' onClick={() => setOpen(!open)}>
                 <div className='user'>
-                    <img src={user.foto} alt='Foto do usuário' className='userPhoto' />
+                    {user.role === 'comum' && 
+                        <img src={user.foto} alt='Foto do usuário' className='userPhoto' />
+                    }
                     <span className='userName'>{user.nome}</span>
                 </div>
                 <span className='arrow'>{open ? <ChevronUp/> : <ChevronDown/>}</span>
@@ -29,12 +31,12 @@ export default function ProfileDrop() {
                 <div className='dropdownUserOptions'>
 
                     {/* Opção para usuário comum */}
-                    {user.role === 'comum' && (
+                    {/* {user.role === 'comum' && (
                         <div className='dropdownItem'>
                             <img src={UserIcon} alt='Ícone de usuário' />
                             Perfil
                         </div>
-                    )}
+                    )} */}
 
                     {/* Opção para usuário comum e adm */}
                     <div className='dropdownItem' onClick={logout}>

@@ -24,7 +24,7 @@ export default function ListaEspecificaPage() {
     const [filmes, setFilmes] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    // guarda nota de cada filme: { filmeId: nota }
+    // guarda nota do usuário para cada filme: { filmeId: nota }
     const [minhasNotas, setMinhasNotas] = useState({});
 
     // estados para o modal deletar
@@ -81,7 +81,7 @@ export default function ListaEspecificaPage() {
                 }));
             }
         } catch (e) {
-            console.error("Erro ao buscar nota", e);
+            console.error('Erro ao buscar nota', e);
         }
     }
 
@@ -138,11 +138,11 @@ export default function ListaEspecificaPage() {
     return (
         <div className='listaFilmesPage'>
             {/* Cabeçalho */}
-            <header className="listaFilmesHeader">
-                <p className="breadcrumb">
-                    <a href="/listas" className="breadcrumbLink">Minhas Listas</a>
+            <header className='listaFilmesHeader'>
+                <p className='breadcrumb'>
+                    <a href='/listas' className='breadcrumbLink'>Minhas Listas</a>
                     <span> &gt; </span>
-                    <span className="breadcrumbAtual">🎬 {listaNome}</span>
+                    <span className='breadcrumbAtual'>🎬 {listaNome}</span>
                 </p>
             </header>
 
@@ -207,6 +207,7 @@ export default function ListaEspecificaPage() {
 
             {/* Modal de loading enquanto deleta */}
             <LoadingModal isOpen={loadingDelete} />
+            
             {/* Modal de sucesso */}
             <SuccessModal isOpen={successOpen} message={successMsg} />
         </div>

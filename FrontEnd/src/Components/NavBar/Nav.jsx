@@ -38,8 +38,8 @@ export default function NavBar() {
                 ) : user.role === 'admin' ? (
                     <ul>
                         <li><Link to='/'>Home</Link></li>
-                        <li><Link to='/'>Catálogo</Link></li>
-                        <li><Link to='/'>Administração</Link></li>
+                        <li><Link to='/filmes'>Catálogo</Link></li>
+                        <li><Link to='/administracao'>Administração</Link></li>
                     </ul>
                 ) : null
             )}
