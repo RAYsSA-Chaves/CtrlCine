@@ -1,76 +1,86 @@
-// MovieForm.jsx
-import "./MovieForm.css";
-import { useEffect, useState, useContext } from "react";
-import { useSearchParams, useLocation, useNavigate } from "react-router-dom";
-import api from "../../Services/Api";
-import Input from "../../Components/Input/Input";
-import { AuthContext } from "../../Services/AuthContext";
+// Formulário de cadastro/edição/solicitações de filmes
+
+import './MovieForm.css';
+import { useEffect, useState, useContext } from 'react';
+import { useSearchParams, useNavigate } from 'react-router-dom';
+import api from '../../Services/Api';
+import Input from '../../Components/Input/Input';
+import { AuthContext } from '../../Services/AuthContext';
 import BackArrow from '../../Assets/Images/Icons/back_arrow_icon.svg'
-import Botao from "../../Components/Botao/Botao";
-import SuccessModal from "../../Components/SuccessModal/SuccessModal";
+import Botao from '../../Components/Botao/Botao';
+import SuccessModal from '../../Components/SuccessModal/SuccessModal';
 import Logo from '../../Assets/Images/Logo/Logo.svg'
-import XIcon from '../../Assets/Images/Icons/x_icon.svg'
 import Modal from 'react-modal';
 import LoadingModal from '../../Components/LoadingModal/LoadingModal'
+import { buscarNotaFilme } from '../../Utils/getRating';
+import { Search, Plus, ChevronUp, ChevronDown } from 'lucide-react';
+import XIcon from '../../Assets/Images/Icons/x_icon.svg';
 
+
+/*
+    Maneiras de acessar essa página:
+    - via URL -> /movie_form?mode=edit&id=123&idSolicitacao=456
+    - usando navigate -> navigate('/movie-form', { state: { mode: 'edit', id: 123 } })
+*/
 
 export default function MovieForm() {
     const { user } = useContext(AuthContext);
 
     // estados para o modal de sucesso
     const [successOpen, setSuccessOpen] = useState(false);
-    const [successMessage, setSuccessMessage] = useState("");
+    const [successMessage, setSuccessMessage] = useState('');
 
     // estados dos modais de criar ator, diretor, produtora
     const [modalOutro, setModalOutro] = useState(null); 
-    const [novoNome, setNovoNome] = useState("");
-    const [novaFoto, setNovaFoto] = useState(""); // só para atores
-
-    // estados internos dos modais
+    const [novoNome, setNovoNome] = useState('');
+    const [novaFoto, setNovaFoto] = useState(''); // só para atores
     const [loadingOutro, setLoadingOutro] = useState(false);
     const [successOutro, setSuccessOutro] = useState(false);
-    const [successOutroMsg, setSuccessOutroMsg] = useState("");
+    const [successOutroMsg, setSuccessOutroMsg] = useState('');
 
     const [searchParams] = useSearchParams();
-    const location = useLocation();
     const navigate = useNavigate();
 
-    const modeFromQuery = searchParams.get("mode");
-    const idFromQuery = searchParams.get("id");
-    const idSolicitacaoFromQuery = searchParams.get("idSolicitacao");
+    // pega o modo do formulário passado na URL
+    const mode = searchParams.get('mode');
 
-    const state = location.state || {};
-    const mode = modeFromQuery || state.mode || "create";
-    const movieId = idFromQuery || state.id || null;
-    const idSolicitacao = idSolicitacaoFromQuery || state.idSolicitacao || null;
+    // pega ID do filme (em caso de edição)
+    const movieId = searchParams.get('id');
 
-    const [titulo, setTitulo] = useState("");
-    const [capaHorizontal, setCapaHorizontal] = useState("");
-    const [capaVertical, setCapaVertical] = useState("");
-    const [trailer, setTrailer] = useState("");
-    const [lancamento, setLancamento] = useState("");
-    const [duracao, setDuracao] = useState("");
-    const [sinopse, setSinopse] = useState("");
+    // pega ID da solicitação (em caso de revisão para aceite)
+    const idSolicitacao = searchParams.get('idSolicitacao');
 
+    // estados para os campos de infos do filme
+    const [titulo, setTitulo] = useState('');
+    const [capaHorizontal, setCapaHorizontal] = useState('');
+    const [capaVertical, setCapaVertical] = useState('');
+    const [trailer, setTrailer] = useState('');
+    const [lancamento, setLancamento] = useState('');
+    const [duracao, setDuracao] = useState('');
+    const [sinopse, setSinopse] = useState('');
+
+    // guardar todas as opções puxadas do banco
     const [atoresLista, setAtoresLista] = useState([]);
     const [diretoresLista, setDiretoresLista] = useState([]);
     const [produtorasLista, setProdutorasLista] = useState([]);
     const [generosLista, setGenerosLista] = useState([]);
 
+    // guardar as opções selecionadas
     const [atoresSelecionados, setAtoresSelecionados] = useState([]);
     const [diretorSelecionado, setDiretorSelecionado] = useState(null);
     const [produtorasSelecionadas, setProdutorasSelecionadas] = useState([]);
     const [generosSelecionados, setGenerosSelecionados] = useState([]);
 
+    // estado para o dropdown aberto
     const [openDrop, setOpenDrop] = useState(null);
 
-    // controla se o input está focado (para flutuar label e mostrar placeholder)
+    // controla se a sinopse está focada (para flutuar label)
     const [focused, setFocused] = useState(false);
 
-    // estados para buscas para os dropdowns
-    const [buscaAtores, setBuscaAtores] = useState("");
-    const [buscaProdutoras, setBuscaProdutoras] = useState("");
-    const [buscaDiretores, setBuscaDiretores] = useState("");
+    // estados para buscas dos dropdowns
+    const [buscaAtores, setBuscaAtores] = useState('');
+    const [buscaProdutoras, setBuscaProdutoras] = useState('');
+    const [buscaDiretores, setBuscaDiretores] = useState('');
 
     const atoresFiltrados = atoresLista.filter(a =>
     a.nome.toLowerCase().includes(buscaAtores.toLowerCase())
@@ -84,8 +94,10 @@ export default function MovieForm() {
         d.nome.toLowerCase().includes(buscaDiretores.toLowerCase())
     );
 
+    // estado do modal para recusar solicitação
+    const [modalCancelarOpen, setModalCancelarOpen] = useState(false);
 
-    // quando o input ganha foco → label sobe e placeholder aparece
+    // função do foco da sinopse
     function handleFocus () {
         setFocused(true);
     }
@@ -95,13 +107,14 @@ export default function MovieForm() {
         if (!sinopse) setFocused(false);
     };
 
+    // puxar opções de atores, produtoras diretores e gêneros do banco
     async function carregarListas() {
         try {
             const [rAtores, rDiretores, rProdutoras, rGeneros] = await Promise.all([
-                api.get("/atores"),
-                api.get("/diretores"),
-                api.get("/produtoras"),
-                api.get("/generos"),
+                api.get('/atores'),
+                api.get('/diretores'),
+                api.get('/produtoras'),
+                api.get('/generos'),
             ]);
 
             setAtoresLista((rAtores.data || []).map(a => ({ id: Number(a.id), nome: a.nome, foto: a.foto })));
@@ -109,35 +122,37 @@ export default function MovieForm() {
             setProdutorasLista((rProdutoras.data || []).map(p => ({ id: Number(p.id), nome: p.nome })));
             setGenerosLista((rGeneros.data || []).map(g => ({ id: Number(g.id), nome: g.nome })));
         } catch (err) {
-            console.error("Erro ao carregar listas:", err);
+            console.error('Erro ao carregar listas:', err);
         }
     }
 
+    // puxar infos do filme em caso de edição ou solicitação
     async function carregarDadosIniciais() {
         try {
-            if (mode === "edit" && movieId) {
+            if (mode === 'edit' && movieId) {
                 const res = await api.get(`/filmes/${movieId}`);
                 preencherCampos(res.data);
-            } else if ((mode === "solicitacao" || mode === "editarSolicitacao") && idSolicitacao) {
+            } else if (mode === 'solicitacao' && idSolicitacao) {
                 const res = await api.get(`/solicitacoes/${idSolicitacao}`);
                 const filmeObj = res.data?.filme || res.data;
                 preencherCampos(filmeObj);
             }
         } catch (err) {
-            console.error("Erro ao carregar dados iniciais:", err);
+            console.error('Erro ao carregar dados iniciais:', err);
         }
     }
 
+    // preencher os campos com as infos atuais
     function preencherCampos(data) {
         if (!data) return;
 
-        setTitulo(data.titulo || "");
-        setCapaHorizontal(data.capa_horizontal || data.capaHorizontal || "");
-        setCapaVertical(data.capa_vertical || data.capaVertical || "");
-        setTrailer(data.trailer || "");
-        setLancamento(data.lancamento ? data.lancamento.substring(0, 10) : "");
-        setDuracao(data.duracao || "");
-        setSinopse(data.sinopse || "");
+        setTitulo(data.titulo || '');
+        setCapaHorizontal(data.capa_horizontal || data.capaHorizontal || '');
+        setCapaVertical(data.capa_vertical || data.capaVertical || '');
+        setTrailer(data.trailer || '');
+        setLancamento(data.lancamento ? data.lancamento.substring(0, 10) : '');
+        setDuracao(data.duracao || '');
+        setSinopse(data.sinopse || '');
 
         setAtoresSelecionados(
             Array.isArray(data.atores)
@@ -164,15 +179,18 @@ export default function MovieForm() {
         );
     }
 
+    // chama as funções ao carregar a página
     useEffect(() => {
         carregarListas();
         carregarDadosIniciais();
     }, []);
 
+    // função para abrir um dropdown de cada vez
     function toggleDrop(nome) {
         setOpenDrop(prev => (prev === nome ? null : nome));
     }
 
+    // funções para selecionar ou desselecionar opções
     function toggleAtor(ator) {
         setAtoresSelecionados(prev => {
             const existe = prev.some(a => a.id === ator.id);
@@ -203,41 +221,39 @@ export default function MovieForm() {
     function mostrarSucesso(msg) {
         setSuccessMessage(msg);
         setSuccessOpen(true);
-
-        // fecha e volta depois de 1.8s (ou o tempo que quiser)
         setTimeout(() => {
             setSuccessOpen(false);
             navigate(-1);
         }, 1800)
     }
 
-
     // validações do form
     function validarFormulario() {
-        // 1. campos simples
-        if (!titulo.trim()) return "O título é obrigatório.";
-        if (!capaHorizontal.trim()) return "A capa horizontal é obrigatória.";
-        if (!capaVertical.trim()) return "A capa vertical é obrigatória.";
-        if (!trailer.trim()) return "O trailer é obrigatório.";
-        if (!lancamento.trim()) return "A data de lançamento é obrigatória.";
-        if (!duracao.trim()) return "A duração é obrigatória.";
-        if (!sinopse.trim()) return "A sinopse é obrigatória.";
+        // campos simples
+        if (!titulo.trim()) return 'O título é obrigatório.';
+        if (!capaHorizontal.trim()) return 'A capa horizontal é obrigatória.';
+        if (!capaVertical.trim()) return 'A capa vertical é obrigatória.';
+        if (!trailer.trim()) return 'O trailer é obrigatório.';
+        if (!lancamento.trim()) return 'A data de lançamento é obrigatória.';
+        if (!duracao.trim()) return 'A duração é obrigatória.';
+        if (!sinopse.trim()) return 'A sinopse é obrigatória.';
 
-        // 2. duração → 1h | 1min | 1h 30min
+        // duração → 0h | 0min | 0h 00min
         const regexDuracao = /^(\d+h|\d+min|\d+h \d+min)$/;
         if (!regexDuracao.test(duracao.trim())) {
-            return "A duração deve ser preenchida assim: 1h, 30min ou 1h 30min.";
+            return 'A duração deve ser preenchida assim: 00h, 00min ou 00h 00min.';
         }
 
-        // 3. campos de seleção
-        if (generosSelecionados.length === 0) return "Selecione pelo menos um gênero.";
-        if (!diretorSelecionado) return "Selecione um diretor.";
-        if (produtorasSelecionadas.length === 0) return "Selecione pelo menos uma produtora.";
-        if (atoresSelecionados.length === 0) return "Selecione pelo menos um ator.";
+        // campos de seleção
+        if (generosSelecionados.length === 0) return 'Selecione pelo menos um gênero.';
+        if (!diretorSelecionado) return 'Selecione um diretor.';
+        if (produtorasSelecionadas.length === 0) return 'Selecione pelo menos uma produtora.';
+        if (atoresSelecionados.length === 0) return 'Selecione pelo menos um ator.';
 
         return null; // tudo certo
     }
 
+    // função do botão confirmar
     async function handleSubmit(e) {
         e.preventDefault();
 
@@ -247,6 +263,9 @@ export default function MovieForm() {
             return;
         }
 
+        // busca média de notas externa
+        const notaTMDB = await buscarNotaFilme(titulo);
+
         const filmePayload = {
             titulo,
             capa_horizontal: capaHorizontal,
@@ -255,77 +274,83 @@ export default function MovieForm() {
             lancamento,
             duracao,
             sinopse,
-            atores: atoresSelecionados.map(a => ({ id: a.id, nome: a.nome, foto: a.foto })),
-            diretor: diretorSelecionado ? { id: diretorSelecionado.id, nome: diretorSelecionado.nome } : null,
-            produtoras: produtorasSelecionadas.map(p => ({ id: p.id, nome: p.nome })),
-            generos: generosSelecionados.map(g => ({ id: g.id, nome: g.nome })),
+            atores: atoresSelecionados.map(a => a.id),
+            diretor: diretorSelecionado ? [diretorSelecionado.id] : [],
+            produtoras: produtorasSelecionadas.map(p => p.id),
+            generos: generosSelecionados.map(g => g.id),
+            nota_imdb: notaTMDB,
         };
 
+
         try {
-
-            console.log("role:", user?.role);
-            console.log("mode:", mode);
-            console.log("movieId:", movieId);
             // ---------- ADMIN ----------
-            if (user?.role === "admin") {
-                if (mode === "create") {
-                    const res = await api.post("/filmes", filmePayload);
-                    mostrarSucesso("Filme criado com sucesso!");
-                    return navigate(-1);
+            if (user?.role === 'admin') {
+                // cria o filme
+                if (mode === 'create') {
+                    const res = await api.post('/filmes', {
+                        filme: filmePayload,
+                        solicitacao_id: null
+                    });
+                    mostrarSucesso('Filme criado com sucesso!');
                 }
 
-                if (mode === "edit" && movieId) {
-                    const res = await api.put(`/filmes/${movieId}`, filmePayload);
-                    mostrarSucesso("Filme atualizado!");
-                    return navigate(-1);
+                // edita o filme
+                else if (mode === 'edit' && movieId) {
+                    const res = await api.put(`/filmes/${movieId}`, {
+                        filme: filmePayload
+                    });
+                    mostrarSucesso('Filme atualizado!');
                 }
 
-                if (mode === "solicitacao" && idSolicitacao) {
-                    const res = await api.post("/filmes", { ...filmePayload, id_solicitacao: idSolicitacao });
-                    mostrarSucesso("Solicitação aceita e filme criado!");
-                    return navigate(-1);
+                // aceita a solicitação e cria ou edita
+                else if (mode === 'solicitacao' && idSolicitacao) {
+                    const res = await api.post('/filmes', {
+                        filme: filmePayload,
+                        solicitacao_id: idSolicitacao
+                    });
+                    mostrarSucesso('Solicitação aceita e filme criado!');
                 }
             }
 
-            // ---------- USUÁRIO COMUM: criar solicitação de novo filme ----------
-            if (user?.role === "comum" && (mode === "create" || mode === "solicitar")) {
+            // ---------- USUÁRIO COMUM ----------
+            // cria solicitação de novo filme
+            else if (user?.role === 'comum' && (mode === 'create')) {
                 const body = {
                     usuario_id: user.id,
                     filme: filmePayload,
-                    tipo: "novo filme",
+                    tipo: 'novo filme',
                     filme_id: null
                 };
-                const res = await api.post("/solicitacoes", body);
-                mostrarSucesso("Solicitação enviada!");
-                return navigate(-1);
+                const res = await api.post('/solicitacoes', body);
+                mostrarSucesso('Solicitação enviada!');
             }
 
-            // ---------- USUÁRIO COMUM: solicitação de edição ----------
-            if (user?.role === "comum" && (mode === "edit" || mode === "editarSolicitacao") && movieId) {
+            // cria solicitação de edição
+            else if (user?.role === 'comum' && (mode === 'edit' || mode === 'editarSolicitacao') && movieId) {
                 const body = {
                     usuario_id: user.id,
                     filme: filmePayload,
-                    tipo: "edição",  // ✔ CORREÇÃO AQUI
+                    tipo: 'edição',
                     filme_id: Number(movieId)
                 };
-                const res = await api.post("/solicitacoes", body);
-                mostrarSucesso("Solicitação de edição enviada!");
-                return navigate(-1);
+                const res = await api.post('/solicitacoes', body);
+                mostrarSucesso('Solicitação de edição enviada!');
+            }
+            else {
+                alert('Operação não permitida.');
             }
 
-            alert("Operação não permitida.");
-
         } catch (err) {
-            console.error("Erro ao enviar form:", err.response?.data || err);
-            alert("Erro ao enviar.");
+            console.error('Erro ao enviar form:', err.response?.data || err);
+            alert('Erro ao enviar.');
         }
     }
 
     // abrir modal de criar ator/diretor/produtora
     function abrirModalOutro(tipo) {
         setModalOutro(tipo);
-        setNovoNome("");
-        setNovaFoto("");
+        setNovoNome('');
+        setNovaFoto('');
     }
 
     // fechar modal de criar ator/diretor/produtora
@@ -338,7 +363,11 @@ export default function MovieForm() {
         e.preventDefault();
 
         if (!novoNome.trim()) {
-            alert("Digite um nome válido.");
+            alert('Digite um nome válido.');
+            return;
+        }
+        if (modalOutro === 'ator' && !novaFoto.trim()) {
+            alert('A foto do ator é obrigatória!');
             return;
         }
 
@@ -346,36 +375,36 @@ export default function MovieForm() {
             setLoadingOutro(true);
 
             let res;
-            if (modalOutro === "ator") {
-                res = await api.post("/atores", {
+            if (modalOutro === 'ator') {
+                res = await api.post('/atores', {
                     nome: novoNome,
-                    foto: novaFoto || null
+                    foto: novaFoto
                 });
             }
-            if (modalOutro === "diretor") {
-                res = await api.post("/diretores", { nome: novoNome });
+            if (modalOutro === 'diretor') {
+                res = await api.post('/diretores', { nome: novoNome });
             }
-            if (modalOutro === "produtora") {
-                res = await api.post("/produtoras", { nome: novoNome });
+            if (modalOutro === 'produtora') {
+                res = await api.post('/produtoras', { nome: novoNome });
             }
 
             const novo = res.data;
 
             // adiciona na lista correspondente
-            if (modalOutro === "ator") {
+            if (modalOutro === 'ator') {
                 setAtoresLista(prev => [...prev, novo]);
                 setAtoresSelecionados(prev => [...prev, novo]);
             }
-            if (modalOutro === "diretor") {
+            if (modalOutro === 'diretor') {
                 setDiretoresLista(prev => [...prev, novo]);
                 setDiretorSelecionado(novo);
             }
-            if (modalOutro === "produtora") {
+            if (modalOutro === 'produtora') {
                 setProdutorasLista(prev => [...prev, novo]);
                 setProdutorasSelecionadas(prev => [...prev, novo]);
             }
 
-            setSuccessOutroMsg("Novo item criado com sucesso!");
+            setSuccessOutroMsg('Novo item criado com sucesso!');
             setSuccessOutro(true);
 
             setTimeout(() => {
@@ -385,14 +414,48 @@ export default function MovieForm() {
 
         } catch (err) {
             console.error(err);
-            alert("Erro ao criar novo item.");
+            alert('Erro ao criar novo item.');
         } finally {
             setLoadingOutro(false);
         }
     }
 
+    /*
+        função do botão cancelar
+        - para o adm -> recusa solicitação
+        - para outros casos -> volta para página anterior 
+    */
+    async function handleCancelar() {
+        if (user?.role === 'admin' && mode === 'solicitacao' && idSolicitacao) {
+            setModalCancelarOpen(true);
+        } else {
+            navigate(-1);
+        }
+    }
+
+    // função do modal de recusar solicitação
+    async function confirmarCancelar() {
+        const idSolic = Number(idSolicitacao);
+        try {
+            const res = await api.delete(`/solicitacoes/${idSolic}`);
+            setSuccessMessage(res.data?.Mensagem || 'Solicitação recusada!');
+            setSuccessOpen(true);
+            setTimeout(() => {
+                setSuccessOpen(false);
+                navigate(-1);
+            }, 1500);
+        } catch (err) {
+            console.error('Erro ao excluir:', err);
+            alert(err.response?.data?.Erro || 'Erro ao recusar solicitação.');
+        } finally {
+            setModalCancelarOpen(false);
+        }
+    }
+
+
     return (
-        <div className="formularioFilmeContainer">
+        <div className='formularioFilmeContainer'>
+            {/* Botão voltar */}
             <Botao 
                 style = 'primary'
                 text = 'Voltar'
@@ -400,126 +463,172 @@ export default function MovieForm() {
                 to={-1}
             />
 
-            <h1 className="tituloForm">
-                {(mode === "create") && "Cadastre um novo filme!"}
-                {(mode === "edit") && "Edite o filme!"}
-                {mode === "solicitacao" && "Revise a solicitação do usuário!"}
+            {/* Título */}
+            <h1 className='tituloForm'>
+                {(mode === 'create') && 'Cadastre um novo filme!'}
+                {(mode === 'edit') && 'Edite o filme!'}
+                {mode === 'solicitacao' && 'Revise a solicitação do usuário!'}
             </h1>
 
-            <p className="subtituloForm">
-                {(mode === "create" && user?.role === "comum") && "Preencha as informações do filme que deseja ver no CtrlCine e envie sua solicitação ao administrador."}
-                {(mode === "edit" && user?.role === "comum") && "Edite as informações do filme como deseja ver no CtrlCine e envie sua solicitação ao administrador."}
+            {/* Subtítulo */}
+            <p className='subtituloForm'>
+                {(mode === 'create' && user?.role === 'comum') && 'Preencha as informações do filme que deseja ver no CtrlCine e envie sua solicitação ao administrador.'}
+                {(mode === 'edit' && user?.role === 'comum') && 'Edite as informações do filme como deseja ver no CtrlCine e envie sua solicitação ao administrador.'}
             </p>
 
-            <form className="form-filme" onSubmit={handleSubmit}>
-                <Input label="Título" name="titulo" value={titulo} onChange={(e) => setTitulo(e.target.value)} />
+            <form className='formFilme' onSubmit={handleSubmit}>
+                {/* Título do filme */}
+                <Input label='Título' name='titulo' value={titulo} onChange={(e) => setTitulo(e.target.value)} />
 
-                <div className="formInputsDisplay">
-                    <div className="inputBox1">
-                        <div className="previewImg">
-                            {capaHorizontal ? <img src={capaHorizontal} alt="Capa horizontal" className="capaHorizontal" /> : <div className="placeholder">Prévia da capa horizontal</div>}
+                <div className='formInputsDisplay'>
+                    <div className='inputBox1'>
+                        {/* Preview da capa */}
+                        <div className='previewImg'>
+                            {capaHorizontal ? <img src={capaHorizontal} alt='Capa horizontal' className='capaHorizontal' /> : <div className='placeholder'>Prévia da capa horizontal</div>}
                         </div>
-                        <Input label="Capa Horizontal (URL)" name="capa_horizontal" value={capaHorizontal} onChange={(e) => setCapaHorizontal(e.target.value)} />
+                        {/* URL da capa */}
+                        <Input label='Capa Horizontal (URL)' name='capa_horizontal' value={capaHorizontal} onChange={(e) => setCapaHorizontal(e.target.value)} />
                     </div>
 
-                    <div className="inputBox2">
-                        <div className="previewImg">
-                            {capaVertical ? <img src={capaVertical} alt="Capa vertical" /> : <div className="placeholder">Prévia da capa vertical</div>}
+                    <div className='inputBox2'>
+                        {/* Preview da capa */}
+                        <div className='previewImg'>
+                            {capaVertical ? <img src={capaVertical} alt='Capa vertical' /> : <div className='placeholder'>Prévia da capa vertical</div>}
                         </div>
-                        <Input label="Capa Vertical (URL)" name="capa_vertical" value={capaVertical} onChange={(e) => setCapaVertical(e.target.value)} />
+                        {/* URL da capa */}
+                        <Input label='Capa Vertical (URL)' name='capa_vertical' value={capaVertical} onChange={(e) => setCapaVertical(e.target.value)} />
                     </div>
                 </div>
 
-                <div className="formInputsDisplay">
-                    <div className="inputBox1">
-                        <div className="inputContainer">
-                            <label className="floatingLabel active">Lançamento</label>
-                            <input type="date" className="inputField active" value={lancamento} onChange={(e) => setLancamento(e.target.value)} name="lancamento" required/>
+                <div className='formInputsDisplay'>
+                    <div className='inputBox1'>
+                        {/* Data de lançamento */}
+                        <div className='inputContainer'>
+                            <label className='floatingLabel active'>Lançamento</label>
+                            <input type='date' className='inputField active' value={lancamento} onChange={(e) => setLancamento(e.target.value)} name='lancamento' required/>
                         </div>
                     </div>
 
-                    <div className="inputBox2">
-                        <Input label="Duração" placeholder="Ex: 00h, 00min, 00h 00min" name="duracao" value={duracao} onChange={(e) => setDuracao(e.target.value)} />
+                    <div className='inputBox2'>
+                        {/* Duração */}
+                        <Input label='Duração' placeholder='Ex: 00h, 00min, 00h 00min' name='duracao' value={duracao} onChange={(e) => setDuracao(e.target.value)} />
                     </div>
                 </div>
 
-                <div className="select-box">
+                {/* Gêneros */}
+                <div className='selectBox'>
                     <label>Gêneros</label>
-                    <div className="chips-container">
-                        {generosLista.map(g => (
-                            <span key={g.id} className={generosSelecionados.some(s => s.id === g.id) ? "chip ativo" : "chip"} onClick={() => toggleGenero(g)}>
-                                {g.nome}
+                    <div className='chipsContainer'>
+                        {generosLista.map(g => {
+                        const ativo = generosSelecionados.some(s => s.id === g.id); // verifica se está ativo
+                        return (
+                            <span 
+                                key={g.id} 
+                                className={ativo ? 'chip ativo' : 'chip'} 
+                                onClick={() => toggleGenero(g)}
+                            >
+                            {g.nome}
+                            {ativo && ' ✕'} 
                             </span>
-                        ))}
+                        )
+                        })}
                     </div>
-                </div>
+                    </div>
 
-                <div className="inputContainer">
-                    <label className={`floatingLabel ${sinopse || focused ? "active" : ""}`} htmlFor="sinopse">Sinopse</label>
-                    <textarea id="sinopse" className={`inputField ${sinopse || focused ? "active" : ""}`} value={sinopse} onChange={(e) => setSinopse(e.target.value)} onFocus={handleFocus} onBlur={handleBlur} />
+                {/* Sinopse */}
+                <div className='inputContainer'>
+                    <label className={`floatingLabel ${sinopse || focused ? 'active' : ''}`} htmlFor='sinopse'>Sinopse</label>
+                    <textarea id='sinopse' className={`inputField ${sinopse || focused ? 'active' : ''}`} value={sinopse} onChange={(e) => setSinopse(e.target.value)} onFocus={handleFocus} onBlur={handleBlur} />
                 </div>
             
-                <Input label="Trailer" placeholder="ID do trailer no youtube" name="trailer" value={trailer} onChange={(e) => setTrailer(e.target.value)} />
+                {/* ID do trailer */}
+                <Input label='Trailer' placeholder='ID do trailer no youtube' name='trailer' value={trailer} onChange={(e) => setTrailer(e.target.value)} />
 
-                <div className="formInputsDisplay">
-                    <div className="inputBox1">
-                        <div className="select-box">
-                            <label>Diretor</label>
-                            <div className="select-trigger" onClick={() => toggleDrop("diretor")}>
-                                {diretorSelecionado ? diretorSelecionado.nome : "Selecione o diretor"}
+                {/* Diretor */}
+                <div className='formInputsDisplay'>
+                    <div className='inputBox1'>
+                        <div className='selectBox'>
+                            {/* Cabeçalho */}
+                            <div className='selectTrigger' onClick={() => toggleDrop('diretor')}>
+                                <span>{diretorSelecionado ? diretorSelecionado.nome : 'Diretor'}</span>
+                                {openDrop === 'diretor' ? (
+                                    <ChevronUp size={20} className='chevronIcon' />
+                                ) : (
+                                    <ChevronDown size={20} className='chevronIcon' />
+                                )}
                             </div>
-                            {openDrop === "diretor" && (
-                                <div className="dropdown">
+                            {openDrop === 'diretor' && (
+                                <div className='dropdown'>
                                     
-                                    <input 
-                                        type="text"
-                                        className="searchDrop"
-                                        placeholder="Buscar..."
-                                        value={buscaDiretores}
-                                        onChange={(e) => setBuscaDiretores(e.target.value)}
-                                    />
+                                    {/* Pesquisa */}
+                                    <div className='searchContainer'>
+                                        <Search className='searchIcon' size={18} />
+                                        <input 
+                                            type='text'
+                                            className='searchDrop'
+                                            placeholder='Buscar'
+                                            value={buscaDiretores}
+                                            onChange={(e) => setBuscaDiretores(e.target.value)}
+                                        />
+                                    </div>
 
+                                    {/* Opções */}
                                     {diretoresFiltrados.map(d => (
                                         <div 
                                             key={d.id} 
-                                            className={`drop-item ${diretorSelecionado?.id === d.id ? "selected" : ""}`}
+                                            className={`dropItem ${diretorSelecionado?.id === d.id ? 'selected' : ''}`}
                                             onClick={() => {
                                                 escolherDiretor(d);
-                                                setBuscaDiretores("");
+                                                setBuscaDiretores('');
                                             }}
                                         >
                                             {d.nome}
                                         </div>
                                     ))}
 
-                                    <div className="drop-item outro" onClick={() => abrirModalOutro("diretor")}>Outro +</div>
+                                    {/* Adicionar */}
+                                    <div className='dropItem outro' onClick={() => abrirModalOutro('diretor')}>
+                                        Outro
+                                        <Plus size={16} className='plusIcon' />
+                                    </div>
                                 </div>
                             )}
 
                         </div>
                     </div>
 
-                    <div className="inputBox2">
-                        <div className="select-box">
-                            <label>Produtoras</label>
-                            <div className="select-trigger" onClick={() => toggleDrop("produtoras")}>
-                                Selecione produtoras
+                    {/* Produtoras */}
+                    <div className='inputBox2'>
+                        <div className='selectBox'>
+                            {/* Cabeçalho */}
+                            <div className='selectTrigger' onClick={() => toggleDrop('produtoras')}>
+                                <span>Selecione produtoras</span>
+                                {openDrop === 'produtoras' ? (
+                                    <ChevronUp size={20} className='chevronIcon' />
+                                ) : (
+                                    <ChevronDown size={20} className='chevronIcon' />
+                                )}
                             </div>
-                            {openDrop === "produtoras" && (
-                                <div className="dropdown">
+                            {openDrop === 'produtoras' && (
+                                <div className='dropdown'>
 
-                                    <input 
-                                        type="text"
-                                        className="searchDrop"
-                                        placeholder="Buscar..."
-                                        value={buscaProdutoras}
-                                        onChange={(e) => setBuscaProdutoras(e.target.value)}
-                                    />
+                                    {/* Pesquisa */}
+                                    <div className='searchContainer'>
+                                        <Search className='searchIcon' size={18} />
+                                        <input 
+                                            type='text'
+                                            className='searchDrop'
+                                            placeholder='Buscar'
+                                            value={buscaProdutoras}
+                                            onChange={(e) => setBuscaProdutoras(e.target.value)}
+                                        />
+                                    </div>
 
+                                    {/* Opções */}
                                     {produtorasFiltradas.map(p => (
-                                        <label key={p.id} className="drop-item checkbox-item">
+                                        <label key={p.id} className='dropItem checkboxItem'>
                                             <input
-                                                type="checkbox"
+                                                type='checkbox'
                                                 checked={produtorasSelecionadas.some(s => s.id === p.id)}
                                                 onChange={() => toggleProdutora(p)}
                                             />
@@ -527,13 +636,19 @@ export default function MovieForm() {
                                         </label>
                                     ))}
 
-                                    <div className="drop-item outro" onClick={() => abrirModalOutro("produtora")}>Outro +</div>
+                                    {/* Adicionar */}
+                                    <div className='dropItem outro' onClick={() => abrirModalOutro('produtora')}>
+                                        Outro
+                                        <Plus size={16} className='plusIcon' />
+                                    </div>
                                 </div>
                             )}
                         </div>
-                        <div className="chips-container">
+
+                        {/* Chip labels das opções selecionadas */}
+                        <div className='chipsContainer'>
                             {produtorasSelecionadas.map(p => (
-                                <span key={p.id} className="chip ativo" onClick={() => toggleProdutora(p)}>
+                                <span key={p.id} className='chip ativo' onClick={() => toggleProdutora(p)}>
                                     {p.nome} ✕
                                 </span>
                             ))}
@@ -541,106 +656,169 @@ export default function MovieForm() {
                     </div>
                 </div>
 
-                <div className="select-box">
-                    <label>Atores</label>
-                    <div className="select-trigger" onClick={() => toggleDrop("atores")}>
-                        Selecione atores
-                    </div>
-                    {openDrop === "atores" && (
-                        <div className="dropdown">
-
-                            <input 
-                                type="text"
-                                className="searchDrop"
-                                placeholder="Buscar..."
-                                value={buscaAtores}
-                                onChange={(e) => setBuscaAtores(e.target.value)}
-                            />
-
-                            {atoresFiltrados.map(a => (
-                                <label key={a.id} className="drop-item checkbox-item">
-                                    <input
-                                        type="checkbox"
-                                        checked={atoresSelecionados.some(s => s.id === a.id)}
-                                        onChange={() => toggleAtor(a)}
-                                    />
-                                    <span>{a.nome}</span>
-                                </label>
-                            ))}
-
-                            <div className="drop-item outro" onClick={() => abrirModalOutro("ator")}>Outro +</div>
+                {/* Atores */}
+                <div>
+                    <div className='selectBox'>
+                        {/* Cabeçalho */}
+                        <div className='selectTrigger' onClick={() => toggleDrop('atores')}>
+                            <span>Selecione atores</span>
+                            {openDrop === 'atores' ? (
+                                <ChevronUp size={20} className='chevronIcon' />
+                                ) : (
+                                    <ChevronDown size={20} className='chevronIcon' />
+                                )}
                         </div>
-                    )}
-                </div>
-                <div className="chips-container">
-                    {atoresSelecionados.map(a => (
-                        <span key={a.id} className="chip ativo" onClick={() => toggleAtor(a)}>
-                            {a.nome} ✕
-                        </span>
-                    ))}
+                        {openDrop === 'atores' && (
+                            <div className='dropdown'>
+
+                                {/* Pesquisa */}
+                                <div className='searchContainer'>
+                                    <Search className='searchIcon' size={18} />
+                                    <input 
+                                        type='text'
+                                        className='searchDrop'
+                                        placeholder='Buscar'
+                                        value={buscaAtores}
+                                        onChange={(e) => setBuscaAtores(e.target.value)}
+                                    />
+                                </div>
+
+                                {/* Opções */}
+                                {atoresFiltrados.map(a => (
+                                    <label key={a.id} className='dropItem checkboxItem'>
+                                        <input
+                                            type='checkbox'
+                                            checked={atoresSelecionados.some(s => s.id === a.id)}
+                                            onChange={() => toggleAtor(a)}
+                                        />
+                                        <span>{a.nome}</span>
+                                    </label>
+                                ))}
+
+                                {/* Adicionar */}
+                                <div className='dropItem outro' onClick={() => abrirModalOutro('ator')}>
+                                    Outro
+                                    <Plus size={16} className='plusIcon' />
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Chip labels das opções selecionadas */}
+                    <div className='chipsContainer'>
+                        {atoresSelecionados.map(a => (
+                            <span key={a.id} className='chip ativo' onClick={() => toggleAtor(a)}>
+                                {a.nome} ✕
+                            </span>
+                        ))}
+                    </div>
                 </div>
 
-                <div className="botoes">
-                    <button type="button" onClick={() => navigate(-1)} className="cancelar">Cancelar</button>
-                    <button type="submit" className="confirmar">Confirmar</button>
+                {/* Botões confirmar e cancelar */}
+                <div className='botoes'>
+                    <Botao 
+                        style = 'terciary'
+                        text = {user.role === 'admin' && mode === 'solicitacao' ? 'Recusar' : 'Cancelar'}
+                        onClick={handleCancelar}
+                    />
+                    <Botao 
+                        style = 'primary'
+                        text = {user.role === 'admin' && mode === 'solicitacao' ? 'Aceitar' : 'Confirmar'}
+                        type='submit'
+                    />
                 </div>
             </form>
 
+            {/* Modal para adicionar item */}
             <Modal
                 isOpen={!!modalOutro}
                 onRequestClose={fecharModalOutro}
-                className="modalSalvar"
-                overlayClassName="modalOverlay"
+                className='modalSalvar'
+                overlayClassName='modalOverlay'
             >
 
-                <button className="fecharModal" onClick={fecharModalOutro}>
-                    <img src={XIcon} alt="Fechar" />
-                </button>
-
-                <div className="modalSalvarHeader">
-                    <img src={Logo} alt="Logo" className="logoModal" />
-                    <h2 className="tituloModal">
-                        Adicionar {modalOutro === "ator" && "Ator"}
-                        {modalOutro === "diretor" && "Diretor"}
-                        {modalOutro === "produtora" && "Produtora"}
-                    </h2>
-                </div>
-
-                <form onSubmit={salvarOutro} className="modalSalvarConteudo">
-                    
-                    <label>Nome</label>
-                    <input
-                        type="text"
-                        value={novoNome}
-                        onChange={(e) => setNovoNome(e.target.value)}
-                        className="inputModalSalvar"
-                        required
+                <header className='headerModal'>
+                    <img src={Logo} alt='Logo' className='logo' />
+                    <Botao
+                        style='secondary'
+                        icon={XIcon}
+                        onClick={fecharModalOutro}
                     />
+                </header>
 
-                    {modalOutro === "ator" && (
-                        <>
-                            <label>Foto (URL)</label>
-                            <input
-                                type="text"
-                                value={novaFoto}
-                                onChange={(e) => setNovaFoto(e.target.value)}
-                                className="inputModalSalvar"
+                {/* Conteúdo do modal */}
+                <section className='modalContent'>
+                    <h1>
+                        Adicionar {modalOutro === 'ator' && 'ator'}
+                        {modalOutro === 'diretor' && 'diretor'}
+                        {modalOutro === 'produtora' && 'produtora'}
+                    </h1>
+
+                    <form onSubmit={salvarOutro} className='modalSalvarConteudo'>
+                        <Input label='Nome' name='nome' value={novoNome} onChange={(e) => setNovoNome(e.target.value)} />
+
+                        {modalOutro === 'ator' && (
+                            <Input label='URL da foto' name='foto' value={novaFoto} onChange={(e) => setNovaFoto(e.target.value)} />
+                        )}
+
+                        <footer className='footerBtns'>
+                            <Botao style='secondary' text='Cancelar' onClick={fecharModalOutro} />
+                            <Botao
+                                style='primary'
+                                text='Confirmar'
+                                type='submit'
+                                disabled={
+                                    !novoNome || (modalOutro === 'ator' && !novaFoto)
+                                }
                             />
-                        </>
-                    )}
-
-                    <div className="botoesModalSalvar">
-                        <button type="button" className="botaoCancelarModal" onClick={fecharModalOutro}>
-                            Cancelar
-                        </button>
-
-                        <button type="submit" className="botaoConfirmarModal">
-                            Adicionar
-                        </button>
-                    </div>
-                </form>
-
+                        </footer>
+                    </form>
+                </section>
             </Modal>
+
+            <Modal
+                isOpen={modalCancelarOpen}
+                onRequestClose={() => setModalCancelarOpen(false)}
+                className='modalSalvar'
+                overlayClassName='modalOverlay'
+            >
+                {/* Cabeçalho */}
+                <header className='headerModal'>
+                    <img src={Logo} alt='Logo' className='logo' />
+                    <Botao
+                        style='secondary'
+                        icon={XIcon}
+                        onClick={() => setModalCancelarOpen(false)}
+                    />
+                </header>
+
+                {/* Conteúdo */}
+                <section className='modalContent'>
+                    <h1>Tem certeza que deseja cancelar?</h1>
+                    <p className='textoInfo'>
+                        {(mode === 'solicitacao' && user?.role === 'admin') ? 
+                            'Você está prestes a recusar a solicitação do usuário.' : 
+                            'Todas as alterações feitas serão descartadas.'
+                        }
+                    </p>
+                    <p className='textoInfo'>Esta ação não pode ser desfeita!</p>
+                </section>
+
+                {/* Footer */}
+                <footer className='footerBtns'>
+                    <Botao
+                        style='secondary'
+                        text='Cancelar'
+                        onClick={() => setModalCancelarOpen(false)}
+                    />
+                    <Botao
+                        style='primary'
+                        text='Confirmar'
+                        onClick={confirmarCancelar}
+                    />
+                </footer>
+            </Modal>
+
 
             {/* modais de loading e sucesso para modal de criar novo item */}
             <LoadingModal isOpen={loadingOutro} />

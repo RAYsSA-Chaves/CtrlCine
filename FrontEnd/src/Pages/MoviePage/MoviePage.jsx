@@ -21,12 +21,17 @@ import Slider from 'react-slick';
 import DiretorIcon from '../../Assets/Images/Icons/person_icon.svg'
 import ProdutoraIcon from '../../Assets/Images/Icons/camera_icon.svg'
 import ModalAvaliacao from '../../Components/ModalAvaliacao/ModalAvaliacao'
+import TrashIcon from '../../Assets/Images/Icons/trash_icon.svg'
+import ModalDeletarFilme from '../../Components/ModalDeletarFilme/ModalDeletarFilme'
+import { useNavigate } from "react-router-dom";
 
 
 export default function MoviePage() {
     const { id } = useParams()  // id do filme passado na url
 
     const { user } = useContext(AuthContext)  // usuário logado
+
+    const navigate = useNavigate();
 
     // guardar as infos do filme
     const [filme, setFilme] = useState(null)
@@ -37,9 +42,10 @@ export default function MoviePage() {
     const [loading, setLoading] = useState(true)
     const [erro, setErro] = useState('')
 
-    // estados para o modal de salvar filme em listas
+    // estados para o modal de salvar filme em listas e deletar
     const [modalSalvarAberto, setModalSalvarAberto] = useState(false);
     const [filmeSelecionado, setFilmeSelecionado] = useState(null);
+    const [modalDeleteOpen, setModalDeleteOpen] = useState(false);
 
     // modal de avaliação
     const [modalAvaliarAberto, setModalAvaliarAberto] = useState(false);
@@ -120,6 +126,21 @@ export default function MoviePage() {
         mediaCtrlCine = Math.round(mediaCtrlCine);  // somente notas cheias de 1 a 5
     }
 
+    // abrir modal de deletar
+    function abrirModalDelete(filme) {
+        setFilmeSelecionado(filme);
+        setModalDeleteOpen(true);
+    }
+
+    // fechar modal de deletar
+    function fecharModalDelete(deletou) {
+        setModalDeleteOpen(false);
+
+        if (deletou) {
+            navigate(-1);  // sai da página
+        }
+    }
+
     return (
         <div className='filmePage'>
 
@@ -134,14 +155,23 @@ export default function MoviePage() {
                             text='Editar'
                             to={`/movie_form?mode=edit&id=${filme.id}`}
                         />
-                        <Botao 
-                            style='secondary'
-                            icon={SaveIcon}
-                            onClick = {() => {
-                                setFilmeSelecionado(filme);
-                                setModalSalvarAberto(true);
-                            }}
-                        />
+                        {user.role === 'comum' ? (
+                            <Botao 
+                                style='secondary'
+                                icon={SaveIcon}
+                                onClick = {() => {
+                                    setFilmeSelecionado(filme);
+                                    setModalSalvarAberto(true);
+                                }}
+                            />
+                        ) : (
+                            <Botao 
+                                style='secondary'
+                                icon={TrashIcon}
+                                onClick={() => abrirModalDelete(filme)}
+                            />
+                        )}
+                        
                     </div>
                 </div>
             </article>
@@ -395,6 +425,13 @@ export default function MoviePage() {
                     }}
                 filme={filmeSelecionado}
             />       
+
+            {/* Modal deletar filme */}
+            <ModalDeletarFilme
+                isOpen={modalDeleteOpen}
+                onRequestClose={fecharModalDelete}
+                filme={filmeSelecionado}
+            />
         </div>
     )
 }

@@ -1,0 +1,93 @@
+.admPage {
+    padding: 15rem 2rem;
+    flex: 1;
+    margin: 0 2rem;
+}
+
+.admPage h1 {
+    font-size: 30px;
+    margin: 5rem 0;
+}
+
+/* ---------------- */
+
+/* Listagem de solicitações */
+.listaSolicitacoes {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+.cardSolicitacao {
+    background-color: var(--black-purple);
+    box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.354);
+    padding: 2rem;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.solFoto {
+    width: 70px;
+    height: auto;
+    border-radius: 12px;
+}
+
+.solInfo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.recusarBtn, .verBtn {
+    padding: 12px;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.recusarBtn img, .verBtn svg {
+    width: 25px;
+    height: 25px;
+}
+
+.recusarBtn {
+    background: linear-gradient(180deg, #c114144a, #98090976);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(10px); /* Safari */
+    border: 1px solid #94313164;
+}
+
+.recusarBtn:hover {
+    background: linear-gradient(180deg, #a307074a, #3e0202a3);
+    border: 1px solid #820d0d64;
+}
+
+.verBtn {
+    background: linear-gradient(180deg, #e3e3e34a, #989898a2);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(10px); /* Safari */
+    border: 1px solid #67676791;
+}
+
+.verBtn:hover {
+    background: linear-gradient(180deg, #989898a2, rgba(75, 75, 75, 0.639));
+    border: 1px solid #43434364;
+}
+
+.solBtns {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* ---------------- */
+
+/* Mensagem caso não tenha solicitações */
+.nenhumaSolicitacao {
+    text-align: center;
+    font-size: 18px;
+}

@@ -39,6 +39,10 @@ footer img {
     text-decoration: underline;
 }
 
+.footerLinks a {
+    text-decoration: none;
+}
+
 /* ---------------- */
 
 /* Linha divisória */

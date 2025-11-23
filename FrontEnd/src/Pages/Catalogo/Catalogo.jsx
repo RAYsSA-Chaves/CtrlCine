@@ -184,7 +184,7 @@ export default function Catalogo() {
         setModalDeleteOpen(false);
 
         if (deletou) {
-            carregarFilmes(); // recarrega a lista
+            fetchFilmes(); // recarrega a lista
         }
     }
 
@@ -305,6 +305,13 @@ export default function Catalogo() {
 
                 {/* Filmes encontrados */}
                 <section className='catalogoFilmes'>
+                    {user.role === 'admin' && (
+                        <Botao
+                            style='primary' 
+                            text='Adicionar filme' 
+                            to='/movie_form?mode=create'
+                        />
+                    )}
                     {mensagem && <p className='mensagem'>{mensagem}</p>}
                     <div className='filmesGrid'>
                         {filmes.map(filme => (

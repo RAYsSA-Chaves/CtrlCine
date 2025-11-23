@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Modal from "react-modal";
 import "./ModalDeletarFilme.css";
-
 import api from "../../Services/Api";
 
 // Modais reutilizáveis
@@ -12,8 +11,8 @@ import Logo from "../../Assets/Images/Logo/Logo.svg";
 import Botao from "../Botao/Botao";
 import XIcon from "../../Assets/Images/Icons/x_icon.svg";
 
-Modal.setAppElement("#root");
 
+Modal.setAppElement("#root");
 export default function ModalDeletarFilme({ isOpen, onRequestClose, filme }) {
     const [loadingOpen, setLoadingOpen] = useState(false);
     const [successOpen, setSuccessOpen] = useState(false);
@@ -23,15 +22,17 @@ export default function ModalDeletarFilme({ isOpen, onRequestClose, filme }) {
         try {
             setLoadingOpen(true);
 
+            // envia requisição para a api
             const resp = await api.delete(`/filmes/${filme.id}`);
 
+            // mostra mensagem de sucesso
             setLoadingOpen(false);
             setSuccessMsg(resp.data.Mensagem || "Filme deletado com sucesso!");
             setSuccessOpen(true);
 
             setTimeout(() => {
                 setSuccessOpen(false);
-                onRequestClose(true); // true = sinaliza que apagou
+                onRequestClose(true);
             }, 1500);
 
         } catch (err) {
@@ -46,10 +47,10 @@ export default function ModalDeletarFilme({ isOpen, onRequestClose, filme }) {
             <Modal
                 isOpen={isOpen}
                 onRequestClose={() => onRequestClose(false)}
-                className="modalDeletar"
+                className="modalSalvar"
                 overlayClassName="modalOverlay"
             >
-                {/* Header */}
+                {/* Cabeçalho */}
                 <header className="headerModal">
                     <img src={Logo} alt="Logo" className="logo" />
                     <Botao
@@ -64,13 +65,11 @@ export default function ModalDeletarFilme({ isOpen, onRequestClose, filme }) {
                     <h1>Tem certeza que deseja deletar?</h1>
 
                     <p className="textoInfo">
-                        Você está prestes a remover o filme:
-                        <br/>
-                        <strong>{filme?.titulo}</strong>
+                        Você está prestes a remover o filme <strong>{filme?.titulo}</strong>.
                     </p>
 
                     <p className="textoInfo">
-                        Esta ação não pode ser desfeita.
+                        Esta ação não pode ser desfeita!
                     </p>
                 </section>
 
@@ -82,7 +81,7 @@ export default function ModalDeletarFilme({ isOpen, onRequestClose, filme }) {
                         onClick={() => onRequestClose(false)}
                     />
                     <Botao
-                        style="danger"
+                        style="primary"
                         text="Deletar"
                         onClick={confirmarDelete}
                     />

@@ -11,6 +11,17 @@
     margin-bottom: 5rem;
 }
 
+/* ------------- */
+
+/* Formulário */
+.formFilme {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+/* display de inputs */
 .formInputsDisplay {
     display: flex;
     align-items: flex-start;
@@ -25,6 +36,8 @@
     width: 45%;
 }
 
+
+/* preview de imagens */
 .previewImg {
     border: solid 1px var(--gray);
     border-radius: 12px;
@@ -46,6 +59,7 @@
     width: 675px;
 }
 
+/* label flutuante */
 .formularioFilmeContainer .inputField {
     padding-left: 20px;
 }
@@ -64,133 +78,143 @@
     background-color: transparent;
 }
 
+/* chips de gêneros */
+.selectBox {
+    position: relative;
+}
 
+.chipsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 15px;
+}
 
-
-
-.searchDrop {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid var(--dark-black-purple);
-    border-radius: 6px;
-    margin-bottom: 8px;
+.chip {
+    padding: 6px 12px;
     background-color: var(--dark-black-purple);
-    color: white;
-}
-
-.searchDrop::placeholder {
-    color: #b9b9b9;
-}
-
-
-
-.checkbox-item {
+    border: 1px solid #444;
+    border-radius: 20px;
+    color: #ddd;
+    cursor: pointer;
+    transition: 0.2s ease;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
 }
 
-.checkbox-item input {
-    width: 16px;
-    height: 16px;
+.chip:hover {
+    background-color: var(--black-purple);
 }
 
-
-.select-box {
-    position: relative;
-    margin-bottom: 1rem;
+.chip.ativo {
+    background-color: var(--red);
+    border-color: var(--red);
+    color: #fff;
 }
 
-.select-trigger {
-    padding: 0.7rem;
-    background: #1b1b1b;
-    border-radius: 6px;
+.chip.ativo:hover {
+    background-color: var(--dark-red);
+    border-color: var(--dark-red);
+}
+
+/* dropdowns */
+.selectTrigger {
+    padding: 0.7rem 1rem;
+    background: var(--gray);
+    border-radius: 50px;
     cursor: pointer;
+    border: solid 2px #5f5f5f;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .dropdown {
     position: absolute;
     left: 0;
     right: 0;
-    top: 110%;
-    background: #1f1f1f;
-    border-radius: 6px;
+    top: 120%;
+    background: var(--gray);
+    border-radius: 20px;
     max-height: 200px;
     overflow-y: auto;
     z-index: 50;
+    padding-left: 8px;
+    border: solid 2px #5f5f5f;
 }
 
-.drop-item {
-    padding: 0.7rem;
-    cursor: pointer;
-}
-
-.drop-item:hover {
-    background: #333;
-}
-
-.drop-item.selected {
-    background: #6d26ff;
-}
-
-.drop-item.outro {
-    font-weight: bold;
-    color: #bb86fc;
-}
-
-.preview-img img {
-    width: 200px;
-    margin: 1rem 0;
-    border-radius: 6px;
-}
-
-.botoes {
+/* busca */
+.searchContainer {
     display: flex;
-    justify-content: flex-end;
-    gap: 1rem;
-    margin-top: 2rem;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    border: none;
+    border-radius: 12px;
+    margin: 6px 0;
+    padding: 10px 8px;
+    background-color: var(--gray);
 }
 
-.cancelar {
-    background: #555;
-    padding: 0.7rem 1.5rem;
-    border-radius: 6px;
+.searchDrop {
+    width: 100%;
+    border: none;
+    background-color: transparent;
+    color: white;
 }
 
-.confirmar {
-    background: #6d26ff;
-    padding: 0.7rem 1.5rem;
-    border-radius: 6px;
-}
-
-.chips-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 8px;
-}
-
-.chip {
-    padding: 6px 12px;
-    background-color: #1b1b1b;
-    border: 1px solid #444;
-    border-radius: 20px;
-    color: #ddd;
-    cursor: pointer;
-    transition: 0.2s ease;
-    font-size: 0.9rem;
-}
-
-.chip:hover {
-    background-color: #272727;
-}
-
-.chip.ativo {
-    background-color: #7a1eff;
-    border-color: #7a1eff;
+.searchDrop::placeholder {
     color: #fff;
 }
 
-.chip.ativo:hover {
-    background-color: #6920d1;
+.searchDrop:focus {
+    outline: none;
+}
+
+.searchContainer:hover {
+    background-color: #2b2b2b;
+}
+
+/* opções */
+.dropItem {
+    padding: 0.7rem;
+    cursor: pointer;
+    background-color: var(--gray);
+}
+
+.dropItem:hover {
+    background: #2b2b2b;
+}
+
+.dropItem.selected {
+    background: var(--red);
+}
+
+.dropItem.outro {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* checkboxes */
+.checkboxItem {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.checkboxItem input {
+    width: 16px;
+    height: 16px;
+}
+
+
+/* botões confirmar e cancelar */
+.botoes {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 4rem;
 }

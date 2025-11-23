@@ -3,7 +3,6 @@
 import './HomePage.css'
 import api from '../../Services/Api'
 import Slider from 'react-slick';
-import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Botao from '../../Components/Botao/Botao'
 import GenderCard from '../../Components/GenderCard/GenderCard';
@@ -32,11 +31,14 @@ import TerrorImg from '../../Assets/Images/GendersCovers/genero_terror_img.svg'
 import MovieCard from '../../Components/MovieCard/MovieCard';
 import ModalSalvarFilme from '../../Components/ModalSalvar/ModalSalvar';
 import { cardsSettings } from '../../Utils/sliderSettings';
+import ModalDeletarFilme from '../../Components/ModalDeletarFilme/ModalDeletarFilme';
+import { useContext } from 'react';
+import { AuthContext } from '../../Services/AuthContext';
 
 
 export default function HomePage() {
-    const navigate = useNavigate();
-
+    const { user } = useContext(AuthContext);
+    
     // Filmes para o carrossel
     const filmes = [
         { id: 2, titulo: 'Avatar: Fogo e Cinzas', imagem: AvatarImg},
@@ -85,9 +87,25 @@ export default function HomePage() {
     // Filmes em alta
     const [topFilmes, setTopFilmes] = useState([]);
 
-    // Estados para o modal
+    // Estados para o modal de salvar ou deletar
     const [modalSalvarAberto, setModalSalvarAberto] = useState(false);
     const [filmeSelecionado, setFilmeSelecionado] = useState(null);
+    const [modalDeleteOpen, setModalDeleteOpen] = useState(false);
+
+    // abrir modal de deletar
+    function abrirModalDelete(filme) {
+        setFilmeSelecionado(filme);
+        setModalDeleteOpen(true);
+    }
+
+    // fechar modal de deletar
+    function fecharModalDelete(deletou) {
+        setModalDeleteOpen(false);
+
+        if (deletou) {
+            window.location.reload();  // recarrega a página
+        }
+    }
 
     // Guardar filmes não lançados
     const [filmesLancamento, setFilmesLancamento] = useState([]);
@@ -162,14 +180,16 @@ export default function HomePage() {
                                     text='Saber mais'
                                     to={`/filmes/${filme.id}`}
                                 />
-                                <Botao 
-                                    style='secondary'
-                                    icon={SaveIcon}
-                                    onClick = {() => {
-                                        setFilmeSelecionado(filme);  // salva os dados do filme
-                                        setModalSalvarAberto(true);  // abre modal
-                                    }}
-                                />
+                                {user.role === 'comum' && (
+                                    <Botao 
+                                        style='secondary'
+                                        icon={SaveIcon}
+                                        onClick = {() => {
+                                            setFilmeSelecionado(filme);  // salva os dados do filme
+                                            setModalSalvarAberto(true);  // abre modal
+                                        }}
+                                    />
+                                )}
                             </div>
                         </article>
                     ))}
@@ -208,6 +228,7 @@ export default function HomePage() {
                                     setFilmeSelecionado(filme);
                                     setModalSalvarAberto(true);
                                 }}
+                                btnDeletar={() => abrirModalDelete(filme)}
                             />
                         ))}
                     </Slider>
@@ -230,6 +251,7 @@ export default function HomePage() {
                                     setFilmeSelecionado(filme);
                                     setModalSalvarAberto(true);
                                 }}
+                                btnDeletar={() => abrirModalDelete(filme)}
                             />
                         ))}
                     </Slider>
@@ -248,7 +270,7 @@ export default function HomePage() {
                 </aside>
             </section>
 
-            {/* Modal */}
+            {/* Modal salvar */}
             <ModalSalvarFilme
                 isOpen={modalSalvarAberto}
                 onRequestClose={() => {
@@ -258,6 +280,13 @@ export default function HomePage() {
                         window.dispatchEvent(new Event('resize'));
                     }, 50);
                 }}
+                filme={filmeSelecionado}
+            />
+
+            {/* Modal deletar filme */}
+            <ModalDeletarFilme
+                isOpen={modalDeleteOpen}
+                onRequestClose={fecharModalDelete}
                 filme={filmeSelecionado}
             />
             

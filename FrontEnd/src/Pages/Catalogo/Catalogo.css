@@ -193,7 +193,15 @@ input[type='radio'] {
 /* ---------------- */
 
 /* Container dos filmes */
+.catalogoFilmes .primaryBtn {
+    align-self: flex-end;
+    margin-right: 2rem;
+    margin-bottom: 2rem;
+}
+
 .catalogoFilmes {
+    display: flex;
+    flex-direction: column;
     flex: 1;
     padding:  0 1rem 1rem 1rem 1rem;
 }
