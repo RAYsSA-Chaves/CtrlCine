@@ -105,6 +105,7 @@ pip install -r requirements.txt
 ```python
 python server.py
 ```
+<br/>
 
 ### 💻 FrontEnd
 - Passo 1 - entrar na pasta FrontEnd:
@@ -121,8 +122,19 @@ npm install
 ```
 npm run dev
 ```
+<br/>
+
+> [!NOTE]
+> Para logar como adm:
+> - email: adm@gmail.com
+> - senha: 123
+<br/>
 
 ---
+
+## Protótipo do projeto
+
+O protótipo com o fluxo inicial dos usuários foi desenvolvido no Figma, incluindo uma breve documentação do projeto com justificativas de decisões de estilo e uma explicação detalhada sobre o público-alvo e a proposta do projeto.
 
 rodar testes:
 na pasta raiz do projeto (CtrlCine), no terminal:
