@@ -13,12 +13,17 @@ Além do desenvolvimento das funcionalidades voltadas ao usuário, o projeto tam
 ## Objetivos do Projeto
 
 - Desenvolver uma API pura em Python (*server*) integrada a um banco de dados MySQL para sustentar todas as operações da plataforma;
-- Criar uma interface em React totalmente conectada ao BackEnd, garantindo que cada ação do usuário seja refletida no sistema;
+- Criar uma interface em React totalmente conectada ao BackEnd, garantindo respostas em tempo real para cada ação do usuário;
 - Oferecer um ambiente intuitivo, moderno e funcional para amantes de cinema;
+- Implementar um CRUD completo: adicionar filmes, listar, filtrar, buscar, editar e deletar;
+- 
 - Possibilitar o envio de solicitações para adição ou edição de filmes por parte dos usuários comuns;
+- Permitir a visualização de detalhes completos de cada filme;
 - Prover aos administradores ferramentas completas para adicionar, editar, excluir e validar informações do catálogo;
 - Garantir que o conteúdo da plataforma permaneça sempre atualizado, organizado e relevante;
-- Promover uma experiência personalizada, flexível e acessível para diferentes perfis de usuários.
+- Criar sistema de login/cadastro e autenticação, garantindo segurança e controle de acesso;
+- Estabelecer diferenciação de usuários comuns e administradores;
+- - Promover uma experiência personalizada, flexível e acessível para diferentes perfis de usuários.
 
 ---
 
