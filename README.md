@@ -10,7 +10,7 @@ Além do desenvolvimento das funcionalidades voltadas ao usuário, o projeto tam
 
 ---
 
-## Objetivos do Projeto
+## Objetivos do projeto
 
 - Desenvolver uma API pura em Python (*server*) integrada a um banco de dados MySQL para sustentar todas as operações da plataforma;
 - Criar uma interface em React totalmente conectada ao BackEnd, garantindo respostas em tempo real para cada ação do usuário;
@@ -47,7 +47,9 @@ Principais arquivos e pastas:
 - Pasta **tests** - contém o arquivo test_security.py, responsável por testar a geração e validação de hash. Inclui um teste correto (hash válido) e um teste incorreto (hash inválido).
 
 - Pasta **api/logic** - onde fica toda a lógica da API, separada por entidade. Cada arquivo concentra todas as operações referentes àquele recurso. Por exemplo: atores.py: listar todos os atores, buscar por ID, buscar por nome, adicionar novos atores etc. Os demais arquivos seguem o mesmo padrão, mantendo o código organizado.
+<br/>
 
+### 💻 Frontend
 
 ---
 rodar testes:
