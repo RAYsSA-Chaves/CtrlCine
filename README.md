@@ -49,7 +49,41 @@ Principais arquivos e pastas:
 - Pasta **api/logic** - onde fica toda a lógica da API, separada por entidade. Cada arquivo concentra todas as operações referentes àquele recurso. Por exemplo: atores.py: listar todos os atores, buscar por ID, buscar por nome, adicionar novos atores etc. Os demais arquivos seguem o mesmo padrão, mantendo o código organizado.
 <br/>
 
-### 💻 Frontend
+### 💻 FrontEnd
+O FrontEnd foi desenvolvido em React, com foco em criar uma interface intuitiva e interativa para os usuários. Ele é responsável por exibir as páginas, capturar ações dos usuários, consumir a API em Python e refletir em tempo real as informações do banco de dados.
+
+A aplicação foi organizada de forma modular, separando componentes reutilizáveis, páginas completas, rotas protegidas, serviços de comunicação com a API e funções utilitárias.
+
+Principais arquivos e pastas:
+
+- **public/** - contém o favicon e pasta para fotos dos usuários.
+
+- **assets/**: centraliza fontes, variáveis de cores e imagens.
+
+- **components/**: componentes reutilizáveis das páginas, como botão, input, navbar, etc.
+
+pages/: páginas completas que utilizam os componentes.
+
+routes/: define a navegação e proteção de rotas:
+
+HomeRoute.jsx: decide se exibe home ou landing page conforme login.
+
+ProtectedAdminRoute.jsx: protege páginas de admin.
+
+ProtectedRoutes.jsx: protege páginas para usuários logados.
+
+Routes.jsx: arquivo central com todas as rotas.
+
+
+Services/:
+
+- Api.jsx: centraliza chamadas Axios, token e tratamento de erros.
+
+- AuthContext.jsx: gerencia login e compartilha informações do usuário.
+
+
+utils/: funções auxiliares, como cálculo de notas em estrelas, média de filmes e configuração de carrosséis.
+
 
 ---
 rodar testes:
