@@ -14,7 +14,7 @@ Além do desenvolvimento das funcionalidades voltadas ao usuário, o projeto tam
 
 ## Objetivos do projeto
 
-- Desenvolver uma API pura em Python (*server*) integrada a um banco de dados MySQL para sustentar todas as operações da plataforma;
+- Desenvolver uma API pura em Python (server) integrada a um banco de dados MySQL para sustentar todas as operações da plataforma;
 - Criar uma interface em React totalmente conectada ao BackEnd, garantindo respostas em tempo real para cada ação do usuário;
 - Implementar um CRUD completo: adicionar filmes, listar, filtrar, buscar, editar e deletar;
 - Possibilitar o envio de solicitações para adição ou edição de filmes por parte dos usuários comuns;
@@ -72,8 +72,58 @@ Principais arquivos e pastas:
 
 - Pasta **Utils/** - contém funções auxiliares, como conversão de notas em estrelas, consumo de API externa para puxar média de filmes e configuração de carrosséis.
 
+---
+
+## Como rodar o projeto
+
+### 🐍 BackEnd
+> [!IMPORTANT]
+> O script para criação do banco encontra-se na pasta **BackEnd/db_script.sql**.
+<br/>
+
+- Passo 1 - acessar a pasta BackEnd:
+```
+cd BackEnd
+```
+
+- Passo 2 - criar o ambiente virtual:
+```python
+python -m venv env
+```
+
+- Passo 3 - ativar o ambiente virtual:
+```python
+env/Scripts/activate
+```
+
+- Passo 4 - instalar os requirements (contém listagem de todas as bibliotecas necessárias para o funcionamento do backend):
+```python
+pip install -r requirements.txt
+```
+
+- Passo 5 - rodar o server:
+```python
+python server.py
+```
+
+### 💻 FrontEnd
+- Passo 1 - entrar na pasta FrontEnd:
+```
+cd FrontEnd
+```
+
+- Passo 2 - instalar as dependências do projeto:
+```
+npm install
+```
+
+- Passo 3 - iniciar o servidor de desenvolvimento:
+```
+npm run dev
+```
 
 ---
+
 rodar testes:
 na pasta raiz do projeto (CtrlCine), no terminal:
 pytest
