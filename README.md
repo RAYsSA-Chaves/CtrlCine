@@ -1,5 +1,7 @@
 # CtrlCine - Plataforma de Gestão de Filmes
 
+<img src="./thumb.png"/>
+
 **CtrlCine** é uma plataforma desenvolvida para as disciplinas de Front e BackEnd do curso de Desenvolvimento de Sistemas do SENAI Roberto Mange.
 
 Pensada para apaixonados por filmes, a aplicação permite assistir trailers, acompanhar lançamentos, explorar os títulos mais populares, organizar listas personalizadas, enviar solicitações de atualização de conteúdo e avaliar filmes. Paralelamente, administradores contam com ferramentas dedicadas à gestão, possibilitando adicionar, editar, excluir e validar informações, garantindo que o catálogo se mantenha sempre atualizado e relevante.
