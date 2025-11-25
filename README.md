@@ -22,6 +22,31 @@ Além do desenvolvimento das funcionalidades voltadas ao usuário, o projeto tam
 - Promover uma experiência personalizada e um ambiente intuitivo, moderno e funcional para os amantes de cinema.
 <br/><br/>
 
+## Organização de pastas e arquivos
+O projeto é dividido em três partes principais:
+
+### 🐍 BackEnd
+O BackEnd do projeto foi desenvolvido em Python e estruturado para garantir modularidade, organização, segurança e facilidade de manutenção. Ele é responsável por fornecer todas as rotas da API, gerenciar autenticação, realizar operações no banco de dados MySQL e atender às requisições do FrontEnd em React.
+
+Principais arquivos e pastas
+
+• server.py - arquivo central da aplicação. Nele estão definidas todas as rotas da API, que direcionam as requisições do usuário para a lógica correspondente.
+
+• db_script.sql - script utilizado para criação e estruturação do banco de dados MySQL, contendo tabelas, campos e inserções iniciais necessárias para o sistema funcionar.
+
+• Pasta core/middlewares - contém os middlewares que atuam em todas as requisições da API, sendo eles: middleware de autenticação, que verifica se o usuário possui permissão para acessar determinadas rotas e CORS Headers, garantindo que o FrontEnd consiga acessar a API sem bloqueios do navegador.
+
+• Pasta core/configs.py - arquivo que armazena as informações de configuração do banco, como nome do banco, usuário e senha — mantendo esses dados centralizados e fáceis de alterar.
+
+• Pasta core/database.py - responsável por estabelecer a conexão com o MySQL, permitindo que todas as rotas executem consultas, inserções, atualizações e exclusões no banco.
+
+• Pasta core/security.py - arquivo voltado para a segurança do sistema, com funções que hasheiam senhas, comparam senhas hasheadas, geram tokens de autenticação e validam tokens de acesso.
+
+• Pasta tests - contém o arquivo test_security.py, responsável por testar a geração e validação de hash. Inclui um teste correto (hash válido) e um teste incorreto (hash inválido).
+
+• Pasta api/logic - onde fica toda a lógica da API, separada por entidade. Cada arquivo concentra todas as operações referentes àquele recurso. Por exemplo: atores.py: listar todos os atores, buscar por ID, buscar por nome, adicionar novos atores etc. Os demais arquivos seguem o mesmo padrão, mantendo o código organizado.
+
+
 ---
 rodar testes:
 na pasta raiz do projeto (CtrlCine), no terminal:
