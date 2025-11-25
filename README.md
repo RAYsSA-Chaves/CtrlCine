@@ -7,8 +7,7 @@ Pensada para apaixonados por filmes, a aplicação permite assistir trailers, ac
 Seu objetivo central é proporcionar um ambiente digital intuitivo, dinâmico e personalizável, no qual os usuários possam descobrir, organizar e interagir com filmes de maneira simples e envolvente. O público-alvo abrange qualquer pessoa interessada em cinema que deseje acompanhar novidades, personalizar sua experiência e participar ativamente da evolução da plataforma.
 
 Além do desenvolvimento das funcionalidades voltadas ao usuário, o projeto também teve como objetivo construir toda a base técnica da aplicação: uma API pura em Python integrada a um banco de dados MySQL, permitindo que cada ação realizada no FrontEnd em React se conecte diretamente ao servidor e reflita no sistema em tempo real.
-
----
+<br/><br/>
 
 ## Objetivos do Projeto
 
@@ -21,8 +20,7 @@ Além do desenvolvimento das funcionalidades voltadas ao usuário, o projeto tam
 - Criar sistema de login/cadastro e autenticação, garantindo segurança e controle de acesso;
 - Estabelecer diferenciação de usuários comuns e administradores;
 - Promover uma experiência personalizada e um ambiente intuitivo, moderno e funcional para os amantes de cinema.
-
----
+<br/><br/>
 
 ---
 rodar testes:
