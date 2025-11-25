@@ -7,7 +7,7 @@ import { useContext } from 'react';
 import { AuthContext } from '../../Services/AuthContext';
 import LogoTxt from '../../Assets/Images/Logo/Logo.svg'
 import Logo from '../../Assets/Images/Logo/Logo2.svg'
-import { Link } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 
 
 export default function NavBar() {
@@ -30,16 +30,50 @@ export default function NavBar() {
             {user && (
                 user.role === 'comum' ? (
                     <ul>
-                        <li><Link to='/'>Home</Link></li>
-                        <li><Link to='/filmes'>Catálogo</Link></li>
-                        <li><Link to='/listas'>Minhas Listas</Link></li>
-                        <li><Link to='/movie_form?mode=create'>Solicitar Filme</Link></li>
+                        <li>
+                            <NavLink to='/' end className={({ isActive }) => isActive ? 'active' : ''}>
+                                Home
+                            </NavLink>
+                        </li>
+
+                        <li>
+                            <NavLink to='/filmes' end className={({ isActive }) => isActive ? 'active' : ''}>
+                                Catálogo
+                            </NavLink>
+                        </li>
+
+                        <li>
+                            <NavLink to='/listas' end className={({ isActive }) => isActive ? 'active' : ''}>
+                                Minhas Listas
+                            </NavLink>
+                        </li>
+
+                        <li>
+                            <NavLink to='/movie_form?mode=create' className={({ isActive }) => isActive ? 'active' : ''}>
+                                Solicitar Filme
+                            </NavLink>
+                        </li>
                     </ul>
+
                 ) : user.role === 'admin' ? (
                     <ul>
-                        <li><Link to='/'>Home</Link></li>
-                        <li><Link to='/filmes'>Catálogo</Link></li>
-                        <li><Link to='/administracao'>Administração</Link></li>
+                        <li>
+                            <NavLink to='/' end className={({ isActive }) => isActive ? 'active' : ''}>
+                                Home
+                            </NavLink>
+                        </li>
+
+                        <li>
+                            <NavLink to='/filmes' end className={({ isActive }) => isActive ? 'active' : ''}>
+                                Catálogo
+                            </NavLink>
+                        </li>
+
+                        <li>
+                            <NavLink to='/administracao' end className={({ isActive }) => isActive ? 'active' : ''}>
+                                Administração
+                            </NavLink>
+                        </li>
                     </ul>
                 ) : null
             )}

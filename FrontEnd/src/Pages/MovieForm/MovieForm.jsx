@@ -541,6 +541,22 @@ export default function MovieForm() {
                     <textarea id='sinopse' className={`inputField ${sinopse || focused ? 'active' : ''}`} value={sinopse} onChange={(e) => setSinopse(e.target.value)} onFocus={handleFocus} onBlur={handleBlur} />
                 </div>
             
+                {/* Prévia do trailer */}
+                <div className='previewTrailerContainer'>
+                    {trailer ? (
+                        <iframe
+                            className='previewTrailer'
+                            src={`https://www.youtube.com/embed/${trailer}?modestbranding=1&cc_load_policy=1&cc_lang_pref=pt&rel=0`}
+                            title='Prévia do trailer'
+                            frameBorder='0'
+                            allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+                            allowFullScreen
+                        ></iframe>
+                    ) : (
+                        <div className='placeholder'>Prévia do trailer</div>
+                    )}
+                </div>
+
                 {/* ID do trailer */}
                 <Input label='Trailer' placeholder='ID do trailer no youtube' name='trailer' value={trailer} onChange={(e) => setTrailer(e.target.value)} />
 
@@ -755,11 +771,26 @@ export default function MovieForm() {
                     </h1>
 
                     <form onSubmit={salvarOutro} className='modalSalvarConteudo'>
-                        <Input label='Nome' name='nome' value={novoNome} onChange={(e) => setNovoNome(e.target.value)} />
+                        <div className='displayAtorInfo'>
+                            {/* Prévia da foto do ator */}
+                            {novaFoto && (
+                                <div className='previewFotoAtorContainer'>
+                                    <img
+                                        src={novaFoto}
+                                        alt='Prévia da foto'
+                                        className='previewFotoAtor'
+                                        onError={(e) => { e.target.src = ''; }}
+                                    />
+                                </div>
+                            )}
+                            <div>
+                                <Input label='Nome' name='nome' value={novoNome} onChange={(e) => setNovoNome(e.target.value)} />
 
-                        {modalOutro === 'ator' && (
-                            <Input label='URL da foto' name='foto' value={novaFoto} onChange={(e) => setNovaFoto(e.target.value)} />
-                        )}
+                                {modalOutro === 'ator' && (
+                                    <Input label='URL da foto' name='foto' value={novaFoto} onChange={(e) => setNovaFoto(e.target.value)} />
+                                )}
+                            </div>
+                        </div>
 
                         <footer className='footerBtns'>
                             <Botao style='secondary' text='Cancelar' onClick={fecharModalOutro} />
@@ -776,6 +807,7 @@ export default function MovieForm() {
                 </section>
             </Modal>
 
+            {/* Modal de confirmação da exclusão de solicitação */}
             <Modal
                 isOpen={modalCancelarOpen}
                 onRequestClose={() => setModalCancelarOpen(false)}
