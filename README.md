@@ -58,7 +58,7 @@ A aplicação foi organizada de forma modular, separando componentes reutilizáv
 
 Principais arquivos e pastas:
 
-- Pasta **public/** - contém o favicon e pasta para fotos dos usuários.
+- Pasta **public/** - contém o favicon e pasta para fotos de perfil dos usuários.
 
 - Pasta **Assets/** - centraliza fontes, variáveis de cores e imagens.
 
@@ -66,12 +66,11 @@ Principais arquivos e pastas:
 
 - Pasta **Pages/** - páginas completas que utilizam os componentes.
 
-- Pasta **Routes/** - define a navegação e proteção de rotas nos arquivos: HomeRoute.jsx (decide se exibe home ou landing page conforme login), ProtectedAdminRoute.jsx (protege páginas de admin), ProtectedRoutes.jsx (protege páginas para usuários logados), Routes.jsx (arquivo central com todas as rotas).
+- Pasta **Routes/** - define a navegação e proteção de rotas nos seguintes arquivos: **HomeRoute.jsx** (decide se exibe home ou landing page conforme login), **ProtectedAdminRoute.jsx** (protege páginas de admin), **ProtectedRoutes.jsx** (protege páginas para usuários logados), **Routes.jsx** (arquivo central com todas as rotas).
 
-- Pasta **Services/** - onde arquivo Api.jsx centraliza chamadas Axios, envio de token e tratamento de erros. AuthContext.jsx: gerencia login e compartilha informações do usuário.
+- Pasta **Services/** - o arquivo **Api.jsx** centraliza chamadas Axios, envio de token e tratamento de erros; já o arquivo **AuthContext.jsx** gerencia login e compartilha informações do usuário.
 
-
-utils/: funções auxiliares, como cálculo de notas em estrelas, média de filmes e configuração de carrosséis.
+- Pasta **Utils/** - contém funções auxiliares, como conversão de notas em estrelas, consumo de API externa para puxar média de filmes e configuração de carrosséis.
 
 
 ---
