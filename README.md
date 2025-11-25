@@ -71,6 +71,10 @@ Principais arquivos e pastas:
 - Pasta **Services/** - o arquivo **Api.jsx** centraliza chamadas Axios, envio de token e tratamento de erros; já o arquivo **AuthContext.jsx** gerencia login e compartilha informações do usuário.
 
 - Pasta **Utils/** - contém funções auxiliares, como conversão de notas em estrelas, consumo de API externa para puxar média de filmes e configuração de carrosséis.
+<br/>
+
+### 📄 Doc
+Esta pasta contém a documentação de UI/UX do projeto e a modelagem do banco.
 
 ---
 
@@ -126,18 +130,32 @@ npm run dev
 
 > [!NOTE]
 > Para logar como adm:
-> - email: adm@gmail.com
-> - senha: 123
+> - Email: adm@gmail.com
+> - Senha: 123
 <br/>
+
+### 🧪 Testes
+- Passo 1 - acessar a raiz do projeto: Pasta **CtrlCine/**
+
+- Passo 2 - rodar os testes:
+```python
+pytest
+```
+
+Ou rodar o arquivo de testes específico:
+```python
+pytest tests/test_security.py
+```
+
+Ou rodar apenas um teste específico dentro do arquivo
+```python
+pytest -k test_incorrect_password
+```
 
 ---
 
 ## Protótipo do projeto
 
-O protótipo com o fluxo inicial dos usuários foi desenvolvido no Figma, incluindo uma breve documentação do projeto com justificativas de decisões de estilo e uma explicação detalhada sobre o público-alvo e a proposta do projeto.
+O protótipo com o fluxo inicial dos usuários foi desenvolvido no Figma, incluindo uma breve documentação da identidade visual do projeto.
 
-rodar testes:
-na pasta raiz do projeto (CtrlCine), no terminal:
-pytest
-rodar arquivo específico: pytest tests/test_security.py
-rodar teste específico: pytest -k test_senha_incorreta
+<a href="https://www.figma.com/design/OFDswt4xlh5cVyoDf7xZbf/CtrlCine---Plataforma-de-Gest%C3%A3o-de-Filmes?node-id=278-744&t=hUpTZuU6og0t1toc-1" target="_blank"><img width="180" loading="lazy" src="https://img.shields.io/badge/Acesse%20o%20protótipo-E50000?style=for-the-bagde&logo=figma&logoColor=white" target="_blank"></a> 
