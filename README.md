@@ -7,7 +7,8 @@ Pensada para apaixonados por filmes, a aplicação permite assistir trailers, ac
 Seu objetivo central é proporcionar um ambiente digital intuitivo, dinâmico e personalizável, no qual os usuários possam descobrir, organizar e interagir com filmes de maneira simples e envolvente. O público-alvo abrange qualquer pessoa interessada em cinema que deseje acompanhar novidades, personalizar sua experiência e participar ativamente da evolução da plataforma.
 
 Além do desenvolvimento das funcionalidades voltadas ao usuário, o projeto também teve como objetivo construir toda a base técnica da aplicação: uma API pura em Python integrada a um banco de dados MySQL, permitindo que cada ação realizada no FrontEnd em React se conecte diretamente ao servidor e reflita no sistema em tempo real.
-<br/><br/>
+
+---
 
 ## Objetivos do Projeto
 
@@ -20,7 +21,8 @@ Além do desenvolvimento das funcionalidades voltadas ao usuário, o projeto tam
 - Criar sistema de login/cadastro e autenticação, garantindo segurança e controle de acesso;
 - Estabelecer diferenciação de usuários comuns e administradores;
 - Promover uma experiência personalizada e um ambiente intuitivo, moderno e funcional para os amantes de cinema.
-<br/><br/>
+
+---
 
 ## Organização de pastas e arquivos
 O projeto é dividido em três partes principais:
@@ -28,23 +30,23 @@ O projeto é dividido em três partes principais:
 ### 🐍 BackEnd
 O BackEnd do projeto foi desenvolvido em Python e estruturado para garantir modularidade, organização, segurança e facilidade de manutenção. Ele é responsável por fornecer todas as rotas da API, gerenciar autenticação, realizar operações no banco de dados MySQL e atender às requisições do FrontEnd em React.
 
-Principais arquivos e pastas
+Principais arquivos e pastas:
 
-• server.py - arquivo central da aplicação. Nele estão definidas todas as rotas da API, que direcionam as requisições do usuário para a lógica correspondente.
+- **server.py** - arquivo central da aplicação. Nele estão definidas todas as rotas da API, que direcionam as requisições do usuário para a lógica correspondente.
 
-• db_script.sql - script utilizado para criação e estruturação do banco de dados MySQL, contendo tabelas, campos e inserções iniciais necessárias para o sistema funcionar.
+- **db_script.sql** - script utilizado para criação e estruturação do banco de dados MySQL, contendo tabelas, campos e inserções iniciais necessárias para o sistema funcionar.
 
-• Pasta core/middlewares - contém os middlewares que atuam em todas as requisições da API, sendo eles: middleware de autenticação, que verifica se o usuário possui permissão para acessar determinadas rotas e CORS Headers, garantindo que o FrontEnd consiga acessar a API sem bloqueios do navegador.
+- Pasta **core/middlewares** - contém os middlewares que atuam em todas as requisições da API, sendo eles: middleware de autenticação, que verifica se o usuário possui permissão para acessar determinadas rotas e CORS Headers, garantindo que o FrontEnd consiga acessar a API sem bloqueios do navegador.
 
-• Pasta core/configs.py - arquivo que armazena as informações de configuração do banco, como nome do banco, usuário e senha — mantendo esses dados centralizados e fáceis de alterar.
+- Pasta **core/configs.py** - arquivo que armazena as informações de configuração do banco, como nome do banco, usuário e senha — mantendo esses dados centralizados e fáceis de alterar.
 
-• Pasta core/database.py - responsável por estabelecer a conexão com o MySQL, permitindo que todas as rotas executem consultas, inserções, atualizações e exclusões no banco.
+- Pasta **core/database.py** - responsável por estabelecer a conexão com o MySQL, permitindo que todas as rotas executem consultas, inserções, atualizações e exclusões no banco.
 
-• Pasta core/security.py - arquivo voltado para a segurança do sistema, com funções que hasheiam senhas, comparam senhas hasheadas, geram tokens de autenticação e validam tokens de acesso.
+- Pasta **core/security.py** - arquivo voltado para a segurança do sistema, com funções que hasheiam senhas, comparam senhas hasheadas, geram tokens de autenticação e validam tokens de acesso.
 
-• Pasta tests - contém o arquivo test_security.py, responsável por testar a geração e validação de hash. Inclui um teste correto (hash válido) e um teste incorreto (hash inválido).
+- Pasta **tests** - contém o arquivo test_security.py, responsável por testar a geração e validação de hash. Inclui um teste correto (hash válido) e um teste incorreto (hash inválido).
 
-• Pasta api/logic - onde fica toda a lógica da API, separada por entidade. Cada arquivo concentra todas as operações referentes àquele recurso. Por exemplo: atores.py: listar todos os atores, buscar por ID, buscar por nome, adicionar novos atores etc. Os demais arquivos seguem o mesmo padrão, mantendo o código organizado.
+- Pasta **api/logic** - onde fica toda a lógica da API, separada por entidade. Cada arquivo concentra todas as operações referentes àquele recurso. Por exemplo: atores.py: listar todos os atores, buscar por ID, buscar por nome, adicionar novos atores etc. Os demais arquivos seguem o mesmo padrão, mantendo o código organizado.
 
 
 ---
