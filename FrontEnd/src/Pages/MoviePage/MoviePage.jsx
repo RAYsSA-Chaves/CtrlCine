@@ -296,13 +296,17 @@ export default function MoviePage() {
                             <p>Gênero</p>
                         </div>
                         <div className='labels'>
-                            {filme.generos.map(function(genero) {
-                                return (
-                                    <p key={genero.id} className='labelItem'>
-                                        {genero.nome}
-                                    </p>
-                                )
-                            })}
+                            {Array.isArray(filme.generos) ? (
+                                filme.generos.map(function(genero) {
+                                    return (
+                                        <p key={genero.id} className='labelItem'>
+                                            {genero.nome}
+                                        </p>
+                                    );
+                                })
+                            ) : (
+                                <p className='msg'>Nenhum gênero cadastrado.</p>
+                            )}
                         </div>
                     </article>
 
@@ -312,7 +316,11 @@ export default function MoviePage() {
                             <img src={DiretorIcon} alt='Ícone de texto' />
                             <p>Diretor</p>
                         </div>
-                        <p>{filme.diretor?.map(d => d.nome).join(', ')}</p>
+                        <p>
+                            {Array.isArray(filme.diretor)
+                                ? filme.diretor.map(d => d.nome).join(', ')
+                                : 'Nenhum diretor cadastrado.'}
+                        </p>
                     </article>
                     
                     {/* Produtoras */}
@@ -322,13 +330,17 @@ export default function MoviePage() {
                             <p>Produtoras</p>
                         </div>
                         <div className='labels'>
-                            {filme.produtoras.map(function(produtora) {
-                                return (
-                                    <p key={produtora.id} className='labelItem'>
-                                        {produtora.nome}
-                                    </p>
-                                )
-                            })}
+                            {Array.isArray(filme.produtoras) ? (
+                                filme.produtoras.map(function(produtora) {
+                                    return (
+                                        <p key={produtora.id} className='labelItem'>
+                                            {produtora.nome}
+                                        </p>
+                                    )
+                                })
+                            ) : (
+                                <p className='msg'>Nenhuma produtora cadastrada.</p>
+                            )}
                         </div>
                     </article>
                 </div>

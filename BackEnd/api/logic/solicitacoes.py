@@ -47,32 +47,72 @@ def listar_solicitacoes():
 # Pegar solicitação específica
 def get_solicitacao_por_id(solicitacao_id):
     conn = get_connection()
-    cursor = conn.cursor()
+    cursor = conn.cursor(dictionary=True)
 
     try:
         cursor.execute('SELECT * FROM solicitacoes WHERE id = %s', (solicitacao_id,))
         solicitacao = cursor.fetchone()
 
         if not solicitacao:
-            response = {'Erro': 'Solicitação não encontrada.'}
-        else:
-            filme_obj = json.loads(solicitacao[3]) if solicitacao[3] else None
-            response = {
-                'id': solicitacao[0],
-                'usuario_id': solicitacao[1],
-                'filme_id': solicitacao[2] if solicitacao[2] else None,
-                'filme': filme_obj,
-                'tipo': solicitacao[4],
-                'aceito': solicitacao[5]
-            }
+            return {'Erro': 'Solicitação não encontrada.'}
+
+        # carrega JSON do filme
+        filme_data = json.loads(solicitacao['filme']) if solicitacao['filme'] else None
+
+        # se existir JSON, transformar ids em objetos completos
+        if filme_data:
+            # atores
+            if 'atores' in filme_data:
+                cursor.execute(
+                    'SELECT id, nome, foto FROM atores WHERE id IN (%s)' %
+                    ','.join(['%s'] * len(filme_data['atores'])),
+                    filme_data['atores']
+                )
+                filme_data['atores'] = cursor.fetchall()
+
+            # diretor (vem como lista com um id)
+            if 'diretor' in filme_data and len(filme_data['diretor']) > 0:
+                cursor.execute(
+                    'SELECT id, nome FROM diretores WHERE id = %s',
+                    (filme_data['diretor'][0],)
+                )
+                filme_data['diretor'] = [cursor.fetchone()]
+
+            # produtoras
+            if 'produtoras' in filme_data:
+                cursor.execute(
+                    'SELECT id, nome FROM produtoras WHERE id IN (%s)' %
+                    ','.join(['%s'] * len(filme_data['produtoras'])),
+                    filme_data['produtoras']
+                )
+                filme_data['produtoras'] = cursor.fetchall()
+
+            # generos
+            if 'generos' in filme_data:
+                cursor.execute(
+                    'SELECT id, nome FROM generos WHERE id IN (%s)' %
+                    ','.join(['%s'] * len(filme_data['generos'])),
+                    filme_data['generos']
+                )
+                filme_data['generos'] = cursor.fetchall()
+
+        response = {
+            'id': solicitacao['id'],
+            'usuario_id': solicitacao['usuario_id'],
+            'filme_id': solicitacao['filme_id'],
+            'filme': filme_data,
+            'tipo': solicitacao['tipo'],
+            'aceito': solicitacao['aceito']
+        }
+
+        return response
 
     except Exception as e:
-        response = {'Erro': str(e)}
+        return {'Erro': str(e)}
 
     finally:
         cursor.close()
         conn.close()
-        return response
 
 # ---------------------------------------------
 
@@ -82,8 +122,8 @@ def criar_solicitacao(usuario_id, filme_json, tipo, filme_id=None):
     cursor = conn.cursor()
 
     try:
-        # Só checa duplicidade se for "novo filme"
-        if tipo == "novo filme":
+        # Só checa duplicidade se for 'novo filme'
+        if tipo == 'novo filme':
             campos_unicos = {
                 'titulo': filme_json.get('titulo'),
                 'capa_horizontal': filme_json.get('capa_horizontal'),

@@ -132,9 +132,18 @@ export default function MovieForm() {
             if (mode === 'edit' && movieId) {
                 const res = await api.get(`/filmes/${movieId}`);
                 preencherCampos(res.data);
+                
             } else if (mode === 'solicitacao' && idSolicitacao) {
                 const res = await api.get(`/solicitacoes/${idSolicitacao}`);
-                const filmeObj = res.data?.filme || res.data;
+                let filmeObj = res.data?.filme;
+                // se vier string JSON → parseia
+                if (typeof filmeObj === "string") {
+                    try {
+                        filmeObj = JSON.parse(filmeObj);
+                    } catch (err) {
+                        console.error("Erro ao parsear filme da solicitação:", err);
+                    }
+                }
                 preencherCampos(filmeObj);
             }
         } catch (err) {
@@ -304,11 +313,27 @@ export default function MovieForm() {
 
                 // aceita a solicitação e cria ou edita
                 else if (mode === 'solicitacao' && idSolicitacao) {
-                    const res = await api.post('/filmes', {
-                        filme: filmePayload,
-                        solicitacao_id: idSolicitacao
-                    });
-                    mostrarSucesso('Solicitação aceita e filme criado!');
+                    const solicitacao = await api.get(`/solicitacoes/${idSolicitacao}`);
+
+                    // identifica se é novo filme ou edição
+                    const tipo = solicitacao.data.tipo;
+                    const filmeIdOriginal = solicitacao.data.filme_id;
+
+                    if (tipo === "novo filme") {
+                        await api.post('/filmes', {
+                            filme: filmePayload,
+                            solicitacao_id: idSolicitacao
+                        });
+                        mostrarSucesso("Novo filme criado com sucesso!");
+                    }
+
+                    else if (tipo === "edição") {
+                        await api.put(`/filmes/${filmeIdOriginal}`, {
+                            filme: filmePayload,
+                            solicitacao_id: idSolicitacao
+                        });
+                        mostrarSucesso("Filme atualizado com sucesso!");
+                    }
                 }
             }
 
