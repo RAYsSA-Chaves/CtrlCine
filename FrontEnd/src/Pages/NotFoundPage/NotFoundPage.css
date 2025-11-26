@@ -1,0 +1,24 @@
+.notfoundContainer {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: 3rem;
+}
+
+.notfoundContainer h1 {
+    font-size: 30px;
+    margin-bottom: 2rem;
+}
+
+.notfoundContainer h2 {
+    margin-bottom: 2rem;
+    font-size: 24px;
+    font-weight: 400;
+}
+
+.notfoundContainer img {
+    width: 40vw;
+    height: auto;
+}

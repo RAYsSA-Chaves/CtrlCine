@@ -1,6 +1,6 @@
 // Todas as rotas
 
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoutes';
 import ProtectedAdminRoute from './ProtectedAdminRoute.jsx';
 import NavBar from '../Components/NavBar/Nav';
@@ -15,6 +15,7 @@ import MoviePage from '../Pages/MoviePage/MoviePage.jsx';
 import Catalogo from '../Pages/Catalogo/Catalogo.jsx';
 import MovieForm from '../Pages/MovieForm/MovieForm.jsx';
 import AdminPage from '../Pages/AdminPage/AdminPage.jsx';
+import NotFoundPage from '../Pages/NotFoundPage/NotFoundPage.jsx';
 
 
 export default function Router() {
@@ -25,7 +26,7 @@ export default function Router() {
     const hideNavbar = noNavbarRoutes.includes(location.pathname);
     
     // rotas SEM footer
-    const noFooterRoutes = ['/login', '/cadastro', '/movie_form'];
+    const noFooterRoutes = ['/login', '/cadastro', '/movie_form', '/404'];
     const hideFooter = noFooterRoutes.includes(location.pathname);
 
     return (
@@ -40,69 +41,73 @@ export default function Router() {
                 <Route path='/cadastro' element={<Cadastro />}/>
 
                 {/* Privadas */}
-                {<Route
+                <Route
                     path='/home'
                     element={
                         <ProtectedRoute>
                             <HomePage />
                         </ProtectedRoute>
                     }
-                />}
+                />
 
-                {<Route
+                <Route
                     path='/listas'
                     element={
                         <ProtectedRoute>
                             <ListasPage />
                         </ProtectedRoute>
                     }
-                />}
+                />
 
-                {<Route
+                <Route
                     path='/listas/:id'
                     element={
                         <ProtectedRoute>
                             <ListaEspecificaPage />
                         </ProtectedRoute>
                     }
-                />}
+                />
 
-                {<Route
+                <Route
                     path='/filmes/:id'
                     element={
                         <ProtectedRoute>
                             <MoviePage />
                         </ProtectedRoute>
                     }
-                />}
+                />
 
-                {<Route
+                <Route
                     path='/filmes'
                     element={
                         <ProtectedRoute>
                             <Catalogo />
                         </ProtectedRoute>
                     }
-                />}
+                />
 
-                {<Route
+                <Route
                     path='/movie_form'
                     element={
                         <ProtectedRoute>
                             <MovieForm />
                         </ProtectedRoute>
                     }
-                />}
+                />
 
                 {/* Página do adm */}
-                {<Route
+                <Route
                     path='/administracao'
                     element={
                         <ProtectedAdminRoute>
                             <AdminPage />
                         </ProtectedAdminRoute>
                     }
-                />}
+                />
+
+                {/* Not Found */}
+                <Route path='/404' element={<NotFoundPage />} />
+                <Route path='*' element={<Navigate to='/404' />} />
 
             </Routes>
 
