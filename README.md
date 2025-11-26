@@ -83,6 +83,9 @@ Esta pasta contém a documentação de UI/UX do projeto e a modelagem do banco.
 ### 🐍 BackEnd
 > [!IMPORTANT]
 > O script para criação do banco encontra-se na pasta **BackEnd/db_script.sql**.
+
+> [!IMPORTANT]
+> Altere as informações para conexão com o banco em **BackEnd/core/configs.py**.
 <br/>
 
 - Passo 1 - acessar a pasta BackEnd:
