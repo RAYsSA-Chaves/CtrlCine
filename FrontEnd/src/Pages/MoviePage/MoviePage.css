@@ -183,6 +183,7 @@
 .labels {
     display: flex;
     gap: 1rem;
+    flex-wrap: wrap
 }
 
 /* médias das avaliações */
@@ -288,4 +289,9 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 2rem;
+}
+
+/* setas do carrossel de atores */
+.atoresGrid .slick-prev {
+    left: 84% !important;
 }

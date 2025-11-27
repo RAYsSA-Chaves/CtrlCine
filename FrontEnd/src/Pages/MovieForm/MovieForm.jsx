@@ -796,25 +796,11 @@ export default function MovieForm() {
                     </h1>
 
                     <form onSubmit={salvarOutro} className='modalSalvarConteudo'>
-                        <div className='displayAtorInfo'>
-                            {/* Prévia da foto do ator */}
-                            {novaFoto && (
-                                <div className='previewFotoAtorContainer'>
-                                    <img
-                                        src={novaFoto}
-                                        alt='Prévia da foto'
-                                        className='previewFotoAtor'
-                                        onError={(e) => { e.target.src = ''; }}
-                                    />
-                                </div>
+                        <div>
+                            <Input label='Nome' name='nome' value={novoNome} onChange={(e) => setNovoNome(e.target.value)} />
+                            {modalOutro === 'ator' && (
+                                <Input label='URL da foto' name='foto' value={novaFoto} onChange={(e) => setNovaFoto(e.target.value)} />
                             )}
-                            <div>
-                                <Input label='Nome' name='nome' value={novoNome} onChange={(e) => setNovoNome(e.target.value)} />
-
-                                {modalOutro === 'ator' && (
-                                    <Input label='URL da foto' name='foto' value={novaFoto} onChange={(e) => setNovaFoto(e.target.value)} />
-                                )}
-                            </div>
                         </div>
 
                         <footer className='footerBtns'>

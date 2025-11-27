@@ -83,7 +83,7 @@ def get_movies(filters):
 		if 'lancamento' in filters:
 			conds.append('filmes.lancamento > CURRENT_DATE()')
 
-        # filmes de uma lista	
+		# filmes de uma lista	
 		if 'lista' in filters:
 			# pode ser id ou nome
 			valor = filters['lista']
@@ -241,60 +241,61 @@ def cadastrar_filme(filme):
 	
 # Edição de filme existente
 def update_movie(filme, filme_id):
-    conn = get_connection()
-    cursor = conn.cursor()
+	conn = get_connection()
+	cursor = conn.cursor()
 
-    try:
-        # Atualiza os campos principais
-        cursor.execute('''
-            UPDATE filmes
-            SET titulo=%s, capa_horizontal=%s, capa_vertical=%s,
-                lancamento=%s, duracao=%s, sinopse=%s, trailer=%s, nota_imdb=%s
-            WHERE id=%s
-        ''', (
-            filme['titulo'],
-            filme['capa_horizontal'],
-            filme['capa_vertical'],
-            filme['lancamento'],
-            filme['duracao'],
-            filme['sinopse'],
-            filme['trailer'],
-            filme['nota_imdb'],
-            filme_id
-        ))
+	try:
+		# Atualiza os campos principais
+		cursor.execute('''
+			UPDATE filmes
+			SET titulo=%s, capa_horizontal=%s, capa_vertical=%s,
+				lancamento=%s, duracao=%s, sinopse=%s, trailer=%s, nota_imdb=%s
+			WHERE id=%s
+		''', (
+			filme['titulo'],
+			filme['capa_horizontal'],
+			filme['capa_vertical'],
+			filme['lancamento'],
+			filme['duracao'],
+			filme['sinopse'],
+			filme['trailer'],
+			filme['nota_imdb'],
+			filme_id
+		))
 
-        if cursor.rowcount == 0:
-            conn.rollback()
-            return {'Erro': f'Filme ID {filme_id} não encontrado.'}
+		# Se o filme não existe
+		cursor.execute('SELECT id FROM filmes WHERE id=%s', (filme_id,))
+		if cursor.fetchone() is None:
+			return {'Erro': 'Filme não encontrado.'}
 
-        # Atualiza as relações
-        cursor.execute('DELETE FROM filme_ator WHERE filme_id=%s', (filme_id,))
-        cursor.execute('DELETE FROM filme_diretor WHERE filme_id=%s', (filme_id,))
-        cursor.execute('DELETE FROM filme_produtora WHERE filme_id=%s', (filme_id,))
-        cursor.execute('DELETE FROM filme_genero WHERE filme_id=%s', (filme_id,))
+		# Atualiza as relações
+		cursor.execute('DELETE FROM filme_ator WHERE filme_id=%s', (filme_id,))
+		cursor.execute('DELETE FROM filme_diretor WHERE filme_id=%s', (filme_id,))
+		cursor.execute('DELETE FROM filme_produtora WHERE filme_id=%s', (filme_id,))
+		cursor.execute('DELETE FROM filme_genero WHERE filme_id=%s', (filme_id,))
 
-        for ator in filme['atores']:
-            cursor.execute('INSERT INTO filme_ator (filme_id, ator_id) VALUES (%s, %s)', (filme_id, ator))
-        for diretor in filme['diretor']:
-            cursor.execute('INSERT INTO filme_diretor (filme_id, diretor_id) VALUES (%s, %s)', (filme_id, diretor))
-        for produtora in filme['produtoras']:
-            cursor.execute('INSERT INTO filme_produtora (filme_id, produtora_id) VALUES (%s, %s)', (filme_id, produtora))
-        for genero in filme['generos']:
-            cursor.execute('INSERT INTO filme_genero (filme_id, genero_id) VALUES (%s, %s)', (filme_id, genero))
+		for ator in filme['atores']:
+			cursor.execute('INSERT INTO filme_ator (filme_id, ator_id) VALUES (%s, %s)', (filme_id, ator))
+		for diretor in filme['diretor']:
+			cursor.execute('INSERT INTO filme_diretor (filme_id, diretor_id) VALUES (%s, %s)', (filme_id, diretor))
+		for produtora in filme['produtoras']:
+			cursor.execute('INSERT INTO filme_produtora (filme_id, produtora_id) VALUES (%s, %s)', (filme_id, produtora))
+		for genero in filme['generos']:
+			cursor.execute('INSERT INTO filme_genero (filme_id, genero_id) VALUES (%s, %s)', (filme_id, genero))
 
-        conn.commit()
+		conn.commit()
 
-        cursor.execute('SELECT titulo FROM filmes WHERE id=%s', (filme_id,))
-        titulo = cursor.fetchone()[0]
-        return {'Mensagem': f'Filme "{titulo}" atualizado com sucesso!'}
+		cursor.execute('SELECT titulo FROM filmes WHERE id=%s', (filme_id,))
+		titulo = cursor.fetchone()[0]
+		return {'Mensagem': f'Filme "{titulo}" atualizado com sucesso!'}
 
-    except Exception as e:
-        conn.rollback()
-        return {'Erro': str(e)}
+	except Exception as e:
+		conn.rollback
+		return {'Erro': str(e)}
 
-    finally:
-        cursor.close()
-        conn.close()
+	finally:
+		cursor.close()
+		conn.close()
 	
 # ---------------------------------------------
 
@@ -308,7 +309,7 @@ def delete_movie(filme_id):
 		cursor.execute('DELETE FROM filmes WHERE id =  %s', (filme_id,))
 		conn.commit()
 
-        # retorno para o usuário
+		# retorno para o usuário
 		if cursor.rowcount > 0:  # quantas linhas foram afetadas pela última execução de comando SQL
 			response = {'Mensagem': 'Filme removido com sucesso'}
 		else:

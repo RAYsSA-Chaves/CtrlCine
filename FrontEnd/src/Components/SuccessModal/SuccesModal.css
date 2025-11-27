@@ -16,3 +16,7 @@
     stroke: #00ff73;
     margin-bottom: 2rem;
 }
+
+.successModal p {
+    text-align: center;
+}
